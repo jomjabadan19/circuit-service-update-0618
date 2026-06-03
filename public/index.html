@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit-Service | Next-Gen Electronics & Prototyping Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="logo.PNG">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-image: url('circuit service for bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        .tech-mono { font-family: 'JetBrains Mono', monospace; }
+        .circuit-title-design {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            color: transparent;
+            background-image: linear-gradient(135deg, #ffffff 20%, #f59e0b 60%, #b45309 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.3));
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950 min-h-screen relative">
+
+    <div class="fixed inset-0 bg-slate-950/85 backdrop-blur-[3px] z-0 pointer-events-none"></div>        
+    
+    <div class="relative z-10">        
+        <header class="fixed top-0 left-0 w-full bg-slate-950/70 backdrop-blur-md border-b border-slate-900 z-50">            
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">                                
+                <a href="#" class="flex items-center gap-3 group">                    
+                   <div class="relative w-10 h-10 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.2)] group-hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all overflow-hidden">                        
+    <img src="logo.PNG" alt="Logo" class="w-full h-full object-cover">
+    
+    <div class="absolute -top-1 -right-1 w-2 h-2 bg-emerald-400 rounded-full animate-pulse z-10"></div> 
+                   
+                    </div>                    
+                    <div class="flex flex-col">                        
+                        <span class="font-extrabold text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors">                            
+                            Circuit<span class="text-amber-400 group-hover:text-white">-Service</span>                        
+                        </span>                        
+                        <span class="text-[10px] uppercase tracking-widest text-slate-400 tech-mono">Electronics Solution</span>                    
+                    </div>                
+                </a>                                
+                <div class="flex items-center gap-3">                     
+    
+    <div id="navAuthGroup" class="flex items-center gap-3">
+        <a id="navLoginBtn" href="#login-portal-section" class="inline-block text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors px-3 py-2">                        
+            Log In                    
+        </a>                    
+        <button id="navRegisterClientBtn" onclick="openClientRegisterModal()" class="inline-block text-xs sm:text-sm font-semibold text-slate-900 bg-amber-400 hover:bg-amber-300 px-4 py-2.5 rounded-lg shadow-lg shadow-amber-500/10 transition-all transform hover:-translate-y-0.5 whitespace-nowrap cursor-pointer">                        
+            Register as Client                    
+        </button>                    
+        <button id="navRegisterProBtn" onclick="openProModal()" class="inline-block text-xs sm:text-sm font-semibold text-white bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:border-slate-700 px-4 py-2.5 rounded-lg transition-all transform hover:-translate-y-0.5 whitespace-nowrap cursor-pointer">                        
+            Register as Tech/Engr                    
+        </button>                
+    </div>
+    </div>
+        </header>
+
+        <main class="pt-56 pb-32 px-6 text-center">            
+            <div class="max-w-5xl mx-auto">                
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-amber-950/40 text-amber-400 border border-amber-800/40 mb-6 tech-mono">                    
+                    <span class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-ping"></span> On-Demand Electronics Solutions                
+                </span>                                
+                <h1 class="text-5xl sm:text-7xl mb-6 leading-tight uppercase circuit-title-design">                    
+                    Circuit-Service                </h1>                                
+                <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">                    
+                    Bridging the gap between your hardware problems and elite technical & engineering solutions. Use the navigation portal to manage security access parameters or build system configuration blueprints.                
+                </p>                                
+            </div>        
+        </main>
+
+        <section id="services" class="py-20 border-t border-slate-900 bg-slate-950/60 backdrop-blur-md px-6">            
+            <div class="max-w-7xl mx-auto">                
+                <div class="text-center max-w-3xl mx-auto mb-16">                    
+                    <h2 class="text-xs font-bold tracking-widest text-amber-400 uppercase tech-mono mb-3">Services Portfolio</h2>                    
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">On-Demand Specialized Electronics Expertise</p>                
+                </div>                                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">                    
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">01</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">General Electronic Hardware Diagnostic & Repair</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">Providing advanced, component-level diagnostic and repair services for circuitry failures in modern consumer gadgets and appliances. Expertise encompasses structural surface-mount device (SMD) tracking faults.</p>                     
+                    </div>                     
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">02</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Desktop/Laptop & Networking (wired/wireless)</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">Comprehensive hardware troubleshooting, OS optimization, and system upgrades paired with resilient wired/wireless network design and routing.</p>                    </div>                    
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">03</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Electric Vehicle & Power Inverter Board Repairs</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">Component-level diagnostics for solar/hybrid inverter topologies, Electric Vehicle power management boards, and high-power electronic hardware structures.</p>                    </div>                     
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">04</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Academic Project & Thesis Prototyping</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">End-to-end guidance, hardware troubleshooting coordination, and physical prototype executions for complex electronic related projects.</p>                    </div>                    
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">05</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Schematic Design Request & PCB Layout</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">Professional ECAD design configurations, multi-layer high-speed PCB routing layouts, and production-ready Gerber file generation tasks.</p>                    </div>                                                         
+                    <div class="p-6 bg-slate-900/40 border border-slate-900/60 rounded-2xl hover:border-amber-500/30 transition-all group backdrop-blur-sm">                        
+                        <div class="text-amber-400 text-2xl mb-4 tech-mono font-bold">06</div>                        
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Application Interface Integration</h3>                        
+                        <p class="text-sm text-slate-400 leading-relaxed">Developing cross-platform software interfaces (Mobile/Web with Flutter/Dart) to directly control and read hardware analytics telemetry lines.</p>                    </div>                
+                </div>            
+            </div>        
+        </section>
+
+       <section id="login-portal-section" class="py-20 border-t border-slate-900 bg-slate-950/40 backdrop-blur-md px-6">
+    <div class="max-w-4xl mx-auto">
+        
+        <div id="anonymousLoginGateway" class="max-w-md mx-auto">
+            <div class="text-center mb-6">
+                <h2 id="loginSubtitle" class="text-xs font-bold tracking-widest text-amber-400 uppercase tech-mono mb-2">Sign In to Your Account</h2>
+                <p id="loginMainTitle" class="text-2xl font-bold text-white">Log In to Your Client Profile</p>
+                <p class="text-xs text-slate-400 mt-1">Information must match an authorized account.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-900 mb-4">
+                <button type="button" id="tabBtnClient" onclick="switchLoginRole('client')" class="py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md">
+                    ⚡ Client
+                </button>
+                <button type="button" id="tabBtnPro" onclick="switchLoginRole('pro')" class="py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all text-slate-400 hover:text-white">
+                    🛠️ Tech Engr
+                </button>
+            </div>
+
+            <form id="clientLoginForm" onsubmit="handleUnifiedLogin(event)" class="space-y-4 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-2xl">
+                <input type="hidden" id="loginTargetRole" value="client">
+
+                <div>
+                    <label id="loginUserLabel" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Username</label>
+                    <input type="text" id="loginUser" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-50" placeholder="Enter Username">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Password</label>
+                    <input type="password" id="loginPass" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-50" placeholder="••••••••">
+                </div>
+                <button type="submit" id="loginButtonElement" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all cursor-pointer disabled:opacity-50">
+                    Log in
+                </button>
+            </form>
+        </div>
+
+         <div id="authorizedClientDashboard" class="hidden space-y-8">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 bg-slate-900/80 border border-amber-500/20 rounded-2xl backdrop-blur-md shadow-xl">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase tech-mono">You are safely logged in.</span>
+                    </div>
+                    <h2 class="text-2xl font-black text-white tracking-tight">Welcome Back, <span id="dashClientName" class="text-amber-400">Client</span>!</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">View Main Site | Request a Service</p>
+                </div>
+                <button onclick="handleClientLogout()" class="px-4 py-2 bg-slate-950 hover:bg-red-950/30 border border-slate-800 hover:border-red-500/30 text-slate-400 hover:text-red-400 text-xs font-bold rounded-xl tracking-wider uppercase tech-mono transition-all cursor-pointer">
+                    🔒 LOG OUT
+                </button>
+            </div>
+
+           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                
+                <div class="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 tech-mono border-b border-slate-800 pb-2">Account Information</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">CLIENT ID</span>
+                            <span id="metaId" class="text-slate-300 font-mono">N/A</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Registered Email</span>
+                            <span id="metaEmail" class="text-slate-300">N/A</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Contact Info</span>
+                            <span id="metaPhone" class="text-slate-300">N/A</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Registered Location Reference</span>
+                            <span id="metaLocation" class="text-slate-300">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="text-base font-bold text-white tech-mono uppercase">Need help? Create a service request or Submit a technical / engineering support ticket.</h3>
+                        <p class="text-xs text-slate-400 mt-1">Your request will be securely handled, stored, and will be sent to circuit-service automatically.</p>
+                    </div>
+                    
+                    <form id="dashboardServiceRequestForm" onsubmit="handleDashboardServiceSubmission(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Type *</label>
+                                <select id="dashServiceCategory" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
+                                    <option value="" disabled selected>Choose category...</option>
+                                    <option value="repair">Electronic Gadgets & Appliances Repair</option>
+                                    <option value="computer">Computer/Laptop & Networking</option>
+                                    <option value="academic">Academic Project & Thesis Prototyping</option>
+                                    <option value="schematic">Schematic Design & PCB Layout</option>
+                                    <option value="software">Application Interface Integration</option>
+                                    <option value="industrial">Electric Vehicle & Solar Inverter Board Repairs</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Location *</label>
+                                <input type="text" id="dashProjectLocation" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" placeholder="Type location">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Description *</label>
+                            <textarea id="dashTechnicalDetails" rows="4" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors placeholder:text-slate-700" placeholder="Type the full details of the service request..."></textarea>
+                        </div>
+                        <button type="submit" id="dashTicketSubmitBtn" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+                            <span>⚡ Create and Send Service Request</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-3 bg-slate-950/40 border border-slate-900 rounded-2xl p-6 mt-4 shadow-2xl">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-900 pb-5 mb-6">
+                        <div>
+                            <h2 class="text-sm font-black uppercase tracking-wider text-white tech-mono flex items-center gap-2">
+                                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                                🛠️ Live Repair & Ticket History Tracking
+                            </h2>
+                            <p class="text-[11px] text-slate-500 font-mono mt-0.5">
+                                Component diagnostics matrix monitoring and structural field allocation pipelines
+                            </p>
+                        </div>
+                        <button type="button" onclick="loadClientTicketHistory()" class="px-4 py-1.5 bg-slate-900/80 border border-slate-800 hover:border-amber-500/30 text-amber-400 text-xs font-bold rounded-lg uppercase font-mono tracking-wider transition-all hover:bg-slate-900 cursor-pointer">
+                            🔄 Refresh Pipeline
+                        </button>
+                    </div>
+
+                    <div id="clientTicketsLoading" class="text-center py-12 font-mono text-xs text-slate-500 tracking-wide">
+                        Scanning secure database streams for logged telephone references...
+                    </div>
+
+                    <div id="clientTicketsEmpty" class="hidden text-center py-12 font-mono text-xs text-slate-600 bg-slate-900/10 border border-slate-900 rounded-xl">
+                        No historical service records found matching your pipeline metadata parameters.
+                    </div>
+
+                    <div id="clientTicketsGrid" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                        </div>
+                </div>
+
+            </div> </div>
+    </div>
+</section>
+
+<script>
+    const clientStatusStyles = {
+        "new": "bg-amber-500/10 border-amber-500/30 text-amber-500",
+        "accepted": "bg-emerald-950/80 border-emerald-800 text-emerald-400",
+        "diagnostic": "bg-cyan-950/60 border-cyan-500/40 text-cyan-400", 
+        "waiting for parts": "bg-indigo-950 border-indigo-900 text-indigo-400",
+        "complete": "bg-slate-900 border-slate-800 text-slate-500",
+        "cancel": "bg-red-950 border-red-900 text-red-400"
+    };
+
+    /**
+     * Extracts phone strings directly from your dynamic UI account card container
+     */
+    function fetchLiveSpanPhone() {
+        const phoneSpan = document.getElementById('metaPhone');
+        if (phoneSpan) {
+            const rawPhone = phoneSpan.innerText || phoneSpan.textContent;
+            if (rawPhone && rawPhone.trim() !== "" && !rawPhone.includes("N/A")) {
+                return rawPhone.trim();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Core Query Processor Strategy Loop
+     */
+    async function loadClientTicketHistory() {
+        const clientPhoneIdentifier = fetchLiveSpanPhone();
+
+        const loadingEl = document.getElementById('clientTicketsLoading');
+        const emptyEl = document.getElementById('clientTicketsEmpty');
+        const gridEl = document.getElementById('clientTicketsGrid');
+
+        if (!loadingEl || !emptyEl || !gridEl) return;
+
+        // Visual Guard fallback statement if profile pipeline initialization is slow
+        if (!clientPhoneIdentifier) {
+            loadingEl.innerHTML = `
+                <div class="inline-flex items-center gap-2 text-slate-500 font-mono text-xs bg-slate-900/30 px-4 py-2 border border-slate-900 rounded-lg">
+                    <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    Standby: Awaiting profile verification telemetry synchronization loops...
+                </div>`;
+            return;
+        }
+
+        loadingEl.classList.remove('hidden');
+        emptyEl.classList.add('hidden');
+        gridEl.classList.add('hidden');
+        gridEl.innerHTML = '';
+
+        try {
+            // Streams matching client documentation elements precisely 
+            const snapshot = await db.collection('client_tickets')
+                .where('clientPhone', '==', String(clientPhoneIdentifier)) 
+                .get();
+
+            loadingEl.classList.add('hidden');
+
+            if (snapshot.empty) {
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+
+            let clientTickets = [];
+            snapshot.forEach(doc => {
+                clientTickets.push({ docId: doc.id, ...doc.data() });
+            });
+
+            // Maintain time order parameters
+            clientTickets.sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
+
+            clientTickets.forEach(ticket => {
+                const badgeStyle = clientStatusStyles[ticket.status] || "bg-slate-900 border-slate-800 text-slate-400";
+                const ticketNum = ticket.ticketId || ticket.id || 'N/A';
+                
+                // Evaluates engineer operational data metrics securely
+                let proAssignmentMarkup = '';
+                if (ticket.acceptedById) {
+                    proAssignmentMarkup = `
+                        <div class="mt-4 pt-3 border-t border-slate-900 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-slate-500 font-mono uppercase block tracking-wider">Assigned Professional</span>
+                                <span class="text-sm font-bold text-cyan-400 font-sans">${ticket.acceptedByName || 'Field Engineer'}</span>
+                            </div>
+                            <span class="text-[10px] bg-cyan-950/40 border border-cyan-900/60 px-2 py-0.5 rounded text-cyan-400 font-mono uppercase font-bold tracking-wider">
+                                Assigned Pro ID: ${ticket.acceptedById.substring(0,6).toUpperCase()}
+                            </span>
+                        </div>
+                    `;
+                } else {
+                    proAssignmentMarkup = `
+                        <div class="mt-4 pt-3 border-t border-slate-900 flex items-center gap-2 text-slate-500 font-mono text-[11px]">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500/70 animate-pulse"></span>
+                            Awaiting assignment allocation queue...
+                        </div>
+                    `;
+                }
+
+                const cardHTML = `
+                    <div class="bg-slate-950/60 border border-slate-900 rounded-xl p-5 hover:border-slate-800/80 transition-all flex flex-col justify-between shadow-sm">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-3">
+                                <span class="text-xs font-mono font-bold text-amber-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+                                    # ${ticketNum}
+                                </span>
+                                <span class="text-[10px] font-mono font-bold px-2 py-0.5 border rounded uppercase tracking-wider ${badgeStyle}">
+                                    ${ticket.status === 'cancel' ? 'CANCELLED' : ticket.status}
+                                </span>
+                            </div>
+                            <div class="text-xs font-mono space-y-1 text-slate-400 mb-3">
+                                <p><span class="text-slate-600 font-bold">CATEGORY:</span> <span class="text-white uppercase">${ticket.category || 'System Repair'}</span></p>
+                                <p><span class="text-slate-600 font-bold">DEPOSITED:</span> ${ticket.timestamp ? ticket.timestamp : 'Pending Entry'}</p>
+                            </div>
+                            <div class="bg-slate-950/60 border border-slate-900 rounded-lg p-3 text-xs text-slate-300 leading-relaxed font-sans max-h-32 overflow-y-auto whitespace-pre-wrap">
+                                ${ticket.jobDetails || 'No log details declared.'}
+                            </div>
+                        </div>
+                        ${proAssignmentMarkup}
+                    </div>
+                `;
+                gridEl.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            gridEl.classList.remove('hidden');
+
+        } catch (error) {
+            console.error("Critical customer service tracking error:", error);
+            if (loadingEl) {
+                loadingEl.innerHTML = `<span class="text-red-500 font-bold">🔴 SYSTEM CONFLICT:</span> Pipeline stream link interrupted.`;
+            }
+        }
+    }
+
+    /**
+     * Automated loop polling watcher. Continually checks for profile render events 
+     * until data is found, preventing blank returns from asynchronous Firebase lag.
+     */
+    const activePipelineWatcher = setInterval(() => {
+        const validPhone = fetchLiveSpanPhone();
+        if (validPhone) {
+            loadClientTicketHistory();
+            clearInterval(activePipelineWatcher); // Turn off monitor engine once data connects
+        }
+    }, 500);
+
+    // Timeout failure kill-switch to protect processor memory overhead loops after 10 seconds
+    setTimeout(() => { clearInterval(activePipelineWatcher); }, 10000);
+</script>
+
+<script>
+    function switchLoginRole(role) {
+        const targetRoleInput = document.getElementById('loginTargetRole');
+        const mainTitle = document.getElementById('loginMainTitle');
+        const tabClient = document.getElementById('tabBtnClient');
+        const tabPro = document.getElementById('tabBtnPro');
+        
+        targetRoleInput.value = role;
+        
+        if (role === 'pro') {
+            mainTitle.textContent = "Log In to Your Pro Engineer Profile";
+            tabPro.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md";
+            tabClient.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all text-slate-400 hover:text-white";
+        } else {
+            mainTitle.textContent = "Log In to Your Client Profile";
+            tabClient.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md";
+            tabPro.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all text-slate-400 hover:text-white";
+        }
+    }
+
+    async function handleUnifiedLogin(event) {
+        event.preventDefault();
+        console.log("--- Login Attempt Started ---");
+
+        const role = document.getElementById('loginTargetRole').value;
+        const username = document.getElementById('loginUser').value.trim();
+        const password = document.getElementById('loginPass').value;
+        const loginBtn = document.getElementById('loginButtonElement');
+
+        console.log("Role selected:", role);
+        console.log("Username typed:", username);
+
+        loginBtn.disabled = true;
+        loginBtn.innerText = "⏳ AUTHENTICATING...";
+
+        try {
+           if (role === 'pro') {
+    const proQuery = await db.collection('pro_registers')
+        .where('username', '==', username)
+        .where('password', '==', password)
+        .get();
+
+    if (proQuery.empty) {
+        alert("Invalid professional tracking credentials.");
+        resetLoginButton(loginBtn);
+        return;
+    }
+// ========================================================
+// CLIENT TICKET BROADCAST GENERATOR FREQUENCY
+// ========================================================
+async function handleDashboardServiceSubmission(event) {
+    // Force prevent default submission handling behavior
+    if (event && event.preventDefault) event.preventDefault();
+    else if (window.event) window.event.preventDefault();
+
+    const submitBtn = document.getElementById('dashTicketSubmitBtn');
+    const formElement = document.getElementById('dashboardServiceRequestForm');
+
+    // Safety fallback: Pull values directly by ID, or fallback to form named element indexes
+    const categoryIn = document.getElementById('dashServiceCategory')?.value || formElement?.querySelector('select')?.value;
+    const locationIn = (document.getElementById('dashProjectLocation')?.value || formElement?.querySelector('input[type="text"]')?.value || "").trim();
+    const detailsIn = (document.getElementById('dashTechnicalDetails')?.value || formElement?.querySelector('textarea')?.value || "").trim();
+
+    // 🔍 Debugging log: Let's see exactly what the browser is capturing
+    console.log("Captured Form Data:", { categoryIn, locationIn, detailsIn, currentAuthenticatedUserDoc });
+
+    // Verification check ensuring we have an active session running
+    if (!currentAuthenticatedUserDoc) {
+        alert("Security session tracking break. Re-authenticate access credentials.");
+        return;
+    }
+
+    if (!categoryIn || !locationIn || !detailsIn) {
+        alert("Validation Error: Please make sure all required fields (*) are filled out completely.");
+        return;
+    }
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "⏳ TRANSMITTING SUPPORT REQUEST ROUTE...";
+    }
+
+    try {
+        const randomizedIndex = Math.floor(1000 + Math.random() * 9000);
+        const dynamicTicketSerial = `CS-${randomizedIndex}`;
+
+        const ticketPayload = {
+            category: categoryIn,
+            clientEmail: currentAuthenticatedUserDoc.email || 'No Email Linked',
+            clientId: currentAuthenticatedUserDoc.clientId || 'N/A',
+            clientName: currentAuthenticatedUserDoc.name || 'Anonymous Client',
+            clientPhone: currentAuthenticatedUserDoc.phone || 'No Phone Registered',
+            jobDetails: detailsIn,
+            projectLocation: locationIn,
+            status: "new",
+            ticketId: dynamicTicketSerial,
+            timestamp: new Date().toISOString(),
+            acceptedById: "",
+            acceptedByName: ""
+        };
+
+        // Inject data packet directly into the collection link
+        await db.collection('client_tickets').add(ticketPayload);
+
+        alert(`Technical service request sent successfully! Registered Ticket: ${dynamicTicketSerial}`);
+        if (formElement) formElement.reset();
+
+    } catch (error) {
+        console.error("CRITICAL FIRESTORE ERROR:", error);
+        alert(`Pipeline Dropped: ${error.message || 'Unable to send ticket parameters.'}`);
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<span>⚡ Create and Send Service Request</span>`;
+        }
+    }
+}
+// Global handle allowing client layout modules to reset authentication states cleanly
+function handleClientLogout() {
+    localStorage.removeItem('authenticatedProId');
+    localStorage.removeItem('authenticatedProUser');
+    window.location.reload();
+}
+
+            } else {
+                console.log("Querying 'client_users' collection...");
+                const clientQuery = await db.collection('client_users')
+                    .where('username', '==', username)
+                    .where('password', '==', password)
+                    .get();
+
+                if (clientQuery.empty) {
+                    alert("Client record parameters mismatch.");
+                    resetLoginButton(loginBtn);
+                    return;
+                }
+
+                const userDoc = clientQuery.docs.data();
+                window.currentAuthenticatedUserDoc = userDoc; 
+
+                document.getElementById('dashClientName').textContent = userDoc.name || username;
+                document.getElementById('metaId').textContent = userDoc.clientId || "N/A";
+                document.getElementById('metaEmail').textContent = userDoc.email || "N/A";
+                document.getElementById('metaPhone').textContent = userDoc.phone || "N/A";
+                document.getElementById('metaLocation').textContent = userDoc.location || "N/A";
+
+                document.getElementById('anonymousLoginGateway').classList.add('hidden');
+                document.getElementById('authorizedClientDashboard').classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error("CRITICAL ERROR inside try/catch block:", error);
+            alert("Database connection link failure.");
+            resetLoginButton(loginBtn);
+        }
+    }
+
+    function resetLoginButton(button) {
+        button.disabled = false;
+        button.innerText = "Log in";
+    }
+
+    function handleClientLogout() {
+        window.currentAuthenticatedUserDoc = null;
+        document.getElementById('anonymousLoginGateway').classList.remove('hidden');
+        document.getElementById('authorizedClientDashboard').classList.add('hidden');
+        document.getElementById('clientLoginForm').reset();
+    }
+</script>
+        <div id="clientRegisterModal" class="fixed inset-0 flex items-center justify-center bg-slate-950/85 backdrop-blur-md z-50 hidden px-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-emerald-500/30 p-6 md:p-8 rounded-2xl max-w-2xl w-full shadow-[0_0_50px_rgba(16,185,129,0.15)] relative my-8">
+        <button onclick="closeClientRegisterModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg cursor-pointer tech-mono">✕</button>
+        
+        <div id="clientModalHeader" class="text-center mb-6">                    
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-medium bg-emerald-950/40 text-emerald-400 border border-emerald-800/40 mb-2 tech-mono uppercase">Onboarding Dashboard</span>                    
+            <h3 class="text-2xl font-bold text-white tech-mono">Client Registry Portal</h3>                    
+        </div>
+
+        <form id="clientInfoForm" onsubmit="advanceToClientSecurityPhase(event)" class="space-y-4">
+            <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2">⚡ Stage 1: Personal Profile Log Info</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Full Name *</label>                            
+                    <input type="text" id="clientName" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors" placeholder="e.g. Joe Marie">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Email Address *</label>                            
+                    <input type="email" id="clientEmail" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors" placeholder="name@domain.com">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Contact Number *</label>                            
+                    <input type="tel" id="clientPhone" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors" placeholder="e.g. 09171234567">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Location *</label>                            
+                    <input type="text" id="clientLocation" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors" placeholder="City, Municipality, Barangay...">                        
+                </div>                    
+            </div>                    
+            <button type="submit" class="w-full py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer">
+                <span>CONTINUE TO ACCOUNT SETUP →</span>
+            </button>
+        </form>
+
+        <form id="clientSecurityForm" onsubmit="handleClientRegistration(event)" class="space-y-4 hidden">
+            <p class="text-[11px] text-cyan-400 tech-mono uppercase tracking-wider mb-2">🔐 Stage 2: Security Credentials Configuration</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Account Username *</label>                            
+                    <input type="text" id="clientUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Create Username">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Account Secure Password *</label>                            
+                    <input type="password" id="clientPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="••••••••">                        
+                </div>                                            
+            </div>                    
+            <div class="flex gap-4 mt-2">
+                <button type="button" onclick="regressToClientInfoPhase()" class="w-1/4 py-3 bg-slate-950 text-slate-400 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer">← Back</button>
+                <button type="submit" id="clientRegSubmitBtn" class="w-3/4 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer">
+                    💾 COMPLETE CLIENT REGISTRATION
+                </button>
+            </div>
+        </form>
+
+        <div id="clientSuccessPanel" class="hidden text-center py-8 space-y-4">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center text-slate-950 text-2xl font-black mx-auto shadow-[0_0_25px_rgba(16,185,129,0.4)]">✓</div>
+            <h4 class="text-xl font-bold text-white tech-mono uppercase tracking-wide">Account Created Successfully</h4>
+            <p id="clientSuccessDetails" class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed"></p>
+            <button onclick="closeClientRegisterModal()" class="mt-2 px-6 py-2.5 bg-slate-950 border border-slate-800 hover:border-emerald-500/40 text-emerald-400 text-xs font-bold rounded-lg tracking-widest uppercase tech-mono transition-colors cursor-pointer">
+                Close & Login
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="proRegisterModal" class="fixed inset-0 flex items-center justify-center bg-slate-950/85 backdrop-blur-md z-50 hidden px-4 overflow-y-auto">            
+    <div class="bg-slate-900 border border-cyan-500/30 p-6 md:p-8 rounded-2xl max-w-2xl w-full shadow-[0_0_50px_rgba(6,182,212,0.15)] relative my-8">                
+        <button onclick="closeProModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg cursor-pointer tech-mono">✕</button>                                
+        
+        <div class="text-center mb-6">                    
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-medium bg-cyan-950/40 text-cyan-400 border border-cyan-800/40 mb-2 tech-mono uppercase">Onboarding Dashboard</span>                    
+            <h3 class="text-2xl font-bold text-white tech-mono">PRO REGISTRATION for Expert Tech & Engr.</h3>                    
+        </div>
+
+        <form id="proInfoForm" onsubmit="advanceToProSecurityPhase(event)" class="space-y-4">
+            <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2">⚡ Stage 1: Technical Expert Credentials</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Full Name *</label>                            
+                    <input type="text" id="proName" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. Cairee Jian">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Email Address *</label>                            
+                    <input type="email" id="proEmail" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="pro@domain.com">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Contact Number *</label>                            
+                    <input type="tel" id="proPhone" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. 09187654321">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Location *</label>                            
+                    <input type="text" id="proLocation" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="City, Municipality, Barangay...">                        
+                </div>                        
+                
+                <div class="sm:col-span-2">                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Core Technical / Engineering Specialties * (Select all that apply)</label>                            
+                    <div id="specialtiesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-950 p-4 border border-slate-800 rounded-xl">
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="General Electronic Hardware Diagnostic & Repair" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>General Electronic Hardware Diagnostic & Repair</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="Desktop/Laptop & Networking (wired/wireless)" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>Desktop/Laptop & Networking (wired/wireless)</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="Electric Vehicle & Power Inverter Board Repairs" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>Electric Vehicle & Power Inverter Board Repairs</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="Academic Project & Thesis Prototyping" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>Academic Project & Thesis Prototyping</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="Schematic Design Request & PCB Layout" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>Schematic Design Request & PCB Layout</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 text-xs text-slate-300 cursor-pointer select-none hover:text-white transition-colors">
+                            <input type="checkbox" name="proSpecialties" value="Application Interface Integration" class="mt-0.5 rounded border-slate-800 text-cyan-500 bg-slate-900 focus:ring-0 focus:ring-offset-0">
+                            <span>Application Interface Integration</span>
+                        </label>
+                    </div>
+                </div>                    
+            </div>                    
+            <button type="submit" class="w-full py-3 mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer">                        
+                <span>CONTINUE TO ACCOUNT SETUP →</span>                    
+            </button>                
+        </form>
+
+        <form id="proSecurityForm" onsubmit="handleProRegister(event)" class="space-y-4 hidden">
+            <p class="text-[11px] text-cyan-400 tech-mono uppercase tracking-wider mb-2">🔐 Stage 2: PRO Account Credentials Config</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Account Username *</label>                            
+                    <input type="text" id="proUsername" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Create Username">                        
+                </div>                        
+                <div>                            
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Account Password *</label>                            
+                    <input type="password" id="proPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Create Password">                        
+                </div>                                            
+            </div>                    
+            <div class="flex gap-4 mt-2">
+                <button type="button" onclick="regressToProInfoPhase()" class="w-1/4 py-3 bg-slate-950 text-slate-400 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer">← Back</button>
+                <button type="submit" id="proSubmitBtn" class="w-3/4 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer">
+                    💾 COMPLETE PRO REGISTRATION
+                </button>
+            </div>
+        </form>
+    </div>        
+</div>
+        <div id="successModal" class="fixed inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-md z-50 hidden px-4">            
+            <div class="bg-slate-900 border border-amber-500/30 p-8 rounded-2xl max-w-md w-full text-center shadow-[0_0_50px_rgba(245,158,11,0.15)] relative">                
+                <div class="w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-slate-950 text-2xl font-black mx-auto mb-4 shadow-[0_0_20px_rgba(245,158,11,0.4)]">✓</div>                
+                <h3 id="successModalTitle" class="text-xl font-bold text-white mb-2 tech-mono">SUCCESS</h3>                
+                <p id="successModalDesc" class="text-sm text-slate-400 mb-6 leading-relaxed"></p>                
+                <button onclick="closeModal()" class="px-6 py-2.5 bg-slate-950 border border-slate-800 hover:border-amber-500/40 text-amber-400 text-xs font-bold rounded-lg tracking-widest uppercase tech-mono transition-colors cursor-pointer">Proceed to your account</button>            
+            </div>        
+        </div>
+
+        <footer class="bg-slate-950 border-t border-slate-900 py-12 px-6">            
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">                
+                <div>                    
+                    <span class="font-extrabold text-lg text-white uppercase tracking-tight">Circuit<span class="text-amber-400">-Service</span></span>                    
+                    <p class="text-xs text-slate-500 mt-1">© 2026 circuit-service.com. All Rights Reserved.</p>                
+                </div>                
+            </div>        
+        </footer>    
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+ <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyDvYhemJCzP4Q30_GAs5DzA-nbrdMqBthU",
+          authDomain: "circuit-service.firebaseapp.com",
+          projectId: "circuit-service",
+          storageBucket: "circuit-service.firebasestorage.app",
+          messagingSenderId: "931697304500",
+          appId: "1:931697304500:web:9d6c2521d5953fa64308e1"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Runtime Global Session Object Tracker
+        let currentAuthenticatedUserDoc = null;
+
+        // DYNAMIC LAYOUT ROLE SWITCH ENGINE
+        function switchLoginRole(role) {
+    const targetRoleInput = document.getElementById('loginTargetRole');
+    const mainTitle = document.getElementById('loginMainTitle');
+    const tabClient = document.getElementById('tabBtnClient');
+    const tabPro = document.getElementById('tabBtnPro');
+    
+    targetRoleInput.value = role;
+    
+    if (role === 'pro') {
+        mainTitle.textContent = "Log In to Your Pro Engineer Profile";
+        // Activate Pro Tab Styling
+        tabPro.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md";
+        tabClient.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all text-slate-400 hover:text-white";
+    } else {
+        mainTitle.textContent = "Log In to Your Client Profile";
+        // Activate Client Tab Styling
+        tabClient.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md";
+        tabPro.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all text-slate-400 hover:text-white";
+    }
+}
+
+// UNIFIED INPUT-LOCKED AUTHENTICATION HANDSHAKE
+async function handleUnifiedLogin(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    else if (window.event) window.event.preventDefault();
+
+    const loginForm = document.getElementById('clientLoginForm');
+    const loginBtn = document.getElementById('loginButtonElement');
+    
+    const userIn = document.getElementById('loginUser').value.trim().toLowerCase(); 
+    const passIn = document.getElementById('loginPass').value;
+    const currentRole = document.getElementById('loginTargetRole').value;
+
+    if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.innerText = "⏳ VERIFYING... PLEASE WAIT";
+    }
+    let formInputs = [];
+    if (loginForm) {
+        formInputs = loginForm.querySelectorAll('input');
+        formInputs.forEach(input => input.disabled = true);
+    }
+
+    const targetedCollection = (currentRole === 'client') ? 'clients' : 'pro_registers';
+
+    try {
+        const querySnapshot = await db.collection(targetedCollection)
+            .where('username', '==', userIn)
+            .where('password', '==', passIn)
+            .get();
+
+        if (!querySnapshot.empty) {
+            
+            currentAuthenticatedUserDoc = null; 
+            let extractedDocId = "";
+
+            querySnapshot.forEach((doc) => {
+                currentAuthenticatedUserDoc = doc.data(); 
+                extractedDocId = doc.id; 
+            });
+            
+            if (currentRole === 'client') {
+                if (document.getElementById('dashClientName')) document.getElementById('dashClientName').innerText = currentAuthenticatedUserDoc.name || '';
+                if (document.getElementById('metaId')) document.getElementById('metaId').innerText = currentAuthenticatedUserDoc.clientId || '';
+                if (document.getElementById('metaEmail')) document.getElementById('metaEmail').innerText = currentAuthenticatedUserDoc.email || '';
+                if (document.getElementById('metaPhone')) document.getElementById('metaPhone').innerText = currentAuthenticatedUserDoc.phone || '';
+                if (document.getElementById('metaLocation')) document.getElementById('metaLocation').innerText = currentAuthenticatedUserDoc.location || '';
+
+                document.getElementById('anonymousLoginGateway').classList.add('hidden');
+                document.getElementById('authorizedClientDashboard').classList.remove('hidden');
+
+                // ⚡ EXECUTION INJECTION POINT: Boot client history fetch immediately using their ID
+                if (currentAuthenticatedUserDoc.clientId) {
+                    loadClientTicketHistory(currentAuthenticatedUserDoc.clientId);
+                }
+
+            } else {
+                console.log("Authentication successful! Attempting redirection...");
+                localStorage.setItem('authenticatedProId', extractedDocId);
+
+                const secureLink = document.createElement('a');
+                secureLink.href = 'pro_profile.html';
+                document.body.appendChild(secureLink);
+                secureLink.click();
+                return; 
+            }
+
+            const authGroup = document.getElementById('navAuthGroup');
+            if (authGroup) {
+                authGroup.style.setProperty('display', 'none', 'important');
+            }
+
+            if (document.getElementById('navLoginBtn')) document.getElementById('navLoginBtn').classList.add('hidden');
+            if (document.getElementById('navRegisterClientBtn')) document.getElementById('navRegisterClientBtn').classList.add('hidden');
+            if (document.getElementById('navRegisterProBtn')) document.getElementById('navRegisterProBtn').classList.add('hidden');
+
+            if (typeof launchSuccessFeedback === "function") {
+                launchSuccessFeedback("Authorized Access", `Authentication approved. Welcome back.`);
+            }
+        } else {
+            alert(`Access Denied: No profile configuration matching those credentials found in our ${currentRole.toUpperCase()} records.`);
+        }
+    } catch (err) {
+        console.error("Authentication pipeline dropout: ", err);
+        alert("System connection timeout. Unable to finalize communication line to database server.");
+    } finally {
+        if (formInputs.length > 0) formInputs.forEach(input => input.disabled = false);
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.innerText = "Log in";
+        }
+    }
+}
+
+function handleClientLogout() {
+    currentAuthenticatedUserDoc = null;
+    
+    const authGroup = document.getElementById('navAuthGroup');
+    if (authGroup) {
+        authGroup.style.display = 'flex';
+    }
+
+    document.getElementById('authorizedClientDashboard').classList.add('hidden');
+    document.getElementById('anonymousLoginGateway').classList.remove('hidden');
+    document.getElementById('clientLoginForm').reset();
+
+    // Reset ticket containers upon exit mapping clears
+    const gridEl = document.getElementById('clientTicketsGrid');
+    if (gridEl) gridEl.innerHTML = '';
+}
+
+async function handleDashboardServiceSubmission(e) {
+    e.preventDefault();
+    
+    if(!currentAuthenticatedUserDoc) {
+        alert("Security session tracking break. Re-authenticate access credentials.");
+        return;
+    }
+
+    const ticketBtn = document.getElementById('dashTicketSubmitBtn');
+    ticketBtn.disabled = true;
+    ticketBtn.innerText = "⏳ SENDING SERVICE REQUEST...";
+
+    const ticketPayload = {
+        ticketId: `CS-${Math.floor(1000 + Math.random() * 9000)}`,
+        clientId: currentAuthenticatedUserDoc.clientId,
+        clientName: currentAuthenticatedUserDoc.name,
+        clientEmail: currentAuthenticatedUserDoc.email,
+        clientPhone: currentAuthenticatedUserDoc.phone,
+        
+        category: document.getElementById('dashServiceCategory').value,
+        projectLocation: document.getElementById('dashProjectLocation').value.trim(),
+        jobDetails: document.getElementById('dashTechnicalDetails').value.trim(),
+        
+        status: "new",
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        await db.collection('client_tickets').add(ticketPayload);
+        
+        document.getElementById('dashServiceCategory').value = "";
+        document.getElementById('dashProjectLocation').value = "";
+        document.getElementById('dashTechnicalDetails').value = "";
+
+        ticketBtn.disabled = false;
+        ticketBtn.innerText = "⚡ SEND SERVICE REQUEST";
+        
+        alert("REQUEST SENT: Service ticket successfully saved and synced to your account.");
+
+        // ⚡ EXECUTION INJECTION POINT: Reload the dashboard grid with the updated state
+        loadClientTicketHistory(currentAuthenticatedUserDoc.clientId);
+
+    } catch(err) {
+        console.error("Ticket submission drop sequence fail:", err);
+        alert("Unable to compile engineering record track parameters.");
+        ticketBtn.disabled = false;
+        ticketBtn.innerText = "⚡ SEND SERVICE REQUEST";
+    }
+        } // FIXED: Removed structural loop trailing breaks from here
+// ========================================================
+// CORE REGISTRATION HANDLERS (Aligned to Match HTML IDs)
+// ========================================================
+
+// ========================================================
+// CORE REGISTRATION HANDLERS (Cleaned & Error-Free)
+// ========================================================
+
+async function handleClientRegistration(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    else if (window.event) window.event.preventDefault();
+
+    // 1. Get Form UI Elements
+    const infoForm = document.getElementById('clientInfoForm');
+    const securityForm = document.getElementById('clientSecurityForm');
+    const successPanel = document.getElementById('clientSuccessPanel');
+    const registerBtn = document.getElementById('clientRegSubmitBtn');
+
+    try {
+        // 2. Extract and Sanitize Form Values (Matching HTML IDs perfectly)
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        const phone = document.getElementById('clientPhone').value.trim();
+        const location = document.getElementById('clientLocation').value.trim();
+        const username = document.getElementById('clientUsername').value.trim().toLowerCase();
+        const pass = document.getElementById('clientPassword').value;
+
+        // Lock UI during active database stream write
+        if (registerBtn) {
+            registerBtn.disabled = true;
+            registerBtn.innerText = "⏳ COMPILING RECORD DATA...";
+        }
+
+        // 3. Unique Username Verification Pass
+        const userCheckSnapshot = await db.collection('clients')
+            .where('username', '==', username)
+            .get();
+
+        if (!userCheckSnapshot.empty) {
+            alert(`Registration Blocked: The username '${username}' is already reserved. Please choose a different identifier.`);
+            if (registerBtn) {
+                registerBtn.disabled = false;
+                registerBtn.innerText = "💾 COMPLETE CLIENT REGISTRATION";
+            }
+            return;
+        }
+
+        // 4. Construct Data Document Payload
+        const clientPayload = {
+            clientId: `CLI-${Math.floor(10000 + Math.random() * 90000)}`,
+            name: name,
+            email: email,
+            phone: phone,
+            location: location,
+            username: username,
+            password: pass, // *Note: Hash this string for production environments
+            role: "client",
+            accountCreated: new Date().toISOString()
+        };
+
+        // 5. Write Data Payload to Firestore Document Collection
+        await db.collection('clients').add(clientPayload);
+        console.log("Firestore Client Document Written Successfully:", clientPayload.clientId);
+
+        // 6. Success Layout State Transition
+        if (infoForm) infoForm.classList.add('hidden');
+        if (securityForm) securityForm.classList.add('hidden');
+        if (successPanel) successPanel.classList.remove('hidden');
+
+        // Populate details inline
+        const detailText = document.getElementById('clientSuccessDetails');
+        if (detailText) {
+            detailText.innerText = `Account signature profile built for ${name}. System entry node initialized under identity [ ${username} ].`;
+        }
+
+        // Safely reset form input vectors
+        if (infoForm) infoForm.reset();
+        if (securityForm) securityForm.reset();
+
+    } catch (err) {
+        console.error("Firestore Core Registration Failure: ", err);
+        alert("Database Network Fault: Unable to establish an active write stream to the cloud server.");
+    } finally {
+        if (registerBtn) {
+            registerBtn.disabled = false;
+            registerBtn.innerText = "💾 COMPLETE CLIENT REGISTRATION";
+        }
+    }
+}
+
+async function handleProRegister(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    else if (window.event) window.event.preventDefault();
+
+    const infoForm = document.getElementById('proInfoForm');
+    const securityForm = document.getElementById('proSecurityForm');
+    const registerBtn = document.getElementById('proSubmitBtn');
+    
+    try {
+        // Extract and Sanitize Engineering Form Values
+        const name = document.getElementById('proName').value.trim();
+        const email = document.getElementById('proEmail').value.trim();
+        const phone = document.getElementById('proPhone').value.trim();
+        const location = document.getElementById('proLocation').value.trim();
+        const username = document.getElementById('proUsername').value.trim().toLowerCase();
+        const pass = document.getElementById('proPassword').value;
+
+        // Compile Specialty Matrix Checkboxes
+        const checkboxes = document.querySelectorAll('input[name="proSpecialties"]:checked');
+        const specialties = Array.from(checkboxes).map(cb => cb.value);
+
+        if (specialties.length === 0) {
+            alert("Validation Error: Please select at least one core technical/engineering specialty.");
+            return;
+        }
+
+        if (registerBtn) {
+            registerBtn.disabled = true;
+            registerBtn.innerText = "⏳ COMMITTING PARAMETERS...";
+        }
+
+        // Check if Username Exists inside pro_registers Collection
+        const proCheckSnapshot = await db.collection('pro_registers')
+            .where('username', '==', username)
+            .get();
+
+        if (!proCheckSnapshot.empty) {
+            alert(`Registration Blocked: The pro username '${username}' is already reserved.`);
+            if (registerBtn) {
+                registerBtn.disabled = false;
+                registerBtn.innerText = "💾 COMPLETE PRO REGISTRATION";
+            }
+            return;
+        }
+
+        // Construct Technical Specialist Document Payload
+        const proPayload = {
+            proId: `PRO-${Math.floor(10000 + Math.random() * 90000)}`,
+            name: name,
+            email: email,
+            phone: phone,
+            location: location,
+            username: username,
+            password: pass,
+            specialties: specialties,
+            role: "pro",
+            accountCreated: new Date().toISOString()
+        };
+
+        // Commit to Cloud Database Storage Architecture
+        await db.collection('pro_registers').add(proPayload);
+        console.log("Firestore Pro Document Written Successfully:", proPayload.proId);
+
+        // Reset inputs completely
+        if (infoForm) infoForm.reset();
+        if (securityForm) securityForm.reset();
+
+        // UI Success Layout Changes (Fixing classList.remove bug)
+        if (securityForm) securityForm.classList.add('hidden');
+        
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            document.getElementById('successModalTitle').innerText = "REGISTRATION COMPLETED";
+            document.getElementById('successModalDesc').innerText = `Pro account metrics successfully initialized for Expert: ${name}. Welcome to Circuit-Service.`;
+            successModal.classList.remove('hidden');
+        }
+
+    } catch (err) {
+        console.error("Pro Engineering Database Write Error: ", err);
+        alert("Database Network Fault: Technical payload configuration rejected.");
+    } finally {
+        if (registerBtn) {
+            registerBtn.disabled = false;
+            registerBtn.innerText = "💾 COMPLETE PRO REGISTRATION";
+        }
+    }
+}
+
+// ========================================================
+// STAGE-WIZARD STEP NAVIGATION MECHANICS
+// ========================================================
+function advanceToClientSecurityPhase(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    
+    document.getElementById('clientInfoForm').classList.add('hidden');
+    document.getElementById('clientSecurityForm').classList.remove('hidden');
+
+    // 🛠️ HOOK: Grab whatever phone number string is currently typed inside your input form
+    // Replace 'clientPhoneInputID' with the actual ID of your phone input field!
+    const phoneInput = document.getElementById('clientPhoneInputID'); 
+    if (phoneInput && phoneInput.value) {
+        initializeClientDashboard({ phone: phoneInput.value });
+    }
+}
+function regressToClientInfoPhase() {
+    document.getElementById('clientSecurityForm').classList.add('hidden');
+    document.getElementById('clientInfoForm').classList.remove('hidden');
+}
+
+function advanceToProSecurityPhase(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    document.getElementById('proInfoForm').classList.add('hidden');
+    document.getElementById('proSecurityForm').classList.remove('hidden');
+}
+
+function regressToProInfoPhase() {
+    document.getElementById('proSecurityForm').classList.add('hidden');
+    document.getElementById('proInfoForm').classList.remove('hidden');
+}
+
+// ========================================================
+// INTERFACE VIEW MODAL CONTROLLERS
+// ========================================================
+function openClientRegisterModal() {
+    const modal = document.getElementById('clientRegisterModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.getElementById('clientInfoForm').classList.remove('hidden');
+        document.getElementById('clientSecurityForm').classList.add('hidden');
+        document.getElementById('clientSuccessPanel').classList.add('hidden');
+    }
+}
+
+function closeClientRegisterModal() {
+    document.getElementById('clientRegisterModal').classList.add('hidden');
+}
+
+function openProModal() {
+    const modal = document.getElementById('proRegisterModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.getElementById('proInfoForm').classList.remove('hidden');
+        document.getElementById('proSecurityForm').classList.add('hidden');
+    }
+}
+
+function closeProModal() {
+    document.getElementById('proRegisterModal').classList.add('hidden');
+}
+
+function closeModal() {
+    document.getElementById('successModal').classList.add('hidden');
+}
+    </script>
+
+<script>
+    // Style configurations matching your system matrix
+    const clientStatusStyles = {
+        "new": "bg-amber-500/10 border-amber-500/40 text-amber-500",
+        "accepted": "bg-emerald-950/80 border-emerald-800 text-emerald-400",
+        "diagnostic": "bg-cyan-950/60 border-cyan-500/40 text-cyan-400", 
+        "waiting for parts": "bg-indigo-950 border-indigo-900 text-indigo-400",
+        "complete": "bg-slate-900 border-slate-800 text-slate-500",
+        "cancel": "bg-red-950 border-red-900 text-red-400"
+    };
+
+    /**
+     * 🕵️‍♀️ DOM METADATA READER
+     * Pulls the clean unique client alphanumeric key straight out of the layout card
+     */
+    function gatherDOMClientId() {
+        const idSpan = document.getElementById('metaId');
+        if (idSpan) {
+            const rawId = idSpan.innerText || idSpan.textContent;
+            if (rawId && rawId.trim() !== "" && !rawId.includes("N/A")) {
+                return rawId.trim();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * ❌ CLIENT CANCELLATION HANDLER
+     * Accesses the structural document entry and shifts operational status to 'cancel'
+     */
+    async function cancelClientTicket(docId) {
+        if (!docId) return;
+        
+        // Native confirmation guard dialog box
+        const userConfirmed = confirm("Are you sure you want to cancel this service ticket?");
+        if (!userConfirmed) return;
+
+        try {
+            // Update Firestore target reference directly
+            await db.collection('client_tickets').doc(docId).update({
+                status: 'cancel'
+            });
+            
+            alert("Ticket successfully cancelled.");
+            
+            // Hot reload the client interface to apply view updates instantly
+            const currentId = gatherDOMClientId();
+            if (currentId) loadClientTicketHistory(currentId);
+
+        } catch (error) {
+            console.error("Critical error while modifying ticket execution status:", error);
+            alert("Failed to cancel ticket. Please check connection pipelines.");
+        }
+    }
+
+    /**
+     * Client Request Telemetry Stream - Query Isolated By Client ID
+     */
+    async function loadClientTicketHistory(explicitClientId) {
+        // If no argument was provided, attempt to scrape it from account text layout panel
+        let targetId = explicitClientId || gatherDOMClientId();
+
+        const loadingEl = document.getElementById('clientTicketsLoading');
+        const emptyEl = document.getElementById('clientTicketsEmpty');
+        const gridEl = document.getElementById('clientTicketsGrid');
+
+        if (!loadingEl || !emptyEl || !gridEl) return;
+
+        // Visual Guard fallback panel if authentication takes time
+        if (!targetId) {
+            loadingEl.innerHTML = `
+                <div class="text-slate-500 text-xs font-mono border border-slate-900 bg-slate-950 px-4 py-3 rounded-lg inline-block">
+                    🔒 STANDBY: Awaiting authenticated credentials pipeline activation...
+                </div>`;
+            return;
+        }
+
+        loadingEl.classList.remove('hidden');
+        emptyEl.classList.add('hidden');
+        gridEl.classList.add('hidden');
+        gridEl.innerHTML = '';
+
+        try {
+            console.log(`Base Query: [clientId == ${targetId}]`);
+            
+            const snapshot = await db.collection('client_tickets')
+                .where('clientId', '==', String(targetId)) 
+                .get();
+
+            loadingEl.classList.add('hidden');
+
+            if (snapshot.empty) {
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+
+            let clientTickets = [];
+            snapshot.forEach(doc => {
+                clientTickets.push({ docId: doc.id, ...doc.data() });
+            });
+
+            // Keep chronological array ordering intact (Newest requests on top)
+            clientTickets.sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
+
+            clientTickets.forEach(ticket => {
+                const badgeStyle = clientStatusStyles[ticket.status] || "bg-slate-900 border-slate-800 text-slate-400";
+                const ticketNum = ticket.ticketId || ticket.id || 'N/A';
+                
+                // Evaluate and build context controls conditionally for cancellations
+                let clientControlActionMarkup = '';
+                if (ticket.status === 'new') {
+                    clientControlActionMarkup = `
+                        <div class="mt-3 pt-2 border-t border-slate-900/60 flex justify-end">
+                            <button 
+                                onclick="cancelClientTicket('${ticket.docId}')" 
+                                class="px-3 py-1 text-[11px] font-mono font-bold bg-red-950/40 border border-red-900/60 hover:bg-red-900/40 text-red-400 rounded-md transition-all cursor-pointer">
+                                🚫 Cancel Ticket
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                let proAssignmentMarkup = '';
+                if (ticket.acceptedById) {
+                    proAssignmentMarkup = `
+                        <div class="mt-4 pt-3 border-t border-slate-900 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-slate-500 font-mono uppercase block tracking-wider">Assigned Engineer</span>
+                                <span class="text-sm font-bold text-cyan-400">${ticket.acceptedByName || 'Field Professional'}</span>
+                            </div>
+                            <span class="text-[10px] bg-cyan-950/40 border border-cyan-900/60 px-2 py-0.5 rounded text-cyan-400 font-mono uppercase font-bold tracking-tighter">
+                                ID: ${ticket.acceptedById.substring(0,6).toUpperCase()}
+                            </span>
+                        </div>
+                    `;
+                } else {
+                    proAssignmentMarkup = `
+                        <div class="mt-4 pt-3 border-t border-slate-900 flex items-center gap-2 text-slate-500 font-mono text-[11px]">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500/70 animate-pulse"></span>
+                            Awaiting assignment allocation matrix...
+                        </div>
+                    `;
+                }
+
+                const cardHTML = `
+                    <div class="bg-slate-950/40 border border-slate-900 rounded-xl p-5 hover:border-slate-800 transition-all flex flex-col justify-between shadow-sm">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-900 pb-3 mb-3">
+                                <span class="text-xs font-mono font-bold text-amber-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                                    # ${ticketNum}
+                                </span>
+                                <span class="text-[10px] font-mono font-bold px-2 py-0.5 border rounded uppercase tracking-wider ${badgeStyle}">
+                                    ${ticket.status === 'cancel' ? 'CANCELLED' : ticket.status}
+                                </span>
+                            </div>
+                            <div class="text-xs font-mono space-y-1 text-slate-400 mb-3">
+                                <p><span class="text-slate-600 font-bold">CATEGORY:</span> <span class="text-white uppercase">${ticket.category || 'General'}</span></p>
+                                <p><span class="text-slate-600 font-bold">DEPOSITED:</span> ${ticket.timestamp ? ticket.timestamp : 'Active Log'}</p>
+                            </div>
+                            <div class="bg-slate-900/40 border border-slate-900/80 rounded-lg p-3 text-xs text-slate-300 leading-relaxed font-sans max-h-32 overflow-y-auto whitespace-pre-wrap">
+                                ${ticket.jobDetails || 'No additional details documented.'}
+                            </div>
+                            
+                            ${clientControlActionMarkup}
+                        </div>
+                        ${proAssignmentMarkup}
+                    </div>
+                `;
+                gridEl.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            gridEl.classList.remove('hidden');
+
+        } catch (error) {
+            console.error("Critical client telemetry pipeline fault:", error);
+            if (loadingEl) {
+                loadingEl.innerHTML = `<span class="text-red-500 font-bold">🔴 DATABASE ERROR:</span> Failed to stream link data lines.`;
+            }
+        }
+    }
+
+    /**
+     * 🔄 REAL-TIME RENDER WATCHER LOOP
+     */
+    const dynamicIdWatcher = setInterval(() => {
+        const foundId = gatherDOMClientId();
+        if (foundId) {
+            loadClientTicketHistory(foundId);
+            clearInterval(dynamicIdWatcher); 
+        }
+    }, 400);
+
+    setTimeout(() => { clearInterval(dynamicIdWatcher); }, 12000);
+</script>
+</body>
+</html>
