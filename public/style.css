@@ -1,0 +1,187 @@
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative; /* Essential for positioning the background layer */
+}
+
+/* This creates a hidden background layer underneath your content */
+body::before {
+    content: "";
+    position: fixed; /* Keeps it locked in place while scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Pushes the image BEHIND your text and cards */
+    
+    /* Your background image settings */
+    background-image: url('circuit service for bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Control the image opacity here safely! */
+    opacity: 0.98; 
+}
+
+.tech-mono { 
+    font-family: 'JetBrains Mono', monospace; 
+}
+/* Intensified glow */
+.neon-shine {
+    text-shadow: 0 0 5px rgba(150, 150, 36, 1),    /* Bright inner core */
+                 0 0 10px rgba(150, 150, 36, 0.8), /* Clear definition */
+                 0 0 20px rgba(150, 150, 36, 0.6), /* Strong spread */
+                 0 0 30px rgba(150, 150, 36, 0.4); /* Wide diffusion */
+}
+.circuit-title-design {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    color: transparent;
+    background-image: linear-gradient(135deg, #ffffff 20%, #f59e0b 60%, #b45309 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.3));
+}
+
+
+            select.custom-select {
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 1em;
+            }
+            select.custom-select:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+			
+			   @keyframes custom-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .animate-custom-pulse {
+            animation: custom-pulse 1.5s infinite ease-in-out;
+        }
+		/* Custom Scrollbar Styling */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #1e293b; /* Tailwind slate-800 */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #334155; /* Tailwind slate-700 */
+}
+
+/* For Firefox */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #1e293b transparent;
+}
+
+/* THE ELECTRICAL CIRCUIT TRACE OVERLAY (Matches Footer Type) */
+.circuit-text-animated {
+    background: linear-gradient(
+        135deg, 
+        #f59e0b 0%,   /* Amber Trace */
+        #fbbf24 35%,  /* Glowing Gold Track */
+        #ffffff 50%,  /* High-Voltage Flash Node */
+        #06b6d4 80%,  /* Cyan System Return */
+        #3b82f6 100%  /* Deep Logic Rail */
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: traceSignalPulse 6s linear infinite;
+}
+
+/* Linear background shift loop */
+@keyframes traceSignalPulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+    /* Animate a live electric current signal travelling smoothly down the circuit tracks of the text */
+    @keyframes traceSignalPulse {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+	@layer utilities {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 3.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+/* ==========================================================================
+   PRO PROFILE READABILITY FIXES (Safe for index.html)
+   ========================================================================== */
+
+/* 1. Apply this to your main center feed wrapper or individual post blocks */
+.profile-feed-card {
+    background-color: rgba(251, 191, 36, 0.12) !important; /* White text looks great over this */
+backdrop-filter: blur(12px); /* Deep dark tint */
+    backdrop-filter: blur(8px);       /* Smooths out the sharp circuit lines behind text */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    border: 1px solid rgba(245, 158, 11, 0.8); /* Subtle glow border using your orange theme */
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+/* 2. Text styling specifically for readability over dark backgrounds */
+.profile-feed-text {
+    color: #e2e8f0 !important; /* Soft white/silver (Tailwind slate-200) */
+    font-size: 15px;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); /* Ensures text stands out crisp */
+}
+
+/* 3. Enhancing the username visibility */
+.profile-feed-username {
+    color: #f59e0b !important; /* Crisp theme orange */
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* 4. Left Sidebar Panel Enhancements (Profile details, specs) */
+.profile-sidebar-panel {
+    background-color: rgba(10, 15, 30, 0.85) !important; /* Slightly darker for small text */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 3px solid #f59e0b; /* Adds a nice theme accent line */
+}
+@layer utilities {
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+  }
+}

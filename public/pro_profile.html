@@ -1,168 +1,185 @@
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Engineer Dashboard | Circuit Service</title>
+    <title>Tech & Engr Dashboard | Circuit Service</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-   <meta charset="UTF-8">
-  <title>Tech/Engr Profile - Circuit-Service</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0056b3"> 
-  <style>
-        @keyframes custom-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .animate-custom-pulse {
-            animation: custom-pulse 1.5s infinite ease-in-out;
-        }
-    </style>
+    <link rel="icon" type="image/png" href="logo.PNG">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0056b3"> 
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
-
-    <nav class="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-amber-500 font-bold tracking-wider text-sm uppercase">🛠️ Pro Network</span>
+<body class="bg-[#0b1120] text-white h-screen flex flex-col overflow-hidden">
+<header class="h-16 flex-shrink-0 border-b border-slate-800 flex items-center px-6 justify-between">
+    <nav class="h-16 w-full flex-shrink-0 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between">
+        <div class="flex items-center gap-3 group cursor-pointer">
+            <div class="relative w-10 h-10 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.3)] group-hover:shadow-[0_0_25px_rgba(245,158,11,0.5)] transition-all overflow-hidden shrink-0">
+                <img src="logo.PNG" alt="Logo" class="w-full h-full object-cover">
             </div>
-            <button onclick="handleProLogout()" class="px-4 py-2 bg-slate-900 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-slate-400 hover:text-red-400 text-xs font-bold rounded-xl tracking-wider uppercase transition-all cursor-pointer">
-                <i class="fa-solid fa-sign-out-alt mr-1"></i> Secure Logout
+            <span class="font-extrabold text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+                Circuit<span class="text-amber-400 group-hover:text-white">-Service</span>
+            </span>
+            <span class="text-2xl">🛠️</span>
+            <span style="font-family: 'Montserrat', sans-serif;" class="bg-gradient-to-r from-white to-amber-300 bg-clip-text text-transparent font-semibold tracking-[0.2em] text-[15px] uppercase ml-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                Expert & Specialist Community
+            </span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="refreshDashboard()" class="px-4 py-2 bg-slate-900 hover:bg-amber-950/60 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-amber-300 text-xs font-bold rounded-xl tracking-wider uppercase transition-all cursor-pointer flex items-center gap-2 shadow-md">
+                <i class="fa-solid fa-house"></i> Home
+            </button>
+            <button onclick="handleProLogout()" class="px-4 py-2 bg-slate-900 hover:bg-red-950/60 border border-slate-700 hover:border-red-400 text-slate-300 hover:text-red-400 text-xs font-bold rounded-xl tracking-wider uppercase transition-all cursor-pointer shadow-md">
+                <i class="fa-solid fa-sign-out-alt mr-1"></i> Logout
             </button>
         </div>
     </nav>
+</header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+<main class="flex-1 flex overflow-hidden max-w-[1600px] w-full mx-auto">
+    <aside id="leftSidebar" class="w-[300px] flex-shrink-0 h-full overflow-y-auto p-4 custom-scrollbar">
         <section class="lg:col-span-3 space-y-6">
-            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl relative overflow-hidden">
-                <div class="text-center">
-                    <div class="relative w-24 h-24 mx-auto mb-4 group">
-                        <img id="proAvatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=256&auto=format&fit=crop" 
-                             class="w-full h-full rounded-full object-cover border-2 border-amber-500 shadow-xl transition-all duration-200" alt="Pro Avatar">
-                        
-                        <input type="file" id="avatarFileInput" accept="image/*" class="hidden" onchange="handleAvatarStorageUpload(event)">
-                        
-                        <button onclick="document.getElementById('avatarFileInput').click()" 
-                                class="absolute inset-0 bg-slate-950/80 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer text-amber-400 border border-amber-500/30">
-                            <i class="fa-solid fa-camera text-base mb-1"></i>
-                            <span class="text-[9px] font-mono uppercase tracking-tighter font-bold">Change Photo</span>
-                        </button>
-
-                        <div id="avatarUploadSpinner" class="hidden absolute inset-0 bg-slate-950/70 rounded-full flex items-center justify-center">
-                            <i class="fa-solid fa-circle-notch class-spin text-amber-500 animate-spin text-lg"></i>
-                        </div>
+            <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-4 rounded-xl flex flex-col items-center space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 font-mono block w-full text-left drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    Technician / Engineer Profile
+                </span>
+                
+                <div class="relative group">
+                    <div class="w-24 h-24 rounded-full border border-slate-700 bg-slate-900/70 flex items-center justify-center overflow-hidden transition-all group-hover:border-emerald-400 shadow-inner">
+                        <img id="profileAvatarPreview" class="w-full h-full object-cover hidden" />
+                        <span id="profileAvatarPlaceholder" class="text-6xl text-slate-400 font-mono">👤</span>
                     </div>
-                    
-                    <h2 id="proNameDisplay" class="text-lg font-bold text-white">Loading Pro...</h2>
-                    <p id="proRoleDisplay" class="text-xs text-amber-400 tracking-widest font-mono uppercase mt-1">Electronics Engineer</p>
+                    <button onclick="document.getElementById('hiddenFileInput').click()" class="absolute bottom-0 right-0 bg-slate-900 border border-slate-700 text-slate-300 hover:text-emerald-400 w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all shadow-xl">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
                 </div>
-
-                <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-2.5 text-xs font-mono">
+                <input type="file" id="hiddenFileInput" accept="image/*" class="hidden" onchange="handleProfilePhotoUpload()" />
+                <div id="uploadStatusLog" class="text-[10px] font-mono text-slate-300 text-center font-semibold">
+                    Upload your Profile Photo.    
+                </div>
+                <h2 id="proNameDisplay" class="text-xl font-black text-white tracking-wide drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)]">Loading Pro...</h2>
+                <p id="proRoleDisplay" class="text-xs text-amber-400 tracking-widest font-bold font-mono uppercase mt-1 drop-shadow-[0_0_6px_rgba(245,158,11,0.4)]">Professional Account</p>
+                
+                <div class="w-full mt-5 pt-4 border-t border-slate-800 space-y-2.5 text-xs font-mono">
                     <div class="flex items-start gap-2">
-                        <span class="text-slate-500 font-bold shrink-0 w-14">PRO ID:</span>
-                        <span id="proIdDisplay" class="text-amber-500/90 font-bold truncate">---</span>
+                        <span class="text-slate-400 font-extrabold shrink-0 w-14">PRO ID:</span>
+                        <span id="proIdDisplay" class="text-amber-400 font-black tracking-wide drop-shadow-[0_0_4px_rgba(245,158,11,0.3)]">---</span>
                     </div>
                     <div class="flex items-start gap-2">
-                        <span class="text-slate-500 font-bold shrink-0 w-14">EMAIL:</span>
-                        <span id="proEmailDisplay" class="text-slate-300 break-all truncate">---</span>
+                        <span class="text-slate-400 font-extrabold shrink-0 w-14">EMAIL:</span>
+                        <span id="proEmailDisplay" class="text-white font-bold break-all truncate [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">---</span>
                     </div>
                     <div class="flex items-start gap-2">
-                        <span class="text-slate-500 font-bold shrink-0 w-14">PHONE:</span>
-                        <span id="proPhoneDisplay" class="text-slate-300">---</span>
+                        <span class="text-slate-400 font-extrabold shrink-0 w-14">PHONE:</span>
+                        <span id="proPhoneDisplay" class="text-white font-bold [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">---</span>
                     </div>
                     <div class="flex items-start gap-2">
-                        <span class="text-slate-500 font-bold shrink-0 w-14">LOC:</span>
-                        <span id="proLocationDisplay" class="text-slate-300 truncate">---</span>
+                        <span class="text-slate-400 font-extrabold shrink-0 w-14">LOC:</span>
+                        <span id="proLocDisplay" class="text-white font-bold truncate [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">---</span>
                     </div>
-                    <div class="pt-2 border-t border-slate-800/50">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Specialties</span>
-                        <div id="proSpecialtiesDisplay" class="text-slate-400 font-sans text-xs leading-relaxed">---</div>
+                    <div class="pt-2 border-t border-slate-800">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">Specialties</span>
+                        <div id="proSpecialtiesDisplay" class="text-slate-100 font-sans text-xs font-semibold leading-relaxed [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">---</div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl space-y-3 flex flex-col max-h-[320px]">
+            <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-4 rounded-2xl space-y-3 flex flex-col max-h-[320px] shadow-xl">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-2 flex-shrink-0">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-emerald-400 font-mono flex items-center gap-2">
-                        <i class="fa-solid fa-screwdriver-wrench text-emerald-500"></i> My Active Workspace
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-emerald-400 font-mono flex items-center gap-2 drop-shadow-[0_0_6px_rgba(52,211,153,0.3)]">
+                        <i class="fa-solid fa-screwdriver-wrench text-emerald-400"></i> My Work Dashboard
                     </h3>
-                    <span id="acceptedCountBadge" class="bg-slate-950 text-emerald-400 text-[10px] font-mono px-2 py-0.5 rounded-md border border-slate-800">0</span>
+                    <span id="acceptedCountBadge" class="bg-slate-900 text-emerald-400 text-[10px] font-bold font-mono px-2 py-0.5 rounded-md border border-slate-700">0</span>
                 </div>
-                
                 <div id="acceptedTicketsQueue" class="space-y-2 overflow-y-auto pr-1 flex-grow text-xs scrollbar-thin scrollbar-thumb-slate-800">
-                    <div class="text-center py-6 text-slate-600">No active engineering assignments logged.</div>
+                    <div class="text-center py-6 text-slate-300 font-bold [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]">No Active Job/Project Assignments.</div>
                 </div>
             </div>
 
-            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl space-y-3 flex flex-col max-h-[320px]">
+            <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-4 rounded-2xl space-y-3 flex flex-col max-h-[320px] shadow-xl">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-2 flex-shrink-0">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-blue-400 font-mono flex items-center gap-2">
-                        <i class="fa-solid fa-folder-closed text-blue-500"></i> Service History Logs
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-cyan-400 font-mono flex items-center gap-2 drop-shadow-[0_0_6px_rgba(34,211,238,0.3)]">
+                        <i class="fa-solid fa-folder-closed text-cyan-400"></i> Service History Logs
                     </h3>
-                    <span id="historyCountBadge" class="bg-slate-950 text-blue-400 text-[10px] font-mono px-2 py-0.5 rounded-md border border-slate-800">0</span>
+                    <span id="historyCountBadge" class="bg-slate-900 text-cyan-400 text-[10px] font-bold font-mono px-2 py-0.5 rounded-md border border-slate-700">0</span>
                 </div>
-                
                 <div id="completedTicketsHistoryQueue" class="space-y-2 overflow-y-auto pr-1 flex-grow text-xs scrollbar-thin scrollbar-thumb-slate-800">
-                    <div class="text-center py-6 text-slate-600">No historical records saved.</div>
+                    <div class="text-center py-6 text-slate-300 font-bold [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]">No historical records saved.</div>
                 </div>
             </div>
         </section>
+    </aside>
 
-        <section class="lg:col-span-6 space-y-6">
-            <div class="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono">Share Knowledge & Achievements</h3>
-                <form id="engineeringPostForm" onsubmit="handleCreatePost(event)" class="space-y-3">
-                    <textarea id="postTextContent" rows="3" required 
-                              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors placeholder:text-slate-600" 
-                              placeholder="Share a project achievement, schematic breakthrough, or technical diagnostic guide..."></textarea>
-                    
-                    <div class="flex justify-between items-center pt-2">
-                        <input type="url" id="postMediaUrlInput" 
-                               class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-[11px] text-white focus:outline-none focus:border-amber-500 placeholder:text-slate-600 w-2/3" 
-                               placeholder="Optional: Paste Image Web URL (e.g. HTTP://...)">
+    <section id="centerFeedSection" class="flex-1 h-full overflow-y-auto p-4 custom-scrollbar border-x border-slate-800/80">
+        <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-5 rounded-2xl space-y-4 shadow-2xl">
+    <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">Publish Electronics Related Article</h3>
+    
+    <form id="engineeringPostForm" onsubmit="handleCreatePost(event)" class="space-y-3">
+        <textarea id="postTextContent" rows="3" required 
+                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-400 transition-colors placeholder:text-slate-500 font-medium tracking-wide shadow-inner" 
+                  placeholder="Share a project achievement, schematic breakthrough, or technical diagnostic guide..."></textarea>
+        
+       <div id="mediaAttachmentPreview" class="hidden flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-300">
+    <span class="flex items-center gap-2 font-mono">
+        <i id="previewIcon" class="fa-solid fa-file-image text-amber-400"></i>
+        <span id="previewFileName" class="truncate max-w-[200px] text-white">document.png</span>
+    </span>
+    <button type="button" onclick="clearSelectedMedia()" class="text-slate-500 hover:text-red-400 font-bold transition-colors cursor-pointer">
+        <i class="fa-solid fa-square-xmark text-sm"></i>
+    </button>
+</div>
 
-                        <button type="submit" id="submitPostBtn" class="px-5 py-2 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold rounded-xl tracking-wider uppercase text-xs font-mono transition-all cursor-pointer shadow-md">
-                            <i class="fa-solid fa-paper-plane mr-1"></i> Broadcast
-                        </button>
-                    </div>
-                </form>
+<div class="flex justify-between items-center pt-2">
+    <div class="flex items-center gap-2">
+        <label for="postHardwareFileInput" class="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 hover:border-amber-500/40 text-slate-300 hover:text-white text-xs font-bold rounded-xl font-mono cursor-pointer transition-all">
+            <i class="fa-solid fa-paperclip text-amber-400"></i> Add Photos or Videos
+        </label>
+        
+        <input type="file" id="postHardwareFileInput" onchange="previewSelectedMedia(event)" accept="image/*,video/*" class="hidden">
+    </div>
+
+    <button type="submit" id="submitPostBtn" class="px-5 py-2 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-xl tracking-wider uppercase text-xs font-mono transition-all cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+        <i class="fa-solid fa-paper-plane mr-1"></i> Post
+    </button>
+</div>
+    </form>
+</div>
+
+        <div class="space-y-4 mt-6">
+            <h4 class="text-xs font-bold uppercase tracking-widest text-slate-300 font-mono pl-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">Articles and testimonials Feed</h4>
+            <div id="socialFeedContainer" class="space-y-4 bg-slate-950/60 backdrop-blur-md rounded-2xl p-2 border border-slate-800/40 shadow-inner">
+                <div class="text-center py-8 text-xs text-amber-300 font-mono font-bold animate-pulse tracking-wide drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">Loading Shared Articles...</div>
             </div>
+        </div>
+    </section>
 
-            <div class="space-y-4">
-                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-mono pl-1">Engineering Activity Feed</h4>
-                <div id="socialFeedContainer" class="space-y-4">
-                    <div class="text-center py-8 text-xs text-slate-600">Initializing secure link to feed channel...</div>
-                </div>
-            </div>
-        </section>
-
+    <aside class="w-[350px] flex-shrink-0 h-full overflow-y-auto p-4 custom-scrollbar">
         <section class="lg:col-span-3 space-y-4">
-            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl space-y-3 flex flex-col max-h-[720px]">
+            <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-4 rounded-2xl space-y-3 flex flex-col max-h-[720px] shadow-xl">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 flex-shrink-0">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono flex items-center gap-2">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono flex items-center gap-2 drop-shadow-[0_0_6px_rgba(245,158,11,0.3)]">
                         <span class="relative flex h-2 w-2">
                           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
                         </span>
                         Incoming Tickets
                     </h3>
-                    <span id="ticketCountBadge" class="bg-slate-950 text-amber-500 text-[10px] font-mono px-2 py-0.5 rounded-md border border-slate-800">0 New</span>
+                    <span id="ticketCountBadge" class="bg-slate-900 text-amber-400 text-[10px] font-bold font-mono px-2 py-0.5 rounded-md border border-slate-700">0 New</span>
                 </div>
-                
                 <div id="liveTicketsQueue" class="space-y-2 overflow-y-auto pr-1 flex-grow scrollbar-thin scrollbar-thumb-slate-800">
-                    <div class="text-center py-6 text-xs text-slate-600">Listening to service frequencies...</div>
+                    <div class="text-center py-6 text-xs text-slate-300 font-mono font-bold [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]">Listening to service frequencies...</div>
                 </div>
             </div>
         </section>
-
-    </main>
+    </aside>
+</main>
 
     <script>
         const firebaseConfig = {
@@ -210,226 +227,716 @@ HTML
             
             fetchProProfileById(savedProId);
             listenToSocialFeed();
-            listenToIncomingTickets();
         });
+function refreshDashboard() {
+    console.log("Refresh triggered...");
 
-        async function fetchProProfileById(proId) {
-            try {
-                const docSnapshot = await db.collection('pro_registers').doc(proId).get();
+    // 1. Array of IDs to scroll to top
+    // Ensure these IDs match your HTML EXACTLY
+    const containerIds = [
+        'leftSidebar',            // Ensure this is the ID of the div with scrollbar
+        'centerFeedSection',      // The center column
+        'workDashboardContainer', // The inner scrollable div for work
+        'historyLogsContainer'    // The inner scrollable div for history
+    ];
 
-                if (!docSnapshot.exists) {
-                    alert("Account configuration profile missing in registry database.");
-                    handleProLogout();
-                    return;
-                }
+    containerIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollTo({ top: 0, behavior: 'smooth' });
+            console.log(`Scrolled ${id} to top.`);
+        } else {
+            console.warn(`Could not find element with ID: ${id}`);
+        }
+    });
 
-                currentProUser = {
-                    id: docSnapshot.id,
-                    ...docSnapshot.data()
-                };
+    // 2. Data refresh functions
+    const updateFunctions = [
+        'renderEngineeringFeed',
+        'listenToIncomingTickets',
+        'loadProfessionalProfile'
+    ];
 
-                const structuralUniqueId = currentProUser.id;
-                const displayProName = currentProUser.name || currentProUser.username || "Unknown Engineer";
-                
-                document.getElementById('proNameDisplay').textContent = displayProName;
-                document.getElementById('proIdDisplay').textContent = structuralUniqueId.substring(0, 8).toUpperCase();
-                document.getElementById('proEmailDisplay').textContent = currentProUser.email || "---";
-                document.getElementById('proPhoneDisplay').textContent = currentProUser.phone || "---";
-                document.getElementById('proLocationDisplay').textContent = currentProUser.location || "---";
-                document.getElementById('proSpecialtiesDisplay').textContent = currentProUser.specialties || "General Electronics Diagnostics & Component Repair Solutions";
-                
-                // 🟢 ADDED: Render persistent profile avatar from storage if it exists inside document structure fields
-                if (currentProUser.avatarUrl && currentProUser.avatarUrl.trim() !== "") {
-                    document.getElementById('proAvatar').src = currentProUser.avatarUrl;
-                }
-                
-                listenToAcceptedTickets(structuralUniqueId);
-                listenToCompletedHistory(structuralUniqueId);
-            } catch (error) {
-                console.error("Critical Profile Unique lookup failed:", error);
-            }
+    updateFunctions.forEach(fnName => {
+        if (typeof window[fnName] === 'function') {
+            window[fnName]();
+        }
+    });
+}
+ // Function to update the Pro's profile copier copies line persistent copy persistent copy on every single persistent line copy:
+// ========================================================
+async function fetchProProfileById(proId) {
+    try {
+        const docSnapshot = await db.collection('pro_registers').doc(proId).get();
+
+        if (!docSnapshot.exists) {
+            alert("Account configuration profile missing in registry database.");
+            handleProLogout();
+            return;
         }
 
-        /**
-         * 🟢 ADDED: Firebase Storage Handler to Upload and Update Avatar URLs
-         */
-async function handleAvatarStorageUpload(event) {
-    // 🟢 FIX 1: Safely catch the file object out of the DOM change event element
-    const file = event.target.files ? event.target.files : null;
+        currentProUser = {
+            id: docSnapshot.id,
+            ...docSnapshot.data()
+        };
 
-    // 🟢 FIX 2: Guard clause against empty selections (e.g., if a user cancels the file picker)
-    if (!file) {
-        console.error("No binary payload payload detected or action canceled.");
-        return;
-    }
-
-   // 🟢 SAFER FILE TYPE CHECKING
-const mimeType = file.type || "";
-const fileName = file.name || "";
-const fileExtension = fileName.split('.').pop().toLowerCase();
-
-const isValidMime = mimeType.startsWith('image/');
-const isValidExtension = ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(fileExtension);
-
-// If both indicators fail, drop the upload process
-if (!isValidMime && !isValidExtension) {
-    alert("Please select a valid image file formatting asset (.jpg, .jpeg, or .png).");
-    return;
-}
-
-    // Ensure our authenticated storage profile key is active
-    if (!currentProUser || !currentProUser.id) {
-        alert("Session context offline. Unable to execute cloud stream upload.");
-        return;
-    }
-
-    const proId = currentProUser.id;
-    const avatarImg = document.getElementById('proAvatar');
-    const spinner = document.getElementById('avatarUploadSpinner');
-
-    // Show UI Processing Spinner Layout
-    if (spinner) spinner.classList.remove('hidden');
-    if (avatarImg) avatarImg.style.opacity = "0.4";
-
-    // ========================================================
-    // 🟢 FIREBASE STORAGE UPLOAD PIPELINE (Add this to complete the link)
-    // ========================================================
-    try {
-        // Create a unique destination path inside your bucket using the Pro's unique ID
-        const storageRef = firebase.storage().ref(`pro_avatars/${proId}_${Date.now()}_${file.name}`);
+       const structuralUniqueId = currentProUser.id;
+        const displayProName = currentProUser.name || currentProUser.username || "Unknown Engineer";
         
-        // Execute the pipeline upload task
-        const uploadTask = await storageRef.put(file);
+        document.getElementById('proNameDisplay').textContent = displayProName;
+        document.getElementById('proIdDisplay').textContent = structuralUniqueId.substring(0, 8).toUpperCase();
         
-        // Retrieve the live public URL from the storage bucket asset
-        const downloadURL = await uploadTask.ref.getDownloadURL();
+        // ========================================================
+        // 🟢 RESTORED: Your missing details mapping
+        // (Make sure these IDs match the IDs in your HTML file!)
+        // ========================================================
+        document.getElementById('proEmailDisplay').textContent = currentProUser.email || "---";
+        document.getElementById('proPhoneDisplay').textContent = currentProUser.phone || "---";
+        document.getElementById('proLocDisplay').textContent = currentProUser.location || "---";
         
-        // Stamping database properties silently inside the target user configuration file
-        await db.collection('pros').doc(proId).update({
-            avatarUrl: downloadURL
-        });
+        // Map the specialties array nicely
+        if (currentProUser.specialties && Array.isArray(currentProUser.specialties)) {
+            document.getElementById('proSpecialtiesDisplay').textContent = currentProUser.specialties.join(", ");
+        } else {
+            document.getElementById('proSpecialtiesDisplay').textContent = currentProUser.specialties || "---";
+        }
 
-        // Update local session context state
-        currentProUser.avatarUrl = downloadURL;
+        // ========================================================
+        // 🟢 PERSISTENT AVATAR & HIDE STATUS LOG
+        // ========================================================
+        if (currentProUser.avatarUrl && currentProUser.avatarUrl.trim() !== "") {
+            const previewImg = document.getElementById('profileAvatarPreview');
+            const placeholder = document.getElementById('profileAvatarPlaceholder');
+            const statusLog = document.getElementById('uploadStatusLog');
+
+            // Inject the saved URL
+            previewImg.src = currentProUser.avatarUrl;
+            
+            // Unhide the image and hide the "PRO" text
+            previewImg.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            
+            // Hides the "Upload Your Profile Photo" text completely
+            if (statusLog) statusLog.style.display = 'none'; 
+        }
+        
+        // Ensure our local copie Copies copies copier copiers copies copier copying persistent copy copier copying copying line copies copie lines copy is active with the newest information copier copying copiar copie line copies copies copying copier copies copies copiar copie copying copying copier copiers copies copie copying copier copiers copier lines copie line copying copiar copies copying copiar copier copies copiers copying copies copy.
         localStorage.setItem('authenticatedProUser', JSON.stringify(currentProUser));
 
-        // Update local UI immediately
-        if (avatarImg) avatarImg.src = downloadURL;
-        alert("Profile image assets successfully updated in storage cluster.");
-
+        listenToAcceptedTickets(structuralUniqueId);
+        listenToCompletedHistory(structuralUniqueId);
     } catch (error) {
-        console.error("Storage transaction pipeline error details:", error);
-        alert(`Storage operational write dropped: ${error.message}`);
-    } finally {
-        // Reset UI Processing elements
-        if (spinner) spinner.classList.add('hidden');
-        if (avatarImg) avatarImg.style.opacity = "1.0";
+        console.error("Critical Profile Unique lookup failed:", error);
     }
 }
-        async function handleCreatePost(event) {
-            event.preventDefault();
-            if (!currentProUser) return;
 
-            const textContent = document.getElementById('postTextContent').value.trim();
-            const urlAttachment = document.getElementById('postMediaUrlInput').value.trim();
-            const submitBtn = document.getElementById('submitPostBtn');
+async function handleProfilePhotoUpload() {
+    // 1. Grab the file directly from the unique ID
+    const fileInput = document.getElementById('hiddenFileInput');
 
-            submitBtn.disabled = true;
+    // If the user clicked "Cancel" in the file picker, just stop silently
+    if (!fileInput.files || fileInput.files.length === 0) {
+        console.log("No file selected. User canceled the prompt.");
+        return; 
+    }
 
-            try {
-                const postPayload = {
-                    authorId: currentProUser.id,
-                    authorName: currentProUser.name || currentProUser.username,
-                    content: textContent,
-                    mediaUrl: urlAttachment || "",
-                    mediaType: urlAttachment ? "image" : "",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                };
+    const targetFile = fileInput.files;
+    console.log("SUCCESS: Captured file ->", targetFile.name, "| Size:", targetFile.size);
 
-                await db.collection('pro_feed').add(postPayload);
-                document.getElementById('engineeringPostForm').reset();
-            } catch (error) {
-                console.error("Post processing failure:", error);
-            } finally {
-                submitBtn.disabled = false;
+    // 2. Load the User from Local Storage
+    const localUserData = localStorage.getItem('authenticatedProUser'); 
+    if (localUserData) {
+        currentProUser = JSON.parse(localUserData); 
+    }
+
+    if (!currentProUser || !currentProUser.id) {
+        console.error("Fault: Pro User ID is missing from local storage.");
+        alert("Session sync error. Please log out and log back in.");
+        return;
+    }
+
+    // 3. Size Validation (Under 2MB)
+    if (targetFile.size > 2 * 1024 * 1024) {
+        alert("Operation Intercept: Profile assets must be strictly under 2MB.");
+        fileInput.value = ""; 
+        return;
+    }
+
+    const statusLog = document.getElementById('uploadStatusLog');
+    const previewImg = document.getElementById('profileAvatarPreview');
+    const placeholder = document.getElementById('profileAvatarPlaceholder');
+
+    statusLog.textContent = "⚙️ Allocating memory path...";
+    statusLog.className = "text-[10px] font-mono text-amber-500 animate-pulse";
+    statusLog.style.display = 'block';
+
+    try {
+        // 4. Send the image to Firebase Storage
+        const storageRef = firebase.storage().ref(`pro_avatars/${currentProUser.id}/avatar_${Date.now()}`);
+        const uploadTask = await storageRef.put(targetFile);
+        
+        statusLog.textContent = "💾 Synchronizing secure download configurations...";
+        const photoUrl = await uploadTask.ref.getDownloadURL();
+
+        // 5. THE FIX: Save to Firestore using SET with MERGE
+      
+        await db.collection('pro_registers').doc(currentProUser.id).set({
+            avatarUrl: photoUrl
+        }, { merge: true });
+
+        // 6. Update the UI
+        previewImg.src = photoUrl;
+        previewImg.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+
+        // Update active run-time storage states
+        currentProUser.avatarUrl = photoUrl;
+        localStorage.setItem('authenticatedProUser', JSON.stringify(currentProUser));
+
+        statusLog.textContent = "✅ Profile Photo Uploaded.";
+        statusLog.className = "text-[10px] font-mono text-emerald-400";
+        
+        setTimeout(() => {
+            statusLog.style.display = 'none';
+        }, 2000);
+
+    } catch (error) {
+        console.error("Critical Failure committing asset upload stream:", error);
+        statusLog.textContent = "❌ Database dropped asset write stream.";
+        statusLog.className = "text-[10px] font-mono text-rose-500";
+    }
+}
+// Global Window Lightbox Context Handlers
+window.openGlobalMediaZoom = function(mediaUrl, type) {
+    const modal = document.getElementById('globalMediaZoomModal');
+    const imgTarget = document.getElementById('zoomModalImage');
+    const videoTarget = document.getElementById('zoomModalVideo');
+    
+    if (!modal || !imgTarget || !videoTarget) return;
+
+    imgTarget.classList.add('hidden');
+    videoTarget.classList.add('hidden');
+    imgTarget.classList.add('scale-95');
+    imgTarget.src = "";
+    videoTarget.src = "";
+
+    if (type === 'video') {
+        videoTarget.src = mediaUrl;
+        videoTarget.classList.remove('hidden');
+    } else {
+        imgTarget.src = mediaUrl;
+        imgTarget.classList.remove('hidden');
+    }
+
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.style.opacity = "1";
+        if (type !== 'video') imgTarget.classList.remove('scale-95');
+    }, 20);
+
+    document.addEventListener('keydown', handleLightboxEscapeKey);
+};
+
+window.closeGlobalMediaZoom = function(event) {
+    if (event && event.stopPropagation) event.stopPropagation();
+    const modal = document.getElementById('globalMediaZoomModal');
+    if (!modal) return;
+
+    modal.style.opacity = "0";
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        if (document.getElementById('zoomModalVideo')) {
+            document.getElementById('zoomModalVideo').pause();
+        }
+    }, 250);
+    document.removeEventListener('keydown', handleLightboxEscapeKey);
+};
+
+function handleLightboxEscapeKey(e) {
+    if (e.key === "Escape") window.closeGlobalMediaZoom();
+}
+ // Global scope placeholder tracking our target attachment binary data
+// Global placeholder to store the selected file object globally
+window.targetSelectedFileObj = null;
+
+function previewSelectedMedia(event) {
+    console.log("Media selection event fired:", event);
+    
+    // Robust parsing that handles both direct input pointers and event paths
+    let inputSource = null;
+    if (event.target) {
+        inputSource = event.target;
+    } else if (event.files) {
+        inputSource = event;
+    } else {
+        inputSource = document.getElementById('postHardwareFileInput');
+    }
+
+    if (!inputSource || !inputSource.files || inputSource.files.length === 0) {
+        console.warn("Media selection canceled or no file stream found.");
+        return;
+    }
+
+    // Capture the file context
+    const selectedFile = inputSource.files;
+    window.targetSelectedFileObj = selectedFile;
+
+    console.log("File loaded into local state:", selectedFile.name, "Type:", selectedFile.type);
+
+    const previewContainer = document.getElementById('mediaAttachmentPreview');
+    const nameLabel = document.getElementById('previewFileName');
+    const iconLabel = document.getElementById('previewIcon');
+
+    // Update UI status chip text content securely
+    if (nameLabel) {
+        nameLabel.innerText = selectedFile.name;
+    } else {
+        // Fallback fallback pointer in case your original layout used a different ID tag structure
+        const genericLabel = document.querySelector('#mediaAttachmentPreview span') || document.getElementById('mediaAttachmentPreview');
+        if (genericLabel && genericLabel.innerText.includes('undefined')) {
+            genericLabel.innerHTML = `<i class="fa-solid fa-image text-amber-400 mr-2"></i> ${selectedFile.name}`;
+        }
+    }
+    
+    // Dynamically adjust icon style
+    if (iconLabel && selectedFile.type) {
+        if (selectedFile.type.startsWith('video/')) {
+            iconLabel.className = "fa-solid fa-video text-cyan-400 mr-2";
+        } else {
+            iconLabel.className = "fa-solid fa-image text-amber-400 mr-2";
+        }
+    }
+
+    // Reveal preview bar container element layout
+    if (previewContainer) {
+        previewContainer.classList.remove('hidden');
+        // If your preview wrapper contains an explicit utility block, make sure it overrides hidden states
+        previewContainer.style.setProperty('display', 'flex', 'important');
+    }
+}
+
+function clearSelectedMedia() {
+    window.targetSelectedFileObj = null;
+    const fileInput = document.getElementById('postHardwareFileInput');
+    if (fileInput) fileInput.value = "";
+    
+    const previewContainer = document.getElementById('mediaAttachmentPreview');
+    if (previewContainer) {
+        previewContainer.classList.add('hidden');
+        previewContainer.style.display = 'none';
+    }
+}
+// --- UPDATED HANDLER TO MANAGE FIREBASE STORAGE TRANSFERS ---
+async function handleCreatePost(event) {
+    event.preventDefault();
+    
+    const activeUser = typeof currentProUser !== 'undefined' ? currentProUser : window.currentAuthenticatedUserDoc;
+    if (!activeUser) {
+        alert("Authentication validation missing. Cannot transmit broadcast payload.");
+        return;
+    }
+
+    const textContent = document.getElementById('postTextContent').value.trim();
+    const submitBtn = document.getElementById('submitPostBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "⏳ TRANSMITTING...";
+
+    try {
+        let finalUploadedMediaUrl = "";
+        let verifiedMimeGroup = "";
+
+       // Ensure this specific check block is active within your async handleCreatePost routine
+if (window.targetSelectedFileObj && window.targetSelectedFileObj.type) {
+    
+    verifiedMimeGroup = window.targetSelectedFileObj.type.startsWith('video/') ? "video" : "image";
+    
+    // Initialize standard root routing directory targets
+    const storageReferencePath = firebase.storage().ref()
+        .child(`pro_feed_assets/${Date.now()}_${window.targetSelectedFileObj.name}`);
+    
+    console.log("Initiating binary transfer array stream to storage bucket...");
+    
+    // Execute transfer stream
+    const taskSnapshot = await storageReferencePath.put(window.targetSelectedFileObj);
+    finalUploadedMediaUrl = await taskSnapshot.ref.getDownloadURL();
+    
+    console.log("File uploaded successfully. Storage URL resolved:", finalUploadedMediaUrl);
+}
+        // Build the payload
+        const postPayload = {
+            authorId: activeUser.id || activeUser.clientId || "anonymous_pro",
+            authorName: activeUser.name || activeUser.clientName || activeUser.username || "Tech Professional",
+            content: textContent,
+            mediaUrl: finalUploadedMediaUrl,
+            mediaType: verifiedMimeGroup, // Will be "image", "video", or "" if no file attached
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // Save to Firestore
+        await db.collection('pro_feed').add(postPayload);
+        
+        // Wipe forms cleanly
+        document.getElementById('engineeringPostForm').reset();
+        if (typeof clearSelectedMedia === 'function') {
+            clearSelectedMedia();
+        }
+        
+    } catch (error) {
+        console.error("Post processing failure:", error);
+        alert("Broadcast failed transmission target parameters: " + error.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1"></i> Post`;
+    }
+}
+// --- UPDATED LIVE RENDERING FEED ENGINE ---
+function listenToSocialFeed() {
+    // Listen to changes, handling local cache vs server timestamps smoothly
+    db.collection('pro_feed')
+        .orderBy('timestamp', 'desc')
+        .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
+            const container = document.getElementById('socialFeedContainer');
+            if (!container) return;
+            
+            if (snapshot.empty) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 border border-dashed border-slate-800 rounded-2xl font-mono text-xs">
+                        <i class="fa-solid fa-bolt-lightning mb-2 text-slate-700 text-lg block"></i>
+                        No telemetry broadcasts found on this channel.
+                    </div>`;
+                return;
             }
-        }
 
-        function listenToSocialFeed() {
-            db.collection('pro_feed')
-                .orderBy('timestamp', 'desc')
-                .onSnapshot((snapshot) => {
-                    const container = document.getElementById('socialFeedContainer');
-                    if (snapshot.empty) {
-                        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-600 border border-dashed border-slate-900 rounded-2xl">No broadcasts yet.</div>`;
-                        return;
+            let htmlBuffer = "";
+            
+            snapshot.forEach((doc) => {
+                const post = doc.data();
+                let mediaElement = "";
+
+                // Calculate formatting for the timestamp gracefully
+                let displayTime = "Syncing with grid...";
+                if (post.timestamp) {
+                    const dateObj = post.timestamp.toDate();
+                    displayTime = dateObj.toLocaleDateString([], { month: 'short', day: 'numeric' }) + 
+                                  " at " + 
+                                  dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+
+                // 🌟 FACEBOOK-STYLE DYNAMIC MEDIA PLACEMENT
+                if (post.mediaUrl && post.mediaUrl.trim() !== "") {
+                    if (post.mediaType === "video") {
+                        mediaElement = `
+                            <div class="mt-4 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner group relative">
+                                <video src="${post.mediaUrl}" controls class="w-full max-h-[450px] object-contain mx-auto" preload="metadata"></video>
+                            </div>`;
+                    } else {
+                        mediaElement = `
+                            <div class="mt-4 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner cursor-pointer hover:opacity-95 transition-opacity">
+                                <img src="${post.mediaUrl}" class="w-full max-h-[500px] object-contain mx-auto" alt="Broadcast diagnostic asset" onclick="window.open('${post.mediaUrl}', '_blank')">
+                            </div>`;
                     }
+                }
 
-                    let htmlBuffer = "";
-                    snapshot.forEach((doc) => {
-                        const post = doc.data();
-                        let mediaElement = "";
-                        if (post.mediaUrl) {
-                            mediaElement = `<div class="mt-3 rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
-                                                <img src="${post.mediaUrl}" class="w-full max-h-64 object-contain" alt="Attached Document Asset">
-                                            </div>`;
-                        }
-
-                        htmlBuffer += `
-                            <div class="bg-slate-900/40 border border-slate-900 p-5 rounded-2xl space-y-2">
-                                <div class="text-xs font-bold text-white">${post.authorName}</div>
-                                <p class="text-xs text-slate-300 whitespace-pre-wrap">${post.content}</p>
-                                ${mediaElement}
+                // 🛠️ HIGH-VISIBILITY FEED CARD LAYOUT (Facebook Card Architecture)
+                htmlBuffer += `
+                    <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 p-5 rounded-2xl shadow-xl transition-all hover:border-slate-700/50 space-y-3 mb-4">
+                        
+                        <div class="flex items-center justify-between border-b border-slate-800/60 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500/20 to-slate-800 border border-amber-500/30 flex items-center justify-center text-amber-400 font-mono text-xs font-black shadow-sm">
+                                    ${(post.authorName || 'P').charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h5 class="text-sm font-bold text-white tracking-wide flex items-center gap-1.5">
+                                        ${post.authorName || 'Anonymous Professional'}
+                                        <span class="text-[9px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20 font-mono font-medium tracking-normal">PRO</span>
+                                    </h5>
+                                    <p class="text-[10px] text-slate-500 font-medium">${displayTime}</p>
+                                </div>
                             </div>
-                        `;
-                    });
-                    container.innerHTML = htmlBuffer;
-                });
-        }
+                            
+                            <div class="flex items-center gap-1 text-[9px] uppercase tracking-wider font-mono text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded-md border border-emerald-500/10 shadow-sm">
+                                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Verified
+                            </div>
+                        </div>
+                        
+                        <div class="text-slate-200 text-sm font-normal leading-relaxed whitespace-pre-wrap selection:bg-amber-500/30 pl-0.5 pt-1">
+                            ${post.content}
+                        </div>
+                        
+                        ${mediaElement}
+                        
+                        <div class="flex items-center gap-4 pt-2 text-slate-500 text-xs font-mono border-t border-slate-800/40 mt-2">
+                            <button class="flex items-center gap-1.5 hover:text-amber-400 transition-colors group cursor-pointer">
+                                <i class="fa-regular fa-thumbs-up group-hover:scale-110 transition-transform"></i> <span>0</span>
+                            </button>
+                            <button class="flex items-center gap-1.5 hover:text-cyan-400 transition-colors group cursor-pointer">
+                                <i class="fa-regular fa-comment group-hover:scale-110 transition-transform"></i> <span>0</span>
+                            </button>
+                            <button class="flex items-center gap-1.5 hover:text-slate-300 transition-colors ml-auto cursor-pointer">
+                                <i class="fa-regular fa-share-from-square"></i>
+                            </button>
+                        </div>
 
-        function listenToIncomingTickets() {
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = htmlBuffer;
+        });
+}
+// ========================================================
+// GLOBAL MEDIA CACHE
+// ========================================================
+window.activeTicketsMediaCache = {};
+
+// ========================================================
+// GLOBAL VARIABLES FOR LIGHTBOX
+// ========================================================
+let lightboxMediaArray = [];
+let currentLightboxIndex = 0;
+
+// ========================================================
+// THE BRIDGE: Connects the Ticket Card to your new Lightbox
+// ========================================================
+window.safelyLaunchCachedLightbox = function(event, ticketId, targetIndex) {
+    // 1. Stops the ticket card from opening/closing when clicking the image
+    if (event && event.stopPropagation) event.stopPropagation();
+    
+    // 2. Get the images for this specific ticket
+    const relevantAttachments = window.activeTicketsMediaCache[ticketId];
+    
+    if (relevantAttachments) {
+        // 3. Encode the array safely and send it to your Universal Lightbox
+        const securelyEncodedList = btoa(unescape(encodeURIComponent(JSON.stringify(relevantAttachments))));
+        openUniversalLightbox(securelyEncodedList, targetIndex);
+    } else {
+        console.error("Target media array cache record context map is empty.");
+    }
+};
+
+// ========================================================
+// YOUR UNIVERSAL LIGHTBOX ENGINE
+// ========================================================
+function openUniversalLightbox(encodedMedia, startIndex) {
+    try {
+        // Decode the base64-packed attachments array safely
+        lightboxMediaArray = JSON.parse(decodeURIComponent(escape(atob(encodedMedia))));
+        currentLightboxIndex = startIndex;
+        
+        let lightbox = document.getElementById('universalLightboxModal');
+        
+        // If the lightbox element layout doesn't exist on page context yet, create it dynamically
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.id = 'universalLightboxModal';
+            lightbox.className = 'fixed inset-0 bg-black/95 z- flex flex-col items-center justify-center hidden p-4 select-none';
+            lightbox.innerHTML = `
+                <button onclick="closeUniversalLightbox()" class="absolute top-4 right-4 z-50 w-9 h-9 flex items-center justify-center bg-slate-900/90 hover:bg-red-950 border border-slate-800 text-slate-400 hover:text-red-400 font-mono rounded-full text-sm transition-colors cursor-pointer">✕</button>
+                
+                <button id="lightboxPrevBtn" onclick="navigateLightbox(-1)" class="absolute left-4 md:left-8 z-50 w-12 h-12 flex items-center justify-center bg-slate-900/60 hover:bg-slate-900 hover:text-emerald-400 border border-slate-800/60 text-slate-400 rounded-full text-xl transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none">‹</button>
+                
+                <div class="w-full max-w-3xl max-h-[80vh] flex items-center justify-center p-2" id="lightboxContentStage">
+                </div>
+                
+                <button id="lightboxNextBtn" onclick="navigateLightbox(1)" class="absolute right-4 md:right-8 z-50 w-12 h-12 flex items-center justify-center bg-slate-900/60 hover:bg-slate-900 hover:text-emerald-400 border border-slate-800/60 text-slate-400 rounded-full text-xl transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none">›</button>
+                
+                <div id="lightboxMediaCounter" class="absolute bottom-4 text-slate-500 font-mono text-[10px] tracking-widest bg-slate-900/50 px-3 py-1 rounded-full border border-slate-800/40 z-50">0 / 0</div>
+            `;
+            document.body.appendChild(lightbox);
+            
+            // Backdrop safety close interception setup 
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target === document.getElementById('lightboxContentStage')) {
+                    closeUniversalLightbox();
+                }
+            });
+        }
+        
+        lightbox.classList.remove('hidden');
+        renderLightboxCurrentMedia();
+        
+    } catch (err) {
+        console.error("Failed executing lightbox initialization:", err);
+    }
+}
+
+function renderLightboxCurrentMedia() {
+    const stage = document.getElementById('lightboxContentStage');
+    const counter = document.getElementById('lightboxMediaCounter');
+    const prevBtn = document.getElementById('lightboxPrevBtn');
+    const nextBtn = document.getElementById('lightboxNextBtn');
+    
+    if (!lightboxMediaArray || lightboxMediaArray.length === 0) return;
+    
+    const activeMedia = lightboxMediaArray[currentLightboxIndex];
+    const isVideo = activeMedia.type === 'video' || activeMedia.url.includes('.mp4');
+    
+    // Clear display stage area before loading the new asset
+    stage.innerHTML = "";
+    
+    if (isVideo) {
+        stage.innerHTML = `<video src="${activeMedia.url}" controls autoplay class="w-auto h-auto max-w-full max-h-[75vh] rounded-xl bg-black shadow-2xl"></video>`;
+    } else {
+        stage.innerHTML = `<img src="${activeMedia.url}" class="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl pointer-events-none" />`;
+    }
+    
+    // Update counter text
+    counter.textContent = `${currentLightboxIndex + 1} / ${lightboxMediaArray.length}`;
+    
+    // Manage visibility of navigation controls based on available array options
+    prevBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
+    nextBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
+}
+
+function navigateLightbox(direction) {
+    if (lightboxMediaArray.length <= 1) return;
+    
+    // Safely shift index pointers up or down, wrapping around if they go out of bounds
+    currentLightboxIndex += direction;
+    if (currentLightboxIndex >= lightboxMediaArray.length) currentLightboxIndex = 0;
+    if (currentLightboxIndex < 0) currentLightboxIndex = lightboxMediaArray.length - 1;
+    
+    renderLightboxCurrentMedia();
+}
+
+function closeUniversalLightbox() {
+    const lightbox = document.getElementById('universalLightboxModal');
+    if (lightbox) {
+        // Stop any running video content elements before closing the modal container frame
+        const videoElement = lightbox.querySelector('video');
+        if (videoElement) videoElement.pause();
+        
+        lightbox.classList.add('hidden');
+    }
+}
+// ========================================================
+// 1. SPECIALTY SMART-MATCH FILTER (The Translator)
+// ========================================================
+function checkSpecialtyMatch(proSkillsArray, ticketCategoryValue) {
+    if (!proSkillsArray || proSkillsArray.length === 0) return false;
+
+    // Maps the short dropdown value to the full database string
+    const categoryMapping = {
+        'repair': 'General Electronic Hardware Diagnostic & Repair',
+        'computer': 'Desktop/Laptop Repair & Upgrade Including Networking (wired/wireless)',
+        'academic': 'Academic Project & Thesis Prototyping',
+        'schematic': 'Schematic Design Request & PCB Layout',
+        'software': 'Software Application Interface Integration',
+        'cctv': 'CCTV Installation & Camera Repair',
+        'solar': 'Solar PV Installation, Repair & Upgrade',
+        'industrial': 'Electric Vehicle & Power Inverter Board Repairs'
+    };
+
+    const normalizedCategory = (ticketCategoryValue || "").toLowerCase();
+    const requiredSpecialty = categoryMapping[normalizedCategory];
+
+    if (!requiredSpecialty) return false;
+    return proSkillsArray.includes(requiredSpecialty);
+}
+
+// ========================================================
+// 2. DELIVERY SMART-MATCH FILTER (Assuming you already have this, but here for safety)
+// ========================================================
+function checkServiceSetupMatch(proSetup, ticketDeliveryOption) {
+    if (!proSetup || !ticketDeliveryOption) return false;
+    // Basic catch-all logic (update if you have specific rules)
+    if (proSetup === 'hybrid') return true; 
+    return proSetup.toLowerCase() === ticketDeliveryOption.toLowerCase();
+}
+
+
+// ========================================================
+// 3. MAIN TICKETS PIPELINE (Scope fixed)
+// ========================================================
+function listenToIncomingTickets() {
+    if (typeof firebase === 'undefined' || typeof firebase.auth !== 'function') {
+        console.warn("⚠️ Firebase Auth still initializing...");
+        return;
+    }
+
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) return;
+
+    const queueContainer = document.getElementById('liveTicketsQueue');
+    const countBadge = document.getElementById('ticketCountBadge');
+
+    // STEP 1: Fetch the Pro's Profile Data FIRST
+    db.collection('pro_registers').doc(currentUser.uid).get()
+        .then((proSnapshot) => {
+            if (!proSnapshot.exists) {
+                console.error("Pro profile not found.");
+                return;
+            }
+            
+            const proData = proSnapshot.data();
+            const proSetup = proData.serviceSetup || "";       
+            const proSkills = proData.specialties || [];  // <--- proSkills is defined right here!
+
+            // STEP 2: Start the real-time ticket listener INSIDE the profile fetch block
             db.collection('client_tickets') 
                 .where('status', '==', 'new')
                 .onSnapshot((snapshot) => {
-                    const queueContainer = document.getElementById('liveTicketsQueue');
-                    const countBadge = document.getElementById('ticketCountBadge');
-                    
+                    if (!queueContainer) return;
+
                     if (snapshot.empty) {
-                        countBadge.textContent = "0 New";
+                        if (countBadge) countBadge.textContent = "0 New";
                         queueContainer.innerHTML = `<div class="text-center py-6 text-xs text-slate-600 border border-dashed border-slate-900 rounded-xl">No pending new service files detected.</div>`;
                         return;
                     }
-
-                    countBadge.textContent = `${snapshot.size} New`;
                     
                     let localTicketsArray = [];
                     snapshot.forEach((doc) => {
                         localTicketsArray.push({ id: doc.id, ...doc.data() });
                     });
 
+                    // Sort Newest First
                     localTicketsArray.sort((a, b) => {
-                        const timeA = a.timestamp ? String(a.timestamp) : "";
-                        const timeB = b.timestamp ? String(b.timestamp) : "";
-                        return timeB.localeCompare(timeA);
+                        const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
+                        const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
+                        return timeB - timeA;
                     });
 
                     let ticketBuffer = "";
+                    let matchedCount = 0;
+                    window.activeTicketsMediaCache = {};
 
                     localTicketsArray.forEach((ticket) => {
+                        
+                        // --- THE GATEKEEPER ---
+                        // Because this loop is nested inside the profile fetch, 'proSkills' is safely accessible!
+                        const matchesSpecialty = checkSpecialtyMatch(proSkills, ticket.category);
+                        const matchesDelivery = checkServiceSetupMatch(proSetup, ticket.deliveryOption || ticket.serviceMode);
+
+                        // If it fails either criteria, skip drawing the card entirely
+                        if (!matchesDelivery || !matchesSpecialty) {
+                            return; 
+                        }
+
+                        matchedCount++;
+                        // ----------------------
+
                         const ticketId = ticket.ticketId || ticket.id.substring(0, 7).toUpperCase();
                         const clientName = ticket.clientName || 'Unnamed Client';
                         const category = ticket.category || 'General Service';
                         const location = ticket.projectLocation || 'No Station Given';
-                        const details = ticket.jobDetails || 'No operational diagnostics linked.';
-                        
+                        const details = ticket.jobDetails || ticket.description || 'No operational diagnostics linked.';
+                        const attachments = ticket.attachments || [];
+
+                        window.activeTicketsMediaCache[ticket.id] = attachments;
+
                         let displayTime = "Just Now";
-                        if (ticket.timestamp) {
+                        if (ticket.createdAt) {
                             try {
-                                const parsedDate = new Date(ticket.timestamp);
-                                displayTime = parsedDate.toLocaleDateString([], {month:'short', day:'numeric'}) + ' ' + 
-                                              parsedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                const parsedDate = (typeof ticket.createdAt.toDate === 'function') 
+                                    ? ticket.createdAt.toDate() 
+                                    : new Date(ticket.createdAt);
+                                displayTime = parsedDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + 
+                                              parsedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
                             } catch(e) {
-                                displayTime = String(ticket.timestamp).substring(0,10);
+                                displayTime = String(ticket.createdAt).substring(0, 16);
                             }
                         }
 
@@ -456,6 +963,32 @@ if (!isValidMime && !isValidExtension) {
                                         <div><span class="text-slate-600 font-bold">📍 LOC:</span> <span class="text-slate-200">${location}</span></div>
                                     </div>
                                     
+                                    ${attachments.length > 0 ? `
+                                    <div class="space-y-1">
+                                        <span class="text-[9px] font-bold uppercase tracking-wider text-slate-600 font-mono block">Attached Media</span>
+                                        <div class="flex flex-wrap gap-2 pt-1">
+                                            ${attachments.map((att, idx) => {
+                                                const isVideo = att.type === 'video' || att.url.includes('.mp4');
+                                                if (isVideo) {
+                                                    return `
+                                                        <div class="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center group hover:border-emerald-500 transition-all">
+                                                            <video src="${att.url}" class="w-full h-full object-cover opacity-60" preload="metadata" muted></video>
+                                                            <div onclick="safelyLaunchCachedLightbox(event, '${ticket.id}', ${idx})" class="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/20 transition-all cursor-pointer">
+                                                                <i class="fa-solid fa-circle-play text-white text-lg drop-shadow hover:scale-110 transition-transform text-emerald-400"></i>
+                                                            </div>
+                                                        </div>
+                                                    `;
+                                                } else {
+                                                    return `
+                                                        <div onclick="safelyLaunchCachedLightbox(event, '${ticket.id}', ${idx})" class="block w-20 h-20 rounded-lg overflow-hidden border border-slate-800 hover:border-emerald-500 transition-all cursor-pointer">
+                                                            <img src="${att.url}" class="w-full h-full object-cover pointer-events-none" />
+                                                        </div>
+                                                    `;
+                                                }
+                                            }).join('')}
+                                        </div>
+                                    </div>` : ''}
+
                                     <div class="space-y-1">
                                         <span class="text-[9px] font-bold uppercase tracking-wider text-slate-600 font-mono block">Job Details</span>
                                         <div class="text-[11px] text-slate-400 bg-slate-900/40 p-2.5 rounded-lg border border-slate-900/60 leading-snug font-sans whitespace-pre-wrap">${details}</div>
@@ -465,7 +998,6 @@ if (!isValidMime && !isValidExtension) {
                                         <i class="fa-solid fa-check-double mr-1"></i> Accept Job
                                     </button>
                                 </div>
-
                                 <div class="flex justify-end text-[9px] text-slate-600 font-mono pt-1">
                                     <span>${displayTime}</span>
                                 </div>
@@ -473,16 +1005,46 @@ if (!isValidMime && !isValidExtension) {
                         `;
                     });
 
-                    queueContainer.innerHTML = ticketBuffer;
-                }, (error) => {
-                    console.error("Ticket channel tracking dropped:", error);
-                });
-        }
+                    if (countBadge) countBadge.textContent = `${matchedCount} New`;
+                    
+                    if (matchedCount === 0) {
+                        queueContainer.innerHTML = `
+                            <div class="text-center py-6 text-xs font-mono text-slate-500 bg-slate-950/20 border border-slate-900 rounded-xl">
+                                📡 SCAN COMPLETE: No open tickets match your current Service Setup or Technical Specialties.
+                            </div>`;
+                    } else {
+                        queueContainer.innerHTML = ticketBuffer;
+                    }
+                }, (error) => console.error("Tracking error:", error));
+        })
+        .catch(err => console.error("Profile parameters fetch failed:", err));
+}
 
-        // ========================================================
-        // LIVE TICKETS PIPELINE ENGINE (MY ACTIVE WORKSPACE)
-        // ========================================================
-       function listenToAcceptedTickets(proId) {
+// ========================================================
+// SECURE AUTOMATIC RUNTIME TIMING INTERCEPTOR
+// ========================================================
+// Waits for the entire window and all external CDNs to finish loading
+window.addEventListener('load', () => {
+    // Double-check that Firebase actually loaded successfully
+    if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
+        
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log("🔐 Professional user verified. Starting ticket pipeline...");
+                listenToIncomingTickets();
+            } else {
+                console.warn("User is not logged in.");
+            }
+        });
+
+    } else {
+        console.error("🚨 CRITICAL ERROR: Firebase Auth library did not load. Please check your <script> tags in the HTML head.");
+    }
+});
+// ========================================================
+// ACTIVE WORKSPACE (MY WORK DASHBOARD)
+// ========================================================
+function listenToAcceptedTickets(proId) {
     db.collection('client_tickets')
         .where('acceptedById', '==', proId)
         .where('status', 'in', ['accepted', 'diagnostic', 'waiting for parts'])
@@ -493,7 +1055,7 @@ if (!isValidMime && !isValidExtension) {
             if (snapshot.empty) {
                 badge.textContent = "0";
                 hasActiveJob = false; 
-                container.innerHTML = `<div class="text-center py-6 text-slate-600">No active engineering assignments logged.</div>`;
+                container.innerHTML = `<div class="text-center py-6 text-slate-600">No active Job Assignments as of now.</div>`;
                 return;
             }
             
@@ -501,14 +1063,12 @@ if (!isValidMime && !isValidExtension) {
             hasActiveJob = true; 
             
             let activeJobsArray = [];
-            snapshot.forEach((doc) => {
-                activeJobsArray.push({ id: doc.id, ...doc.data() });
-            });
+            snapshot.forEach((doc) => { activeJobsArray.push({ id: doc.id, ...doc.data() }); });
             
-            // 🟢 FIXED: High-reliability epoch ms sorting to handle server object stamps cleanly
+            // --- FIXED: Sort accepted tickets chronologically using 'createdAt' ---
             activeJobsArray.sort((a, b) => {
-                const timeA = a.timestamp?.toDate ? a.timestamp.toDate().getTime() : new Date(a.timestamp || 0).getTime();
-                const timeB = b.timestamp?.toDate ? b.timestamp.toDate().getTime() : new Date(b.timestamp || 0).getTime();
+                const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
+                const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
                 return timeB - timeA;
             });
             
@@ -522,8 +1082,9 @@ if (!isValidMime && !isValidExtension) {
                 const details = ticket.jobDetails || 'No diagnostic data.';
                 const category = ticket.category || 'Service';
                 const currentRawStatus = ticket.status || '';
-
-                let statusFriendlyLabel = "Connected";
+                const attachments = ticket.attachments || []; 
+                
+                let statusFriendlyLabel = "Accepted";
                 let badgeColorClass = "text-emerald-400 bg-emerald-950/50 border-emerald-900/40";
                 
                 if (currentRawStatus === 'diagnostic') {
@@ -533,13 +1094,18 @@ if (!isValidMime && !isValidExtension) {
                     statusFriendlyLabel = "Awaiting Parts";
                     badgeColorClass = "text-indigo-400 bg-indigo-950/50 border-indigo-900/40";
                 }
-
+                
+                // --- ADDED: Parse the standard format for your display row if needed ---
+                let displayTime = "Active";
+                if (ticket.createdAt) {
+                    const parsedDate = (typeof ticket.createdAt.toDate === 'function') ? ticket.createdAt.toDate() : new Date(ticket.createdAt);
+                    displayTime = parsedDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + 
+                                  parsedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
                 htmlBuffer += `
                     <div onclick="toggleTicketDetails(event, this)" class="bg-slate-950 border border-slate-900 hover:border-slate-800 p-2.5 rounded-xl flex flex-col cursor-pointer group select-none transition-all">
                         <div class="flex justify-between items-center text-[10px]">
-                            <span class="text-[9px] font-mono font-bold px-1.5 rounded uppercase border ${badgeColorClass}">
-                                ✓ ${statusFriendlyLabel}
-                            </span>
+                            <span class="text-[9px] font-mono font-bold px-1.5 rounded uppercase border ${badgeColorClass}">✓ ${statusFriendlyLabel}</span>
                             <div class="flex items-center gap-1.5 text-slate-500">
                                 <span class="font-mono">${ticketId}</span>
                                 <i class="fa-solid fa-chevron-down text-[8px] inline-block transition-transform duration-200 group-hover:text-emerald-400"></i>
@@ -550,14 +1116,44 @@ if (!isValidMime && !isValidExtension) {
                         </div>
                         
                         <div class="hidden mt-2.5 pt-2.5 border-t border-slate-900 element-details-content space-y-2.5 text-[11px]">
-                            <div class="text-[11px] text-slate-300 font-mono space-y-0.5 bg-slate-900/30 p-2 rounded-lg border border-slate-900">
-                                <div><span class="text-slate-500 font-bold">Client:</span> <span class="text-slate-200">${clientName}</span></div>
-                                <div><span class="text-slate-500 font-bold">Contact No:</span> <a href="tel:${clientPhone}" class="text-amber-400 hover:underline" onclick="event.stopPropagation();">${clientPhone}</a></div>
-                                <div><span class="text-slate-500 font-bold">Email:</span> <span class="text-slate-400 break-all">${clientEmail}</span></div>
-                                <div><span class="text-slate-500 font-bold">Location:</span> <span class="text-slate-200">${location}</span></div>
-                                <div><span class="text-slate-500 font-bold">Category:</span> <span class="text-slate-400 uppercase text-[10px]">${category}</span></div>
-                            </div>
+        <div class="text-[11px] text-slate-300 font-mono space-y-0.5 bg-slate-900/30 p-2 rounded-lg border border-slate-900">
+            <div><span class="text-slate-500 font-bold">Client:</span> <span class="text-slate-200">${clientName}</span></div>
+            <div><span class="text-slate-500 font-bold">Contact No:</span> <a href="tel:${clientPhone}" class="text-amber-400 hover:underline" onclick="event.stopPropagation();">${clientPhone}</a></div>
+            <div><span class="text-slate-500 font-bold">Email:</span> <span class="text-slate-400 break-all">${clientEmail}</span></div>
+            <div><span class="text-slate-500 font-bold">Location:</span> <span class="text-slate-200">${location}</span></div>
+            <div><span class="text-slate-500 font-bold">Category:</span> <span class="text-slate-400 uppercase text-[10px]">${category}</span></div>
+            <div><span class="text-slate-500 font-bold">Date Requested:</span> <span class="text-slate-400">${displayTime}</span></div>
+        </div>
                             
+                            ${attachments.length > 0 ? `
+    <div class="space-y-1">
+        <span class="text-[9px] font-bold uppercase tracking-wider text-slate-600 font-mono block">Attached Media</span>
+        <div class="flex flex-wrap gap-2 pt-1">
+            ${attachments.map(att => {
+                // Check if the attachment is explicitly saved as a video type
+                if (att.type === 'video' || att.url.includes('.mp4')) {
+                    return `
+                        <div class="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center group hover:border-emerald-500 transition-all">
+                            <video src="${att.url}" class="w-full h-full object-cover opacity-60" preload="metadata" muted></video>
+                            
+                            <div onclick="openVideoModal('${att.url}')" class="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/20 transition-all cursor-pointer">
+                                <i class="fa-solid fa-circle-play text-white text-lg drop-shadow hover:scale-110 transition-transform text-emerald-400"></i>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Regular Image Layout Output Asset
+                    return `
+                        <div onclick="openImageModal('${att.url}')" class="block w-20 h-20 rounded-lg overflow-hidden border border-slate-800 hover:border-emerald-500 transition-all cursor-pointer">
+                            <img src="${att.url}" class="w-full h-full object-cover pointer-events-none" />
+                        </div>
+                    `;
+                }
+            }).join('')}
+        </div>
+    </div>
+` : ''}
+
                             <div class="space-y-1">
                                 <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono block">Job Details Log</span>
                                 <div class="text-slate-400 bg-slate-900/40 border border-slate-900 p-2 rounded-lg font-sans whitespace-pre-wrap leading-relaxed">${details}</div>
@@ -565,23 +1161,126 @@ if (!isValidMime && !isValidExtension) {
 
                             <div class="space-y-1 pt-1" onclick="event.stopPropagation();">
                                 <label class="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono block">Update Project Status</label>
-                                <select onchange="handleModifyTicketStatus(this, '${ticket.id}', '${ticketId}')" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-[11px] font-mono text-slate-200 focus:outline-none focus:border-emerald-500 transition-colors">
-                                    <option value="" disabled selected>-- Select Phase Action --</option>
-                                    <option value="diagnostic">🔧 Move to Diagnostic</option>
-                                    <option value="waiting for parts">⏳ Mark Waiting for Parts</option>
-                                    <option value="complete">✅ Mark Complete / Close Ticket</option>
-                                </select>
+                                <select 
+    data-prev="${ticket.status}" 
+    onchange="handleModifyTicketStatus(this, '${ticket.id}', '${ticketId}')"
+    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-[11px] font-mono text-slate-200 focus:outline-none focus:border-emerald-500 transition-colors">
+    
+    <option value="" disabled ${!ticket.status ? 'selected' : ''}>-- Select Status --</option>
+    
+    
+    <option value="diagnostic" ${ticket.status === 'diagnostic' ? 'selected' : ''}>🔧 Ongoing Diagnostic</option>
+    <option value="waiting for parts" ${ticket.status === 'waiting for parts' ? 'selected' : ''}>⏳ Waiting for Parts</option>
+    <option value="complete" ${ticket.status === 'complete' ? 'selected' : ''}>✅ Complete & Close Service Ticket</option>
+</select>
+								
                             </div>
                         </div>
                     </div>
                 `;
             });
-            
             container.innerHTML = htmlBuffer;
         });
 }
 
-function listenToCompletedHistory(proId) {
+
+
+function openUniversalLightbox(encodedMedia, startIndex) {
+    try {
+        // Decode the base64-packed attachments array safely
+        lightboxMediaArray = JSON.parse(atob(encodedMedia));
+        currentLightboxIndex = startIndex;
+        
+        let lightbox = document.getElementById('universalLightboxModal');
+        
+        // If the lightbox element layout doesn't exist on page context yet, create it dynamically
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.id = 'universalLightboxModal';
+            lightbox.className = 'fixed inset-0 bg-black/95 z- flex flex-col items-center justify-center hidden p-4 select-none';
+            lightbox.innerHTML = `
+                <button onclick="closeUniversalLightbox()" class="absolute top-4 right-4 z- w-9 h-9 flex items-center justify-center bg-slate-900/90 hover:bg-red-950 border border-slate-800 text-slate-400 hover:text-red-400 font-mono rounded-full text-sm transition-colors cursor-pointer">✕</button>
+                
+                <button id="lightboxPrevBtn" onclick="navigateLightbox(-1)" class="absolute left-4 z- w-12 h-12 flex items-center justify-center bg-slate-900/60 hover:bg-slate-900 hover:text-emerald-400 border border-slate-800/60 text-slate-400 rounded-full text-xl transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none">‹</button>
+                
+                <div class="w-full max-w-3xl max-h-[80vh] flex items-center justify-center p-2" id="lightboxContentStage">
+                    </div>
+                
+                <button id="lightboxNextBtn" onclick="navigateLightbox(1)" class="absolute right-4 z- w-12 h-12 flex items-center justify-center bg-slate-900/60 hover:bg-slate-900 hover:text-emerald-400 border border-slate-800/60 text-slate-400 rounded-full text-xl transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none">›</button>
+                
+                <div id="lightboxMediaCounter" class="absolute bottom-4 text-slate-500 font-mono text-[10px] tracking-widest bg-slate-900/50 px-3 py-1 rounded-full border border-slate-800/40">0 / 0</div>
+            `;
+            document.body.appendChild(lightbox);
+            
+            // Backdrop safety close interception setup 
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target === document.getElementById('lightboxContentStage')) {
+                    closeUniversalLightbox();
+                }
+            });
+        }
+        
+        lightbox.classList.remove('hidden');
+        renderLightboxCurrentMedia();
+        
+    } catch (err) {
+        console.error("Failed executing lightbox initialization:", err);
+    }
+}
+
+function renderLightboxCurrentMedia() {
+    const stage = document.getElementById('lightboxContentStage');
+    const counter = document.getElementById('lightboxMediaCounter');
+    const prevBtn = document.getElementById('lightboxPrevBtn');
+    const nextBtn = document.getElementById('lightboxNextBtn');
+    
+    if (!lightboxMediaArray || lightboxMediaArray.length === 0) return;
+    
+    const activeMedia = lightboxMediaArray[currentLightboxIndex];
+    const isVideo = activeMedia.type === 'video' || activeMedia.url.includes('.mp4');
+    
+    // Clear display stage area before loading the new asset
+    stage.innerHTML = "";
+    
+    if (isVideo) {
+        stage.innerHTML = `<video src="${activeMedia.url}" controls autoplay class="w-auto h-auto max-w-full max-h-[75vh] rounded-xl bg-black shadow-2xl"></video>`;
+    } else {
+        stage.innerHTML = `<img src="${activeMedia.url}" class="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl pointer-events-none" />`;
+    }
+    
+    // Update counter text
+    counter.textContent = `${currentLightboxIndex + 1} / ${lightboxMediaArray.length}`;
+    
+    // Manage visibility of navigation controls based on available array options
+    prevBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
+    nextBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
+}
+
+function navigateLightbox(direction) {
+    if (lightboxMediaArray.length <= 1) return;
+    
+    // Safely shift index pointers up or down, wrapping around if they go out of bounds
+    currentLightboxIndex += direction;
+    if (currentLightboxIndex >= lightboxMediaArray.length) currentLightboxIndex = 0;
+    if (currentLightboxIndex < 0) currentLightboxIndex = lightboxMediaArray.length - 1;
+    
+    renderLightboxCurrentMedia();
+}
+
+function closeUniversalLightbox() {
+    const lightbox = document.getElementById('universalLightboxModal');
+    if (lightbox) {
+        // Stop any running video content elements before closing the modal container frame
+        const videoElement = lightbox.querySelector('video');
+        if (videoElement) videoElement.pause();
+        
+        lightbox.classList.add('hidden');
+    }
+}
+        // ========================================================
+        // LIVE TICKETS PIPELINE ENGINE (SERVICE HISTORY LOGS)
+        // ========================================================
+        function listenToCompletedHistory(proId) {
     db.collection('client_tickets')
         .where('acceptedById', '==', proId)
         .where('status', '==', 'complete')
@@ -602,10 +1301,10 @@ function listenToCompletedHistory(proId) {
                 historyArray.push({ id: doc.id, ...doc.data() });
             });
             
-            // 🟢 FIXED: Secure structural timestamp breakdown conversion
+            // 🟢 FIX 1: Sort using the correct database field 'createdAt'
             historyArray.sort((a, b) => {
-                const timeA = a.timestamp?.toDate ? a.timestamp.toDate().getTime() : new Date(a.timestamp || 0).getTime();
-                const timeB = b.timestamp?.toDate ? b.timestamp.toDate().getTime() : new Date(b.timestamp || 0).getTime();
+                const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
+                const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
                 return timeB - timeA;
             });
             
@@ -616,6 +1315,21 @@ function listenToCompletedHistory(proId) {
                 const location = ticket.projectLocation || 'No Station Given';
                 const details = ticket.jobDetails || 'No diagnostic data.';
                 const category = ticket.category || 'Service';
+
+                // 🟢 FIX 2: Generate 'displayTime' from the 'createdAt' field here before calling it
+                let displayTime = "Closed Log";
+                if (ticket.createdAt) {
+                    try {
+                        const parsedDate = (typeof ticket.createdAt.toDate === 'function') 
+                            ? ticket.createdAt.toDate() 
+                            : new Date(ticket.createdAt);
+
+                        displayTime = parsedDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + 
+                                      parsedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                    } catch(e) {
+                        displayTime = String(ticket.createdAt).substring(0, 16);
+                    }
+                }
 
                 htmlBuffer += `
                     <div onclick="toggleTicketDetails(event, this)" class="bg-slate-950 border border-slate-900 hover:border-blue-950/40 p-2.5 rounded-xl flex flex-col cursor-pointer group select-none transition-all">
@@ -636,6 +1350,7 @@ function listenToCompletedHistory(proId) {
                             <div class="bg-slate-900/20 p-2 rounded-lg border border-slate-900 text-slate-400 font-mono space-y-0.5">
                                 <div><span class="text-slate-600">Location:</span> ${location}</div>
                                 <div><span class="text-slate-600">Category:</span> ${category}</div>
+                                <div><span class="text-slate-600">Date Requested:</span> ${displayTime}</div>
                             </div>
                             <div class="text-slate-500 bg-slate-900/40 p-2 rounded-lg font-sans text-xs italic">
                                 "${details}"
@@ -648,134 +1363,87 @@ function listenToCompletedHistory(proId) {
             historyContainer.innerHTML = htmlBuffer;
         });
 }
-        // ========================================================
-        // LIVE TICKETS PIPELINE ENGINE (SERVICE HISTORY LOGS)
-        // ========================================================
-        function listenToCompletedHistory(proId) {
-            db.collection('client_tickets')
-                .where('acceptedById', '==', proId)
-                .where('status', '==', 'complete')
-                .onSnapshot((snapshot) => {
-                    const historyContainer = document.getElementById('completedTicketsHistoryQueue');
-                    const historyBadge = document.getElementById('historyCountBadge');
-                    
-                    if (snapshot.empty) {
-                        historyBadge.textContent = "0";
-                        historyContainer.innerHTML = `<div class="text-center py-6 text-slate-600">No completed jobs on record.</div>`;
-                        return;
-                    }
-                    
-                    historyBadge.textContent = snapshot.size;
-                    
-                    let historyArray = [];
-                    snapshot.forEach((doc) => {
-                        historyArray.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    historyArray.sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
-                    
-                    let htmlBuffer = "";
-                    historyArray.forEach((ticket) => {
-                        const ticketId = ticket.ticketId || ticket.id.substring(0, 7).toUpperCase();
-                        const clientName = ticket.clientName || 'Unnamed Client';
-                        const location = ticket.projectLocation || 'No Station Given';
-                        const details = ticket.jobDetails || 'No diagnostic data.';
-                        const category = ticket.category || 'Service';
-
-                        htmlBuffer += `
-                            <div onclick="toggleTicketDetails(event, this)" class="bg-slate-950 border border-slate-900 hover:border-blue-950/40 p-2.5 rounded-xl flex flex-col cursor-pointer group select-none transition-all">
-                                <div class="flex justify-between items-center text-[10px]">
-                                    <span class="text-[9px] font-mono font-bold text-blue-400 bg-blue-950/50 border border-blue-900/40 px-1.5 rounded uppercase">
-                                        ✓ Closed Log
-                                    </span>
-                                    <div class="flex items-center gap-1.5 text-slate-500">
-                                        <span class="font-mono">${ticketId}</span>
-                                        <i class="fa-solid fa-chevron-down text-[8px] group-hover:text-blue-400 transition-transform"></i>
-                                    </div>
-                                </div>
-                                <div class="text-[11px] text-slate-400 font-mono mt-1 truncate">
-                                    <span class="text-slate-600 font-bold">👤</span> ${clientName} | <span class="text-slate-600 font-bold">📍</span> ${location}
-                                </div>
-                                
-                                <div class="hidden mt-2 pt-2 border-t border-slate-900/80 element-details-content space-y-2 text-[11px]">
-                                    <div class="bg-slate-900/20 p-2 rounded-lg border border-slate-900 text-slate-400 font-mono space-y-0.5">
-                                        <div><span class="text-slate-600">Location:</span> ${location}</div>
-                                        <div><span class="text-slate-600">Category:</span> ${category}</div>
-                                    </div>
-                                    <div class="text-slate-500 bg-slate-900/40 p-2 rounded-lg font-sans text-xs italic">
-                                        "${details}"
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    historyContainer.innerHTML = htmlBuffer;
-                });
-        }
 
         // ========================================================
         // INTERACTIVE ENGINE: TRANSITION DATA ASSIGNMENT STATUS
         // ========================================================
-// ========================================================
-// PRO PROFILE: DEPLOY COMPACT WORKFLOW (SYSTEM NO-LOG FREQUENCY)
-// ========================================================
-async function handleAcceptJob(event, firestoreDocId, systemTicketId) {
+        async function handleAcceptJob(event, firestoreDocId, systemTicketId) {
     event.stopPropagation(); 
     if (!currentProUser) return;
     
-    if (hasActiveJob) {
-        alert(`Operation Intercept: You cannot accept new service assignments until your current ticket file is completed and closed.`);
-        return;
-    }
-    
-    const activeProName = currentProUser.name || currentProUser.username;
-    if (!confirm(`Confirm operational lock deployment on Ticket #${systemTicketId}?`)) return;
-    
     try {
-        // Update the lifecycle statuses quietly inside the single record space
+        // 1. Query Firestore to see how many jobs this technician currently has active
+        const activeTicketsSnapshot = await db.collection('client_tickets')
+            .where('acceptedById', '==', currentProUser.id)
+            .where('status', 'in', ['accepted', 'diagnostic', 'waiting for parts'])
+            .get();
+
+        // 2. Enforce the limit of 2 active tickets
+        if (activeTicketsSnapshot.size >= 2) {
+            alert(`Limit Exceeded: You can only manage a maximum of 2 active service tickets simultaneously. Please finish or close your current jobs first.`);
+            return;
+        }
+
+        const activeProName = currentProUser.name || currentProUser.username;
+        if (!confirm(`Have you reviewed the details and ready to accept Service #${systemTicketId}?`)) return;
+        
+        // 3. Proceed to update the ticket
         await db.collection('client_tickets').doc(firestoreDocId).update({
             status: 'accepted',
             acceptedById: currentProUser.id,
-            acceptedByName: activeProName
+            acceptedByName: activeProName,
+			proLocation: currentProUser.location || "Location not provided",
         });
         
-        // 🧼 SYSTEMATIC CLEANSE: Pushing broadcasts to "pro_feed" has been completely removed from here!
         alert(`Ticket #${systemTicketId} successfully tied to your active desk space.`);
         
     } catch (error) {
         console.error("Critical Failure accepting service request asset:", error);
+        alert("An error occurred while trying to accept this ticket. Please try again.");
     }
 }
 
-async function handleModifyTicketStatus(selectSelector, firestoreDocId, systemTicketId) {
+       async function handleModifyTicketStatus(selectSelector, firestoreDocId, systemTicketId) {
     if (!currentProUser) return;
     
     const selectionValue = selectSelector.value;
     const activeProName = currentProUser.name || currentProUser.username;
     
+    // Get the previous status value from a data attribute (fallback to empty string if not found)
+    const previousStatus = selectSelector.getAttribute('data-prev') || "";
+    
     let updatedFields = { status: selectionValue };
+    let confirmationMessage = "";
 
+    // 1. Setup specific fields and alert text based on the chosen dropdown state
     if (selectionValue === "complete") {
-        updatedFields.status = "complete";
         updatedFields.completedBy = activeProName;
         updatedFields.completedById = currentProUser.id;
+        confirmationMessage = `Confirm completion of Service #${systemTicketId}? This job will be closed.`;
+    } else {
+        // Human-friendly label for intermediate states (diagnostic, waiting for parts, etc.)
+        confirmationMessage = `Confirm status update for Service #${systemTicketId} to "${selectionValue}"?`;
     }
 
-    if (!confirm(`Commit project lifecycle change to Ticket #${systemTicketId}?`)) {
-        selectSelector.value = "";
+    // 2. Run the dynamic confirm box challenge
+    if (!confirm(confirmationMessage)) {
+        // If canceled, revert the dropdown selection back to its previous operational state
+        selectSelector.value = previousStatus;
         return;
     }
 
+    // 3. If confirmed, proceed to push changes to Firestore
     try {
-        // Stamping database properties silently inside the target file
         await db.collection('client_tickets').doc(firestoreDocId).update(updatedFields);
         
-        // 🧼 SYSTEMATIC CLEANSE: Feed alerts dropped here to ensure complete engineering deck privacy.
-
+        // Update the custom tracking attribute so the next cancel choice works correctly too
+        selectSelector.setAttribute('data-prev', selectionValue);
+        
     } catch (error) {
         console.error("Lifecycle adjustment state update error:", error);
         alert("Database operations write dropped. Check connection logs.");
+        // Revert UI dropdown layout if the database write rejects/fails
+        selectSelector.value = previousStatus;
     }
 }
         // ========================================================
@@ -801,6 +1469,71 @@ async function handleModifyTicketStatus(selectSelector, firestoreDocId, systemTi
             localStorage.removeItem('authenticatedProUser');
             window.location.replace("index.html");
         }
-    </script>
+		</script>
+		<div id="imageModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4" onclick="closeImageModal()">
+    <span class="absolute top-5 right-5 text-white text-3xl cursor-pointer">&times;</span>
+    <img id="modalImage" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl" />
+</div>
+
+<script>
+function openVideoModal(videoUrl) {
+    // Check if an asset modal wrapper context template layer exists already
+    let modal = document.getElementById('globalVideoModal');
+    
+    if (!modal) {
+        // Build an on-the-fly clean backdrop wrapper overlay context
+        modal = document.createElement('div');
+        modal.id = 'globalVideoModal';
+        modal.className = 'fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4 hidden';
+        modal.innerHTML = `
+            <div class="relative w-full max-w-2xl bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden p-1 shadow-2xl">
+                <button onclick="closeVideoModal()" class="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center bg-slate-900/80 hover:bg-red-950 border border-slate-800 text-slate-400 hover:text-red-400 font-mono rounded-full text-xs transition-colors cursor-pointer">✕</button>
+                <video id="modalVideoPlayer" controls autoplay class="w-full h-auto rounded-xl bg-black max-h-[75vh]"></video>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Close modal if user clicks outside the video frame box area
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeVideoModal();
+        });
+    }
+
+    const player = document.getElementById('modalVideoPlayer');
+    player.src = videoUrl;
+    modal.classList.remove('hidden');
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('globalVideoModal');
+    const player = document.getElementById('modalVideoPlayer');
+    if (modal) modal.classList.add('hidden');
+    if (player) {
+        player.pause(); // Pause video instantly so audio doesn't keep running in the background
+        player.src = "";
+    }
+}
+function openImageModal(url) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modalImg.src = url;
+    modal.classList.remove('hidden');
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').classList.add('hidden');
+}
+</script>
+	<div id="globalMediaZoomModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="opacity: 0; z-index: 999999 !important; transition: opacity 0.25s ease-in-out;">
+        <div class="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/60 to-transparent flex justify-end items-center px-6 pointer-events-none">
+            <button onclick="closeGlobalMediaZoom(event)" class="pointer-events-auto text-slate-400 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800/80 px-4 py-2 font-mono text-xs font-bold rounded-lg tracking-wider transition-all cursor-pointer shadow-lg">
+                ✕ CLOSE ESC
+            </button>
+        </div>
+        <div class="w-full h-full max-w-5xl max-h-[80vh] flex items-center justify-center relative" onclick="closeGlobalMediaZoom(event)">
+            <img id="zoomModalImage" class="hidden max-w-full max-h-full rounded-sm object-contain shadow-2xl transition-transform duration-300 scale-95" src="" alt="Enlarged Document" onclick="event.stopPropagation()">
+            <video id="zoomModalVideo" class="hidden max-w-full max-h-full rounded-sm object-contain shadow-2xl" controls src="" onclick="event.stopPropagation()"></video>
+        </div>
+    </div>
 </body>
 </html>
