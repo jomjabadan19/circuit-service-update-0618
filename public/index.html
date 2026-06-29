@@ -17,57 +17,75 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
-
-
+<script src="script.js" defer></script>
+<script src="https://api.mapbox.com/search-js/v1.0.0/web.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
 <header class="fixed top-0 left-0 w-full bg-slate-950/70 backdrop-blur-md border-b border-slate-900/80 z-50">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
         
-        <a href="#" class="flex items-center gap-3 group select-none">
+        <!-- BRANDING LOGO BLOCK -->
+        <a href="#" class="flex items-center gap-3 group select-none shrink-0">
             <div class="relative w-10 h-10 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.15)] group-hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] group-hover:scale-105 transition-all duration-300 overflow-hidden border border-slate-800/50 group-hover:border-amber-500/30">
                 <img src="logo.PNG" alt="Logo" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors duration-300">
+                <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors duration-300">
                     Circuit<span class="text-amber-400 group-hover:text-white transition-colors duration-300">-Service</span>
                 </span>
-                <span class="text-[10px] uppercase tracking-widest text-slate-400 tech-mono transform group-hover:translate-x-0.5 transition-transform duration-300">Electronics Solution</span>
+                <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-400 tech-mono transform group-hover:translate-x-0.5 transition-transform duration-300">Electronics Solutions</span>
             </div>
         </a>
         
-        <div class="flex items-center gap-3">
-            <div id="navAuthGroup" class="flex items-center gap-3">
-                
-                <a id="navLoginBtn" href="#login-portal-section" class="relative inline-block text-sm font-semibold text-slate-300 hover:text-amber-400 transition-colors duration-300 px-3 py-2 active:scale-95 transform group/login">
-                    Log In
-                    <span class="absolute bottom-1 left-3 right-3 h-[2px] bg-amber-400 transform scale-x-0 group-hover/login-top scale-x-0 group-hover/login:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
-                </a>
-                
-                <button 
-                    id="navRegisterClientBtn" 
-                    onclick="openClientRegisterModal()" 
-                    class="inline-block text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 px-4 py-2.5 rounded-lg shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] whitespace-nowrap cursor-pointer"
-                >
-                    Join the community | Find an expert
-                </button>
-                
-                <button 
-                    id="navRegisterProBtn" 
-                    onclick="openProModal()" 
-                    class="inline-block text-xs sm:text-sm font-bold text-white bg-slate-950/40 border border-slate-800 hover:border-amber-500/40 hover:text-amber-400 hover:bg-slate-900 px-4 py-2.5 rounded-lg shadow-md hover:shadow-amber-500/5 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] whitespace-nowrap cursor-pointer"
-                >
-                    Join as Pro | Tech / Engr
-                </button>
-                
-                <button 
-                    id="navLogoutBtn" 
-                    onclick="handleClientLogout()" 
-                    class="hidden px-4 py-2.5 bg-slate-950/40 hover:bg-red-950/20 border border-slate-800 hover:border-red-500/40 text-slate-400 hover:text-red-400 text-xs font-bold rounded-lg tracking-wider uppercase transition-all duration-300 active:scale-95 group/logout cursor-pointer shadow-sm hover:shadow-red-500/5"
-                >
-                    <i class="fa-solid fa-sign-out-alt mr-1 transform group-hover/logout:translate-x-0.5 transition-transform duration-200"></i> Logout
-                </button>
-                
-            </div>
+        <!-- MOBILE MENU HAMBURGER TRIGGER (Hidden on Desktop) -->
+        <button 
+            id="mobileMenuToggle" 
+            onclick="window.toggleMobileNavigation()" 
+            class="flex md:hidden text-slate-400 hover:text-amber-400 text-xl p-2 transition-colors duration-200 focus:outline-none cursor-pointer z-50"
+            aria-label="Toggle Navigation Panel"
+        >
+            <i id="menuToggleIcon" class="fa-solid fa-bars"></i>
+        </button>
+        
+        <!-- INTERACTIVE CONTROLS ENGINE -->
+        <!-- Converts from an absolute stacked panel on mobile to a seamless flex row on desktop screens -->
+        <div 
+            id="navAuthGroup" 
+            class="hidden md:flex flex-col md:flex-row absolute md:static top-20 left-0 w-full md:w-auto bg-slate-950/95 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border-b border-slate-900 md:border-none p-6 md:p-0 gap-4 md:gap-3 shadow-2xl md:shadow-none items-stretch md:items-center transition-all duration-300 z-40"
+        >
+            
+            <a id="navLoginBtn" href="#login-portal-section" class="relative block md:inline-block text-center text-sm font-semibold text-slate-300 hover:text-amber-400 transition-colors duration-300 py-3 md:py-2 active:scale-95 transform group/login">
+                Log In
+                <span class="hidden md:block absolute bottom-1 left-3 right-3 h-[2px] bg-amber-400 transform scale-x-0 group-hover/login:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+            </a>
+            
+            <button 
+                id="navRegisterClientBtn" 
+                onclick="openClientRegisterModal(); window.toggleMobileNavigation(false);" 
+                class="w-full md:w-auto block text-center text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 px-4 py-3 md:py-2.5 rounded-lg shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] whitespace-nowrap cursor-pointer"
+            >
+                Join the community | Find an expert
+            </button>
+            
+            <button 
+                id="navRegisterProBtn" 
+                onclick="openProModal(); window.toggleMobileNavigation(false);" 
+                class="w-full md:w-auto block text-center text-xs sm:text-sm font-bold text-white bg-slate-950/40 border border-slate-800 hover:border-amber-500/40 hover:text-amber-400 hover:bg-slate-900 px-4 py-3 md:py-2.5 rounded-lg shadow-md hover:shadow-amber-500/5 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] whitespace-nowrap cursor-pointer"
+            >
+                Join as Pro | Tech / Engr
+            </button>
+            
+            <button 
+                id="navLogoutBtn" 
+                onclick="handleClientLogout(); window.toggleMobileNavigation(false);" 
+                class="hidden w-full md:w-auto text-center px-4 py-3 md:py-2.5 bg-slate-950/40 hover:bg-red-950/20 border border-slate-800 hover:border-red-500/40 text-slate-400 hover:text-red-400 text-xs font-bold rounded-lg tracking-wider uppercase transition-all duration-300 active:scale-95 group/logout cursor-pointer shadow-sm hover:shadow-red-500/5"
+            >
+                <i class="fa-solid fa-sign-out-alt mr-1 transform group-hover/logout:translate-x-0.5 transition-transform duration-200"></i> Logout
+            </button>
+            
         </div>
     </div>
 </header>
@@ -121,12 +139,12 @@
                 <svg id="arrow-service-1" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-1" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div onmouseenter="showSides(1)" onmouseleave="hideSides(1)" class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer">
                         <img src="01.png" alt="Hardware Repair" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
-                             onclick="openDetailModal('01.png', 'General Electronic Hardware Diagnostic & Repair', ['Cell Phones & Smartphones', 'Smart TVs & Displays', 'Washing Machines', 'Microwave Ovens', 'Smart Refrigerators', 'Air Conditioning Units', 'High-Fidelity Audio & Speakers'])">
+                             onclick="openDetailModal('01.png', 'General Electronic Hardware Diagnostic & Repair', ['Cell Phones & Smartphones', 'Smart TVs & Displays', 'Washing Machines', 'Microwave Ovens', 'Smart Refrigerators & AC Units', 'High-Fidelity Audio & Speakers'])">
                     </div>
-                    <p class="text-sm text-slate-400 leading-relaxed">Providing advanced, component-level diagnostic and repair services for circuitry failures in modern consumer gadgets and appliances.</p>
+                    <p class="text-sm text-slate-400 leading-relaxed">Providing advanced, component-level diagnostic and repair services for circuitry failures in modern consumer gadgets and appliances, we utilize precise fault isolation techniques to restore your electronics and guarantee quality with premium parts replacement..</p>
                 </div>
             </div>
         </div>
@@ -151,11 +169,11 @@
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col justify-between">
                         <div>
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 tech-mono">Supported Equipment</h4>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 tech-mono">Supported Equipment | Services</h4>
                             <ul id="modalList" class="space-y-2 text-sm text-slate-300 font-medium"></ul>
                         </div>
                         <p class="text-xs text-slate-500 mt-4 pt-4 border-t border-slate-800/40">
-                            * Component-level motherboard fault isolation, sensor re-calibrations, and genuine hardware replacements.
+                            * For all equipment, parts, and services not listed, please feel free to contact us for an inquiry.
                         </p>
                     </div>
                 </div>
@@ -163,14 +181,14 @@
         </div>
 
         <div id="side-l-1" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="01-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-48 h-28"><img src="01-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-48 h-28"><img src="01-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="01-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-48 h-28"><img src="01-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-48 h-28"><img src="01-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-1" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-48 h-28"><img src="01-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="01-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-48 h-28"><img src="01-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-48 h-28"><img src="01-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="01-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-48 h-28"><img src="01-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -184,7 +202,7 @@
                 <svg id="arrow-service-2" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-2" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div onmouseenter="showSides(2)" onmouseleave="hideSides(2)" class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer">
                         <img src="02.png" alt="Computer Repair" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('02.png', 'Desktop/Laptop Repair & Networking', ['High-Performance Gaming PCs', 'Business & Personal Laptops', 'OS Re-imaging & Optimization', 'Data Recovery & RAID Arrays', 'Wired/Wireless Router Configurations', 'Network Switch & LAN Infrastructure'])">
@@ -194,14 +212,14 @@
             </div>
         </div>
         <div id="side-l-2" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="02-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="02-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="02-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="02-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="02-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="02-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-2" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="02-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="02-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="02-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="02-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="02-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="02-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -215,7 +233,7 @@
                 <svg id="arrow-service-3" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-3" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(3)" onmouseleave="hideSides(3)">
                         <img src="03.png" alt="Prototyping" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('03.png', 'Academic Project & Thesis Prototyping', ['Arduino & Microcontroller Hardware', 'Sensor Integration & Logic Checks', 'Custom Circuit Troubleshooting', 'Embedded Firmware Flash Debugging', 'Electro-Mechanical Assemblies', 'Technical Guidance & Review'])">
@@ -225,14 +243,14 @@
             </div>
         </div>
         <div id="side-l-3" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="03-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="03-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="03-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="03-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="03-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="03-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-3" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="03-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="03-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="03-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="03-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="03-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="03-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -246,7 +264,7 @@
                 <svg id="arrow-service-4" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-4" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(4)" onmouseleave="hideSides(4)">
                         <img src="04.png" alt="PCB Layout" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('04.png', 'Schematic Design & PCB Layout', ['ECAD Schematic Diagrams', 'Multi-Layer PCB Routing', 'High-Speed Signal Integrity', 'Production Gerber File Generation', 'Bill of Materials (BOM) Compilation', 'Design for Manufacturing (DFM)'])">
@@ -256,14 +274,14 @@
             </div>
         </div>
         <div id="side-l-4" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="04-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="04-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="04-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="04-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="04-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="04-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-4" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="04-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="04-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="04-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="04-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="04-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="04-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -277,7 +295,7 @@
                 <svg id="arrow-service-5" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-5" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(5)" onmouseleave="hideSides(5)">
                         <img src="05.png" alt="Software" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('05.png', 'Software Application Interface Integration', ['Cross-Platform Mobile Apps (Flutter)', 'Web Control Interfaces & Dashboards', 'Hardware Analytics Telemetry', 'Microcontroller Logic Deployment', 'Firebase Database Sync', 'API Endpoint Pipelines'])">
@@ -287,14 +305,14 @@
             </div>
         </div>
         <div id="side-l-5" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="05-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="05-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="05-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="05-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="05-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="05-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-5" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="05-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="05-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="05-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="05-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="05-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="05-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -308,7 +326,7 @@
                 <svg id="arrow-service-6" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-6" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(6)" onmouseleave="hideSides(6)">
                         <img src="06.png" alt="CCTV" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('06.png', 'CCTV Installation & Repair', ['Multi-Camera IP Surveillance Arrays', 'NVR/DVR Diagnostic & Storage Setup', 'Coaxial & PoE Cable Infrastructures', 'Remote Access Network Configurations', 'PTZ Speed Dome Camera Calibration', 'Power Supply Distribution Diagnostics'])">
@@ -318,14 +336,14 @@
             </div>
         </div>
         <div id="side-l-6" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="06-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="06-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="06-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="06-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="06-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="06-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-6" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="06-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="06-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="06-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="06-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="06-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="06-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -339,7 +357,7 @@
                 <svg id="arrow-service-7" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-7" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(7)" onmouseleave="hideSides(7)">
                         <img src="07.png" alt="Solar" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('07.png', 'Solar Photovoltaic Systems Installation & Upgrade', ['Off-Grid & Grid-Tie Arrays', 'String & Microinverter Units', 'Solar Panel Array Structuring', 'Battery Management Systems (BMS)', 'Charge Controller Calibration', 'DC/AC Isolation Switch Setup'])">
@@ -349,14 +367,14 @@
             </div>
         </div>
         <div id="side-l-7" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="07-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="07-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="07-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="07-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="07-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="07-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-7" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="07-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="07-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="07-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="07-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="07-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="07-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 
@@ -370,7 +388,7 @@
                 <svg id="arrow-service-8" class="w-4 h-4 text-slate-500 transition-transform duration-300 transform group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
             <div id="desc-service-8" style="max-height: 0px;" class="max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out border-t border-slate-950 bg-slate-950/40 p-0">
-                <div class="pt-6 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
+                <div class="pt-0 pb-9 px-6 flex flex-col md:flex-row gap-6 items-center w-full">
                     <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl border border-slate-800 shadow-lg cursor-pointer" onmouseenter="showSides(8)" onmouseleave="hideSides(8)">
                         <img src="08.png" alt="EV Repair" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                              onclick="openDetailModal('08.png', 'EV & Solar Power Inverter Board Repair', ['High-Voltage DC-DC Converters', 'Pure Sine Wave Solar Inverters', 'EV Power Management Boards', 'MOSFET / IGBT Thermal Array Checks', 'Gate Driver Isolation Sub-Circuits', 'High-Capacity Smoothing Capacitors'])">
@@ -380,21 +398,22 @@
             </div>
         </div>
         <div id="side-l-8" class="hidden lg:block absolute right-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out translate-x-4">
-            <div class="absolute right-0 top-[20px] w-48 h-28"><img src="08-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-4 top-[145px] w-44 h-28"><img src="08-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute right-0 top-[270px] w-52 h-28"><img src="08-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[5px] w-48 h-28"><img src="08-l1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-4 top-[130px] w-44 h-28"><img src="08-l2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute right-0 top-[255px] w-52 h-28"><img src="08-l3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
         <div id="side-r-8" class="hidden lg:block absolute left-[104%] top-0 h-full w-56 pointer-events-none z-0 opacity-0 transition-all duration-300 ease-out -translate-x-4">
-            <div class="absolute left-0 top-[20px] w-52 h-28"><img src="08-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-4 top-[145px] w-48 h-28"><img src="08-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
-            <div class="absolute left-0 top-[270px] w-52 h-28"><img src="08-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[5px] w-52 h-28"><img src="08-r1.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-4 top-[130px] w-48 h-28"><img src="08-r2.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
+            <div class="absolute left-0 top-[255px] w-52 h-28"><img src="08-r3.png" class="w-full h-full object-cover rounded-xl border border-slate-800/80 shadow-2xl"></div>
         </div>
     </div>
 </div>
 </section>
 
-       <section id="login-portal-section" class="py-20 border-t border-slate-900 bg-slate-950/40 backdrop-blur-md px-6">
-    <div class="max-w-4xl mx-auto">
+  <!-- Reduced vertical padding (py-8) and removed excess height elements -->
+<section id="login-portal-section" class="py-40 pt-24 border-t border-slate-900 bg-slate-950/40 backdrop-blur-md px-3">
+    <div class="max-w-2xl mx-auto w-full">
         
         <div id="anonymousLoginGateway" class="max-w-md mx-auto">
             <div class="text-center mb-6">
@@ -414,7 +433,7 @@
         onclick="switchLoginRole('client')" 
         class="py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out bg-amber-500 text-slate-950 shadow-md shadow-amber-500/10 transform active:scale-98"
     >
-        ⚡ Member | Client
+        ⚡ User | Client
     </button>
     
     <button 
@@ -448,143 +467,7 @@
             </form>
         </div>
 
-         <div id="authorizedClientDashboard" class="hidden space-y-8">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 bg-slate-900/80 border border-amber-500/20 rounded-2xl backdrop-blur-md shadow-xl">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                        <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase tech-mono">You are safely logged in.</span>
-                    </div>
-                    <h2 class="text-2xl font-black text-white tracking-tight">Welcome Back,   <span id="dashClientName" class="text-amber-400">Client</span>!</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Electronics Articles | Testimonials | Shop | Request a Service</p>
-                </div>
-
-            </div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-    <div class="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl space-y-4">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 tech-mono border-b border-slate-800 pb-2">Account Information</h3>
-        <div class="space-y-3 text-xs">
-            <div>
-                <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">CLIENT ID</span>
-                <span id="metaId" class="text-slate-300 font-mono" data-full-id="">N/A</span>
-            </div>
-            <div>
-                <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Registered Email</span>
-                <span id="metaEmail" class="text-slate-300">N/A</span>
-            </div>
-            <div>
-                <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Contact Info</span>
-                <span id="metaPhone" class="text-slate-300">N/A</span>
-            </div>
-            <div>
-                <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Registered Location Reference</span>
-                <span id="metaLocation" class="text-slate-300">N/A</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="lg:col-span-2 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-        <div class="border-b border-slate-800 pb-3">
-            <h3 class="text-base font-bold tech-mono uppercase">
-            <span class="text-amber-400">Need help?</span> 
-            <span class="text-white">Create a service request or Submit a technical / engineering support ticket.</span>
-        </h3>
-        <p class="text-xs text-slate-400 mt-1">Your request will be securely handled, stored, and will be sent to circuit-service automatically.</p>
-        </div>
         
-     <form id="dashboardServiceRequestForm" onsubmit="handleDashboardServiceSubmission(event)" class="space-y-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Type *</label>
-    
-    <select id="dashServiceCategory" required onchange="updateServiceTermsBanner(this)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
-        <option value="" disabled selected>-- Select a Service Type --</option>
-        
-        <optgroup label="🛠️ NO FIX / NO PAY SERVICES" class="bg-slate-900 text-emerald-400 font-bold">
-            <option value="repair" class="text-slate-300 font-normal">Electronic Gadgets & Appliances Repair</option>
-            <option value="computer" class="text-slate-300 font-normal">Computer/Laptop & Networking</option>
-            <option value="industrial" class="text-slate-300 font-normal">EV Board & Solar Inverter Board Repairs</option>
-            <option value="software" class="text-slate-300 font-normal">Application Interface Integration</option>
-        </optgroup>
-        
-        <optgroup label="📋 PROJECT-BASED SERVICES" class="bg-slate-900 text-blue-400 font-bold mt-2">
-            <option value="academic" class="text-slate-300 font-normal">Academic Project & Thesis Prototyping</option>
-            <option value="schematic" class="text-slate-300 font-normal">Schematic Design & PCB Layout</option>
-            <option value="cctv" class="text-slate-300 font-normal">CCTV Installation & Repair</option>
-            <option value="solar" class="text-slate-300 font-normal">Solar Installation, Repair & Upgrade</option>
-        </optgroup>
-    </select>
-
-    <div id="serviceTermsBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300">
-        </div>
-</div>
-        
-        <div>
-    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Delivery Option *</label>
-    <select id="dashServiceMode" required onchange="toggleServiceLocationField()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
-        <option value="" disabled selected>-- Select Delivery Option --</option>
-        <option value="Home Service">Home Service (On-site Visit)</option>
-        <option value="Bring to Workshop">Bring to Workshop (Drop-off)</option>
-        <option value="Agreed Location">Agreed Location (Meet-up)</option>
-    </select>
-
-    <div id="serviceModeBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300">
-        </div>
-</div>
-    </div>
-
-    <div>
-        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Location *</label>
-        <input type="text" id="dashProjectLocation" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200" placeholder="Type complete address for home service...">
-    </div>
-
-    <div>
-        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Description *</label>
-        <textarea id="dashTechnicalDetails" rows="4" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors placeholder:text-slate-700" placeholder="Type the full details of the service request..."></textarea>
-    </div>
-    
-    <div>
-    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Attach Images / Video (Optional)</label>
-    <input type="file" id="dashMediaFiles" accept="image/*,video/*" multiple onchange="handleFileSelection(event)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20 file:transition-colors file:cursor-pointer cursor-pointer focus:outline-none focus:border-amber-500 transition-colors">
-    <p class="text-[10px] text-slate-500 mt-1 tech-mono">Attach images or videos for reference. Total size limit: 100MB.</p>
-    
-    <div id="formMediaPreviewGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-3 empty:hidden"></div>
-</div>
-
-    <button type="submit" id="dashTicketSubmitBtn" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.15)]">
-        <span>⚡ Create and Send Service Request</span>
-    </button>
-</form>
-    </div>
-
-    <div class="lg:col-span-3 bg-slate-950/40 border border-slate-900 rounded-2xl p-6 mt-4 shadow-2xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-900 pb-5 mb-6">
-            <div>
-                <h2 class="text-sm font-black uppercase tracking-wider text-white tech-mono flex items-center gap-2">
-                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                    🛠️ Track Service Ticket Status & Request History
-                </h2>
-                <p class="text-[11px] text-slate-500 font-mono mt-0.5">
-                    Diagnostic & Field Service Monitoring
-                </p>
-            </div>
-            <button type="button" onclick="loadClientTicketHistory()" class="px-4 py-1.5 bg-slate-900/80 border border-slate-800 hover:border-amber-500/30 text-amber-400 text-xs font-bold rounded-lg uppercase font-mono tracking-wider transition-all hover:bg-slate-900 cursor-pointer">
-                🔄 Refresh Dashboard
-            </button>
-        </div>
-
-        <div id="clientTicketsLoading" class="text-center py-12 font-mono text-xs text-slate-500 tracking-wide">
-            Scanning secure database streams for logged telephone references...
-        </div>
-
-        <div id="clientTicketsEmpty" class="hidden text-center py-12 font-mono text-xs text-slate-600 bg-slate-900/10 border border-slate-900 rounded-xl">
-            No historical service records found matching your pipeline metadata parameters.
-        </div>
-
-        <div id="clientTicketsGrid" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-    </div>
-</div> 
-</div>
 </div>
 </section>
 	 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -592,107 +475,7 @@
 	 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
    
-<script>
-// Initialize Firebase Storage (Ensure this is near where you initialize db and auth)
 
-function showSides(id) {
-    const leftEl = document.getElementById(`side-l-${id}`);
-    const rightEl = document.getElementById(`side-r-${id}`);
-    if(leftEl && rightEl) {
-        // Left Side Animation
-        leftEl.classList.remove('opacity-0', 'translate-x-4');
-        leftEl.classList.add('opacity-100', 'translate-x-0');
-        // Right Side Animation
-        rightEl.classList.remove('opacity-0', '-translate-x-4');
-        rightEl.classList.add('opacity-100', 'translate-x-0');
-    }
-}
-
-function hideSides(id) {
-    const leftEl = document.getElementById(`side-l-${id}`);
-    const rightEl = document.getElementById(`side-r-${id}`);
-    if(leftEl && rightEl) {
-        // Reset Left Side
-        leftEl.classList.remove('opacity-100', 'translate-x-0');
-        leftEl.classList.add('opacity-0', 'translate-x-4');
-        // Reset Right Side
-        rightEl.classList.remove('opacity-100', 'translate-x-0');
-        rightEl.classList.add('opacity-0', '-translate-x-4');
-    }
-}
-  
-function openDetailModal(imageSrc, title, itemsArray) {
-    const modal = document.getElementById('detailModal');
-    const modalBox = modal.querySelector('.transform');
-    
-    // Lock background page scroll completely steady
-    document.body.classList.add('overflow-hidden');
-    
-    // Set dynamic assets
-    document.getElementById('modalImage').src = imageSrc;
-    document.getElementById('modalTitle').innerText = title;
-    
-    // Generate clean, custom worded bullet points
-    const listContainer = document.getElementById('modalList');
-    listContainer.innerHTML = ''; 
-    
-    itemsArray.forEach(item => {
-        const li = document.createElement('li');
-        li.className = 'flex items-center gap-2';
-        li.innerHTML = `
-            <svg class="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span>${item}</span>
-        `;
-        listContainer.appendChild(li);
-    });
-
-    // Handle animations smoothly
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        modalBox.classList.remove('scale-95');
-        modalBox.classList.add('scale-100');
-    }, 10);
-}
-
-function closeDetailModal() {
-    const modal = document.getElementById('detailModal');
-    const modalBox = modal.querySelector('.transform');
-    
-    // Restore normal website scrolling
-    document.body.classList.remove('overflow-hidden');
-    
-    modal.classList.add('opacity-0');
-    modalBox.classList.remove('scale-100');
-    modalBox.classList.add('scale-95');
-    
-    setTimeout(() => {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-    }, 300);
-}
-   
-
-function handleClientLogout() {
-    localStorage.removeItem('authenticatedProId');
-    localStorage.removeItem('authenticatedProUser');
-    window.location.reload();
-}
-    function resetLoginButton(button) {
-        button.disabled = false;
-        button.innerText = "Log in";
-    }
-    function handleClientLogout() {
-        window.currentAuthenticatedUserDoc = null;
-        document.getElementById('anonymousLoginGateway').classList.remove('hidden');
-        document.getElementById('authorizedClientDashboard').classList.add('hidden');
-        document.getElementById('clientLoginForm').reset();
-    }
-	
-</script>
         <div 
     id="clientRegisterModal" 
     class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity opacity-0 duration-300"
@@ -727,59 +510,173 @@ function handleClientLogout() {
         </div>
     </div>
 
-    <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2 mt-4">📍 Location Information</p>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div>
-            <label for="country" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Country:</label>
-            <select id="country" name="country" required disabled class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40">
-                <option value="">Loading...</option>
+   <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2 mt-4">📍 Location Information</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+    <div>
+        <label for="country" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Country:</label>
+        <select id="country" name="country" onchange="onCountryChange()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors">
             </select>
-        </div>
-        <div>
-            <label for="state" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">State/Province:</label>
-            <select id="state" name="state" required disabled class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40">
-                <option value="">-- Select --</option>
-            </select>
-        </div>
-        <div>
-            <label for="city" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Municipality/City:</label>
-            <select id="city" name="city" required disabled class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40">
-                <option value="">-- Select --</option>
-            </select>
-        </div>
     </div>
 
-    <div class="status-text hidden" id="statusText"></div>
+    <div class="relative">
+        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">State / Province:</label>
+        <input type="text" id="state" placeholder="Type Province (e.g. Laguna)" oninput="searchLocationLevel('state')" autocomplete="off"
+               class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" />
+        <div id="state-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+    </div>
+
+    <div class="relative">
+        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">City / Municipality:</label>
+        <input type="text" id="city" placeholder="Type City (e.g. Santa Rosa)" oninput="searchLocationLevel('city')" autocomplete="off" disabled
+               class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40" />
+        <div id="city-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+    </div>
+</div>
+
+<div class="w-full mb-4">
+    <label for="street-address" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Address Details (Optional):</label>
+    <input type="text" id="street-address" name="street" 
+           class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" 
+           placeholder="e.g. 123 Sesame St. ATBP Subd. Brgy.Batibot" />
+</div>
+
+<div class="w-full">
+    <button type="button" onclick="togglePinningMap()" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 font-mono px-3 py-1.5 rounded flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-map-location-dot"></i> 📍 Map Pin Location (Optional)
+    </button>
+    
+    <div id="pinningMapWrapper" class="hidden mt-3 space-y-2">
+        <div id="registerMap" class="w-full h-[220px] rounded-xl border border-slate-800 bg-slate-950 overflow-hidden"></div>
+        <div class="flex items-center gap-4 text-[10px] font-mono text-slate-400 px-1">
+            <span>Lat: <strong id="displayLat" class="text-white">14.3142</strong></span>
+            <span>Lng: <strong id="displayLng" class="text-white">121.1114</strong></span>
+            <span class="text-emerald-400 ml-auto flex items-center gap-1"><i class="fa-solid fa-circle-check"></i>Draggable Pin to Estimated Location</span>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="geoLat" value="14.3142">
+<input type="hidden" id="geoLng" value="121.1114">
 
     <button type="submit" class="w-full py-3 mt-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono whitespace-nowrap cursor-pointer transition-all transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] active:from-emerald-600 active:to-emerald-700 flex items-center justify-center gap-2">
         <span>CONTINUE TO ACCOUNT SETUP →</span>
     </button>
 </form>
 
-<form id="clientSecurityForm" onsubmit="handleClientRegistration(event)" class="space-y-4 hidden">
-    <p class="text-[11px] text-cyan-400 tech-mono uppercase tracking-wider mb-2">🔐 Account's Credentials Configuration</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Email Address *</label>
-            <input type="email" id="clientEmail" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors" placeholder="name@domain.com">
-        </div>
-        <div>
-            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Create Password *</label>
-            <input type="password" id="clientPassword" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="••••••••">
-        </div>
-    </div>
-    
-    <div class="flex gap-4 mt-2">
-        <button type="button" onclick="regressToClientInfoPhase()" class="w-1/4 py-3 bg-slate-950 text-slate-400 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider whitespace-nowrap cursor-pointer transition-all transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.96] active:bg-slate-900 active:text-slate-300">
-            ← Back
-        </button>
-        
-        <button type="submit" id="clientRegSubmitBtn" class="w-3/4 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed disabled:transform-none disabled:animate-pulse disabled:shadow-none text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] shadow-[0_0_20px_rgba(245,158,11,0.2)] cursor-pointer">
-            💾 COMPLETE CLIENT REGISTRATION
-        </button>
-    </div>
-</form>
+<form id="clientSecurityForm"
+      onsubmit="handleClientRegistration(event)"
+      class="space-y-4 hidden">
 
+    <p class="text-[11px] text-cyan-400 tech-mono uppercase tracking-wider mb-2">
+        🔐 Account Credentials
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <div>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                Email Address *
+            </label>
+
+            <input
+                type="email"
+                id="clientEmail"
+                required
+                class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                placeholder="name@domain.com">
+        </div>
+
+       <div>
+    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+        Create Password *
+    </label>
+
+    <div class="relative">
+
+        <input
+            type="password"
+            id="clientPassword"
+            required
+            class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 pr-10 text-xs text-white focus:outline-none focus:border-cyan-500"
+            placeholder="••••••••">
+
+        <button
+            type="button"
+            onclick="togglePassword('clientPassword', this)"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-amber-400 transition">
+
+            <i class="fa-regular fa-eye"></i>
+
+        </button>
+
+    </div>
+</div>
+
+    </div>
+
+    <!-- TERMS -->
+    <div class="border border-slate-800 rounded-xl bg-slate-950 p-4">
+
+        <label class="flex items-start gap-3 cursor-pointer">
+
+            <input
+                id="clientTermsAgree"
+                type="checkbox"
+                class="mt-1 accent-emerald-500">
+
+            <span class="text-xs text-slate-300 leading-relaxed">
+
+                I have read and agree to the
+
+                <button
+                    type="button"
+                    onclick="openPrivacyModal()"
+                    class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">
+
+                    Privacy Policy
+
+                </button>
+
+                and
+
+                <button
+                    type="button"
+                    onclick="openTermsModal()"
+                    class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">
+
+                    Terms & Conditions
+
+                </button>.
+
+            </span>
+
+        </label>
+
+    </div>
+
+    <div class="flex gap-4 mt-2">
+
+        <button
+            type="button"
+            onclick="regressToClientInfoPhase()"
+            class="w-1/4 py-3 bg-slate-950 border border-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase">
+
+            ← Back
+
+        </button>
+
+        <button
+            type="submit"
+            id="clientRegSubmitBtn"
+            class="w-3/4 py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono">
+
+            💾 COMPLETE CLIENT REGISTRATION
+
+        </button>
+
+    </div>
+
+</form>
 <div id="clientSuccessPanel" class="hidden text-center py-8 space-y-4">
     <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center text-slate-950 text-2xl font-black mx-auto shadow-[0_0_25px_rgba(16,185,129,0.4)] animate-[bounce_1s_ease-out_1]">✓</div>
     <h4 class="text-xl font-bold text-white tech-mono uppercase tracking-wide">Account Created</h4>
@@ -814,7 +711,7 @@ function handleClientLogout() {
         </div>
 
         <form id="proInfoForm" onsubmit="advanceToProSecurityPhase(event)" class="space-y-4">
-    <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2"> 👤 Personal Profile Information</p>
+    <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2"> 👤 Name and Contact Information</p>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -827,21 +724,53 @@ function handleClientLogout() {
         </div>
     </div>
 
-    <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2 mt-2">📍 Location & Expertise Information</p>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div>
-            <label for="proCountry" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">State / Province *</label>
-            <input type="text" id="proCountry" name="country" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. Laguna">
-        </div>
-        <div>
-            <label for="proState" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Municipality / City *</label>
-            <input type="text" id="proState" name="state" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. Sta. Rosa City">
-        </div>
-        <div>
-            <label for="proCity" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">District / Barangay *</label>
-            <input type="text" id="proCity" name="city" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="e.g. Brgy Pooc">
+   <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2 mt-4">📍 Location & Workshop Information</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+    <div>
+        <label for="proCountry" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Country *</label>
+        <select id="proCountry" name="country" onchange="onProCountryChange()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors">
+            </select>
+    </div>
+
+    <div class="relative">
+        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">State / Province *</label>
+        <input type="text" id="proState" placeholder="Type State (e.g. Laguna)" oninput="searchProLocation('state')" autocomplete="off"
+               class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" />
+        <div id="proState-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+    </div>
+
+    <div class="relative">
+        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">City / Municipality *</label>
+        <input type="text" id="proCity" placeholder="Type City (e.g. Santa Rosa)" oninput="searchProLocation('city')" autocomplete="off" disabled
+               class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors disabled:opacity-40" />
+        <div id="proCity-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+    </div>
+</div>
+
+<div class="w-full mb-4">
+    <label for="proStreet" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Address Details (Optional):</label>
+    <input type="text" id="proStreet" name="street" 
+           class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" 
+           placeholder="e.g. 123 Sesame St. ATBP Subd. Brgy.Batibot" />
+</div>
+
+<div class="w-full mb-4">
+    <button type="button" onclick="toggleProMap()" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-cyan-500 text-cyan-400 font-mono px-3 py-1.5 rounded flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-map-location-dot"></i>📍 Map Pin Location
+    </button>
+    
+    <div id="proMapWrapper" class="hidden mt-3 space-y-2">
+        <div id="proMapCanvas" class="w-full h-[220px] rounded-xl border border-slate-800 bg-slate-950 overflow-hidden"></div>
+        <div class="flex items-center gap-4 text-[10px] font-mono text-slate-400 px-1">
+            <span>Lat: <strong id="proDisplayLat" class="text-white">14.3142</strong></span>
+            <span>Lng: <strong id="proDisplayLng" class="text-white">121.1114</strong></span>
+            <span class="text-cyan-400 ml-auto flex items-center gap-1"><i class="fa-solid fa-crosshairs"></i>Set Exact Pin Specially on Workshop Location</span>
         </div>
     </div>
+</div>
+
+<input type="hidden" id="proGeoLat" value="14.3142">
+<input type="hidden" id="proGeoLng" value="121.1114">
     <!-- Service Preference Selection (Dropdown) -->
 <div>
     <label for="servicePreference" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Setup Preference *</label>
@@ -907,27 +836,120 @@ function handleClientLogout() {
     </button>
 </form>
 
-<form id="proSecurityForm" onsubmit="handleProRegister(event)" class="space-y-4 hidden mt-6 border-t border-cyan-900/50 pt-6">
-    <p class="text-[11px] text-amber-400 tech-mono uppercase tracking-wider mb-2"> 🔐 Security & Login Credentials</p>
-    
+<form id="proSecurityForm"
+      onsubmit="handleProRegister(event)"
+      class="hidden mt-6 space-y-5 border-t border-cyan-900/50 pt-6">
+
+    <!-- Header -->
     <div>
-        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Email Address *</label>
-        <input type="email" id="proEmail" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="expert@example.com">
-    </div>
-    
-    <div>
-        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Password * (Min 6 characters)</label>
-        <input type="password" id="proPassword" required minlength="6" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="••••••••">
+        <p class="text-[11px] uppercase tracking-[0.2em] text-cyan-400 font-semibold">
+            🔐 Security & Login Credentials
+        </p>
+        <p class="text-xs text-slate-500 mt-1">
+            Create your login credentials to finish your professional account.
+        </p>
     </div>
 
-    <div class="flex gap-3 mt-6">
-        <button type="button" onclick="returnToPhaseOne()" class="w-1/3 py-3 bg-slate-800 text-slate-300 hover:text-white font-bold rounded-xl uppercase text-xs tech-mono transition-all">
-            ← BACK
-        </button>
-        <button type="submit" id="proSubmitBtn" class="w-2/3 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold rounded-xl uppercase text-xs tech-mono transition-all">
-            💾 COMPLETE REGISTRATION
-        </button>
+    <!-- Email -->
+    <div>
+        <label class="block mb-2 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            Email Address
+        </label>
+
+        <input
+            type="email"
+            id="proEmail"
+            required
+            placeholder="expert@example.com"
+            class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder-slate-500 transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none">
     </div>
+
+    <!-- Password -->
+    <div class="relative">
+
+    <input
+        type="password"
+        id="proPassword"
+        required
+        minlength="6"
+        class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 pr-10 text-xs text-white focus:outline-none focus:border-cyan-500"
+        placeholder="••••••••">
+
+    <button
+        type="button"
+        onclick="togglePassword('proPassword', this)"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-400 transition">
+
+        <i class="fa-regular fa-eye"></i>
+
+    </button>
+
+</div>
+
+    <!-- Terms -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+
+        <label class="flex items-start gap-3 cursor-pointer">
+
+            <input
+                type="checkbox"
+                id="proTermsAgree"
+                required
+                class="mt-1 h-4 w-4 accent-cyan-500">
+
+            <span class="text-xs leading-6 text-slate-300">
+
+                I have read and agree to the
+
+                <button
+                    type="button"
+                    onclick="openPrivacyModal()"
+                    class="font-medium text-cyan-400 hover:text-cyan-300 hover:underline">
+
+                    Privacy Policy
+
+                </button>
+
+                and
+
+                <button
+                    type="button"
+                    onclick="openTermsModal()"
+                    class="font-medium text-cyan-400 hover:text-cyan-300 hover:underline">
+
+                    Terms & Conditions
+
+                </button>.
+
+            </span>
+
+        </label>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex gap-3 pt-2">
+
+        <button
+            type="button"
+            onclick="returnToPhaseOne()"
+            class="flex-1 rounded-xl border border-slate-700 bg-slate-800 py-3 text-xs font-bold uppercase tracking-wider text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white">
+
+            ← Back
+
+        </button>
+
+        <button
+            type="submit"
+            id="proSubmitBtn"
+            class="flex-[2] rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3 text-xs font-bold uppercase tracking-wider text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-[1.02] hover:shadow-cyan-500/40">
+
+            🚀 Complete Registration
+
+        </button>
+
+    </div>
+
 </form>
     </div>        
 </div>
@@ -940,9 +962,8 @@ function handleClientLogout() {
             </div>        
         </div>
 
-       <!-- SYSTEM FOOTER -->
-<!-- 1. YOUR CLEAN FOOTER (Leave this exactly as it is) -->
-<footer class="bg-slate-950 border-t border-slate-900 py-12 px-6">
+
+<footer class="fixed bottom-0 w-full bg-slate-950 border-t border-slate-900 p-3 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
         <div class="group select-none max-w-max cursor-default">
     <div class="relative inline-block">
@@ -1014,12 +1035,12 @@ function handleClientLogout() {
         <div class="mb-6 border-b border-slate-800/60 pb-4">
             <div class="flex items-center gap-2">
                 <h3 class="text-white font-bold text-lg">Development Progress</h3>
-                <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">v1.0.0-Beta</span>
+                <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">v1.0.3-Beta</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">Real-time status tracking of Circuit-Service infrastructure.</p>
         </div>
 
-        <div class="space-y-5 font-sans text-left relative pl-1">
+         <div class="space-y-5 font-sans text-left relative pl-1">
             
             <div class="absolute left-[4px] top-2 bottom-2 w-[1px] bg-slate-800"></div>
             
@@ -1035,33 +1056,33 @@ function handleClientLogout() {
             </div>
 
             <div class="roadmap-item flex gap-4 relative transition-all duration-500 ease-out opacity-0 translate-y-4 transform">
-                <div class="z-10 w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 flex-shrink-0 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
+                <div class="z-10 w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 flex-shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <span class="text-xs font-semibold text-slate-200">Portal Registration</span>
-                        <span class="text-[9px] px-1 bg-amber-500/10 text-amber-400 rounded">90%</span>
+                        <span class="text-[9px] px-1 bg-emerald-500/10 text-emerald-400 rounded">100%</span>
                     </div>
                     <p class="text-[11px] text-slate-400 mt-0.5">Finishing client, enthusiast, and professional verification tools.</p>
                 </div>
             </div>
 
             <div class="roadmap-item flex gap-4 relative transition-all duration-500 ease-out opacity-0 translate-y-4 transform">
-                <div class="z-10 w-2.5 h-2.5 rounded-full bg-white mt-1 flex-shrink-0 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
+                <div class="z-10 w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 flex-shrink-0 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <span class="text-xs font-semibold text-slate-200">Content Sharing & Engagement</span>
-                        <span class="text-[9px] px-1 bg-slate-800 text-slate-200 rounded">15%</span>
+                        <span class="text-[9px] px-1 bg-amber-500/10 text-amber-500 rounded">67%</span>
                     </div>
                     <p class="text-[11px] text-slate-500 mt-0.5">Sharing electronic articles, testimonials, likes, and comments.</p>
                 </div>
             </div>
 
-            <div class="roadmap-item flex gap-4 relative transition-all duration-500 ease-out opacity-0 translate-y-4 transform">
-                <div class="z-10 w-2.5 h-2.5 rounded-full bg-slate-700 mt-1 flex-shrink-0"></div>
+             <div class="roadmap-item flex gap-4 relative transition-all duration-500 ease-out opacity-0 translate-y-4 transform">
+                <div class="z-10 w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 flex-shrink-0 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-xs font-semibold text-slate-400">Location-Based Smart Routing</span>
-                        <span class="text-[9px] px-1 bg-slate-800 text-slate-500 rounded">Pending</span>
+                        <span class="text-xs font-semibold text-slate-200">Location-Based Smart Routing</span>
+                        <span class="text-[9px] px-1 bg-amber-500/10 text-amber-500 rounded">55%</span>
                     </div>
                     <p class="text-[11px] text-slate-500 mt-0.5">Connecting users instantly with matching, available pros nearby via location services.</p>
                 </div>
@@ -1083,7 +1104,7 @@ function handleClientLogout() {
                         <span class="text-xs font-semibold text-slate-400">Beta Launch Deployment</span>
                         <span class="text-[9px] px-1 bg-slate-800 text-slate-500 rounded">Next</span>
                     </div>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Field testing service execution workflows across test nodes.</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Testing live service workflows across mobile test devices.</p>
                 </div>
             </div>
 
@@ -1182,1621 +1203,9 @@ function handleClientLogout() {
 </div>
     
 
- <script>
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyDvYhemJCzP4Q30_GAs5DzA-nbrdMqBthU",
-          authDomain: "circuit-service.firebaseapp.com",
-          projectId: "circuit-service",
-          storageBucket: "circuit-service.firebasestorage.app",
-          messagingSenderId: "931697304500",
-          appId: "1:931697304500:web:9d6c2521d5953fa64308e1"
-        };
-
-       if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-	
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-        let currentAuthenticatedUserDoc = null;
-        function switchLoginRole(role) {
-    const clientBtn = document.getElementById('tabBtnClient');
-    const proBtn = document.getElementById('tabBtnPro');
-    const subtitle = document.getElementById('loginSubtitle');
-    const mainTitle = document.getElementById('loginMainTitle');
-
-    // Prevent re-triggering animation if the user clicks an already active tab
-    if (role === 'client' && clientBtn.classList.contains('bg-amber-500')) return;
-    if (role === 'pro' && proBtn.classList.contains('bg-blue-500')) return;
-
-    // 1. Fade out the text headings briefly
-    subtitle.classList.remove('opacity-100');
-    mainTitle.classList.remove('opacity-100');
-    subtitle.classList.add('opacity-0');
-    mainTitle.classList.add('opacity-0');
-
-    // 2. Wait for the text fade-out transition, then update text and fade back in
-    setTimeout(() => {
-        if (role === 'client') {
-            // Update Text Strings
-            subtitle.innerText = 'Sign In to Your Account';
-            mainTitle.innerText = 'Log In to Your User Profile';
-            
-            // Re-apply Client Accent Colors
-            subtitle.classList.remove('text-blue-400');
-            subtitle.classList.add('text-amber-400');
-        } else {
-            // Update Text Strings
-            subtitle.innerText = 'Sign In as Professional';
-            mainTitle.innerText = 'Log In to Your Dashboard';
-            
-            // Switch accent color to tech-blue for professionals
-            subtitle.classList.remove('text-amber-400');
-            subtitle.classList.add('text-blue-400');
-        }
-
-        // Fade headings back into view
-        subtitle.classList.remove('opacity-0');
-        mainTitle.classList.remove('opacity-0');
-        subtitle.classList.add('opacity-100');
-        mainTitle.classList.add('opacity-100');
-    }, 200);
-
-    // 3. Morph Tab Styles concurrently
-    if (role === 'client') {
-        // Activate Client Button
-        clientBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out bg-amber-500 text-slate-950 shadow-md shadow-amber-500/10 transform active:scale-98";
-        
-        // Deactivate Pro Button
-        proBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out text-slate-400 hover:text-white bg-transparent transform active:scale-98";
-    } else {
-        // Activate Pro Button (Uses a high-end Tech-Blue accent for the Engr workspace)
-        proBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out bg-blue-500 text-slate-950 shadow-md shadow-blue-500/10 transform active:scale-98";
-        
-        // Deactivate Client Button
-        clientBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out text-slate-400 hover:text-white bg-transparent transform active:scale-98";
-    }
-}
-window.handleUnifiedLogin = async function(e) {
-    if (e) e.preventDefault();
-
-    const email = document.getElementById('loginUser').value.trim();
-    const pass = document.getElementById('loginPass').value;
-    const loginBtn = document.getElementById('loginButtonElement');
-    const currentRole = document.getElementById('loginTargetRole') ? document.getElementById('loginTargetRole').value : 'client';
-
-    try {
-        if (loginBtn) {
-            loginBtn.disabled = true;
-            loginBtn.innerText = "⏳ VERIFYING... PLEASE WAIT";
-        }
-
-        // 1. Authenticate with Firebase Auth
-        const userCredential = await auth.signInWithEmailAndPassword(email, pass);
-
-        // 2. Check Verification Status
-        if (!userCredential.user.emailVerified) {
-            alert("Account not verified. Please check your email.");
-            await auth.signOut();
-            return;
-        }
-
-        // 3. Determine which collection to search based on Role
-        const targetedCollection = (currentRole === 'client') ? 'client_users' : 'pro_registers';
-
-        // 4. Fetch the profile data using the Auth UID
-        const userDocRef = await db.collection(targetedCollection).doc(userCredential.user.uid).get();
-
-        if (userDocRef.exists) {
-            const userData = userDocRef.data();
-            
-            // Set the global variable so your ticket submission function can use it
-            window.currentAuthenticatedUserDoc = userData;
-            // Ensure the doc has an ID property for ticket tracking
-            window.currentAuthenticatedUserDoc.clientId = userCredential.user.uid;
-
-            if (currentRole === 'client') {
-                // --- UPDATE CLIENT DASHBOARD UI ---
-                if (document.getElementById('dashClientName')) document.getElementById('dashClientName').innerText = userData.name || userData.clientName || 'Client';
-                if (document.getElementById('metaEmail')) document.getElementById('metaEmail').innerText = userData.email || email;
-                if (document.getElementById('metaPhone')) document.getElementById('metaPhone').innerText = userData.phone || '';
-                if (document.getElementById('metaLocation')) {
-        document.getElementById('metaLocation').innerText = userData.location || 'No location configured';
-    }
-                // Hide Login Panel, Show Dashboard
-                const loginGateway = document.getElementById('anonymousLoginGateway');
-                const clientDashboard = document.getElementById('authorizedClientDashboard');
-
-           if (document.getElementById('anonymousLoginGateway')) document.getElementById('anonymousLoginGateway').classList.add('hidden');
-    if (document.getElementById('authorizedClientDashboard')) document.getElementById('authorizedClientDashboard').classList.remove('hidden');
-
-    if (typeof loadClientTicketHistory === 'function') {
-        loadClientTicketHistory(userCredential.user.uid);
-                }
-            } else {
-                // --- PRO REDIRECTION ---
-                localStorage.setItem('authenticatedProId', userCredential.user.uid);
-                window.location.href = 'pro_profile.html'; 
-            }
-
-        } else {
-            alert(`Access Denied: No profile found in our ${currentRole.toUpperCase()} records.`);
-            await auth.signOut();
-        }
-
-    } catch (err) {
-        console.error("Login Error: ", err);
-        alert("Login Error: " + err.message);
-    } finally {
-        if (loginBtn) {
-            loginBtn.disabled = false;
-            loginBtn.innerText = "Log in";
-        }
-    }
-	// Inside your auth state change listener
-auth.onAuthStateChanged((user) => {
-    const loginBtn = document.getElementById('navLoginBtn');
-    const regClientBtn = document.getElementById('navRegisterClientBtn');
-    const regProBtn = document.getElementById('navRegisterProBtn');
-    const logoutBtn = document.getElementById('navLogoutBtn');
-
-    if (user) {
-        // --- USER IS LOGGED IN ---
-        // Force hide the authentication buttons
-        if (loginBtn) loginBtn.style.setProperty('display', 'none', 'important');
-        if (regClientBtn) regClientBtn.style.setProperty('display', 'none', 'important');
-        if (regProBtn) regProBtn.style.setProperty('display', 'none', 'important');
-        
-        // Force show the Logout button at the top right
-        if (logoutBtn) logoutBtn.style.setProperty('display', 'inline-block', 'important');
-
-        // Run data fetching routines
-        if (typeof loadAccountInformation === 'function') {
-            loadAccountInformation(user.uid);
-        }
-        if (typeof loadClientTicketHistory === 'function') {
-            loadClientTicketHistory(user.uid);
-        }
-    } else {
-        // --- USER IS LOGGED OUT ---
-        // Restore buttons back to visibility
-        if (loginBtn) loginBtn.style.setProperty('display', 'inline-block', 'important');
-        if (regClientBtn) regClientBtn.style.setProperty('display', 'inline-block', 'important');
-        if (regProBtn) regProBtn.style.setProperty('display', 'inline-block', 'important');
-        
-        // Hide the top-right logout button
-        if (logoutBtn) logoutBtn.style.setProperty('display', 'none', 'important');
-    }
-});
-};
-
-function handleClientLogout() {
-    currentAuthenticatedUserDoc = null;
-    
-    const authGroup = document.getElementById('navAuthGroup');
-    if (authGroup) {
-        authGroup.style.display = 'flex';
-    }
-
-    document.getElementById('authorizedClientDashboard').classList.add('hidden');
-    document.getElementById('anonymousLoginGateway').classList.remove('hidden');
-    document.getElementById('clientLoginForm').reset();
-    const gridEl = document.getElementById('clientTicketsGrid');
-    if (gridEl) gridEl.innerHTML = '';
-}
-function updateServiceTermsBanner(selectElement) {
-    const banner = document.getElementById('serviceTermsBanner');
-    const selectedValue = selectElement.value;
-    
-    // Define the categories
-    const noFixNoPayServices = ['repair', 'computer', 'industrial', 'software'];
-    const projectBasedServices = ['academic', 'schematic', 'cctv', 'solar'];
-    
-    if (noFixNoPayServices.includes(selectedValue)) {
-        // Apply Green styling for No Fix, No Pay
-        banner.className = "mt-2 p-2.5 rounded-lg border border-emerald-900/50 bg-emerald-950/20 text-emerald-400 text-[11px] flex gap-2 items-start transition-all duration-300";
-        banner.innerHTML = `
-            <i class="fa-solid fa-shield-halved mt-0.5"></i> 
-            <div>
-    <strong class="uppercase tracking-wider text-xs text-white block mb-1">
-        No Fix / Not Done, No Pay
-    </strong> 
-    
-    <span class="text-emerald-400/90 leading-relaxed">
-        You will only be charged if the Tech/Engr successfully repairs or completes this service.
-    </span>
+ 
 </div>
-        `;
-    } else if (projectBasedServices.includes(selectedValue)) {
-    // Apply Blue styling for Project-Based
-    banner.className = "mt-2 p-2.5 rounded-lg border border-blue-900/50 bg-blue-950/20 text-blue-400 text-[11px] flex gap-2 items-start transition-all duration-300";
-    banner.innerHTML = `
-        <i class="fa-solid fa-file-contract mt-0.5"></i> 
-        <div>
-            <strong class="uppercase tracking-wider text-xs text-white block mb-1">Project-Based Agreement</strong> 
-            <span class="text-blue-400/90 leading-relaxed">
-                This job requires an initial fund or payment to the Tech/Engr to proceed with the project. Final terms will be based on the agreement between You and the Professional.
-            </span>
-        </div>
-        `;
-    } else {
-        // Hide if nothing valid is selected
-        banner.className = "hidden";
-    }
-}
 
-function toggleServiceLocationField() {
-    const selectMode = document.getElementById('dashServiceMode');
-    const banner = document.getElementById('serviceModeBanner');
-    const locationInput = document.getElementById('dashProjectLocation'); // The address text input
-    
-    const selectedValue = selectMode.value;
-
-    // 1. UPDATE THE BANNER UI
-    let bannerContent = "";
-    
-    if (selectedValue === "Home Service") {
-        bannerContent = `
-            <i class="fa-solid fa-house-user mt-0.5"></i>
-            <div>
-                <strong class="uppercase tracking-wider text-xs text-white block mb-1">Home Service (On-site Visit)</strong>
-                <span class="text-amber-400/90 leading-relaxed">Please provide your exact address so the Technician or Engineer can visit your location to perform the service.</span>
-            </div>
-        `;
-    } else if (selectedValue === "Bring to Workshop") {
-        bannerContent = `
-            <i class="fa-solid fa-shop mt-0.5"></i>
-            <div>
-                <strong class="uppercase tracking-wider text-xs text-white block mb-1">Bring to Workshop (Drop-off)</strong>
-                <span class="text-amber-400/90 leading-relaxed">Once your request is accepted, you may view the workshop location for device drop-off and coordinate with the Tech/Engr.</span>
-            </div>
-        `;
-    } else if (selectedValue === "Agreed Location") {
-        bannerContent = `
-            <i class="fa-solid fa-handshake mt-0.5"></i>
-            <div>
-                <strong class="uppercase tracking-wider text-xs text-white block mb-1">Agreed Location (Meet-up)</strong>
-                <span class="text-amber-400/90 leading-relaxed">Ideal for remote services, such as Schematic Design, PCB layout, Software, or Academic Project Prototyping. Meet at a mutually agreed-upon location.</span>
-            </div>
-        `;
-    }
-
-    // Apply styles and inject content if an option is selected
-    if (bannerContent) {
-        banner.className = "mt-2 p-2.5 rounded-lg border border-amber-900/50 bg-amber-950/20 text-amber-400 text-[11px] flex gap-2 items-start transition-all duration-300";
-        banner.innerHTML = bannerContent;
-    } else {
-        banner.className = "hidden";
-    }
-
-    // 2. MANAGE THE TEXT INPUT FIELD (Keep your existing form logic intact)
-    if (locationInput) {
-        if (selectedValue === "Home Service" || selectedValue === "Agreed Location") {
-            locationInput.disabled = false;
-            // Dynamically change placeholder based on choice
-            locationInput.placeholder = selectedValue === "Home Service" 
-                ? "Type complete address for home service..." 
-                : "Type suggested meet-up location or address...";
-        } else if (selectedValue === "Bring to Workshop") {
-            // Disable input because the tech's workshop handles the location
-            locationInput.disabled = false;
-            locationInput.value = "";
-            locationInput.placeholder = "Type your location/address to notify the nearest workshop.";
-        }
-    }
-}
-// Global tracker array to hold the actual files scheduled for upload
-let selectedFilesArray = [];
-
-// --- Handles New File Input Selections ---
-window.handleFileSelection = function(e) {
-    const files = e.target.files;
-    if (!files) return;
-
-    // Convert FileList to normal Array and append to our tracker list
-    Array.from(files).forEach(file => {
-        selectedFilesArray.push(file);
-    });
-
-    // Clear input field value so the user can re-select the same file if they want to later
-    e.target.value = ""; 
-
-    // Re-render the thumbnail display matrix
-    renderMediaPreviews();
-};
-
-// --- Renders Grid Display with Functional Remove Buttons ---
-window.renderMediaPreviews = function() {
-    const previewGrid = document.getElementById('formMediaPreviewGrid');
-    if (!previewGrid) return;
-    
-    previewGrid.innerHTML = ""; // Clear existing grid space
-
-    selectedFilesArray.forEach((file, index) => {
-        const reader = new FileReader();
-        
-        // Wrapper container for the element block
-        const mediaWrapper = document.createElement('div');
-        mediaWrapper.className = "relative aspect-square rounded-lg border border-slate-800 bg-slate-950 overflow-hidden group shadow-md";
-
-        // Read and parse the file data stream
-        reader.onload = function(event) {
-            let innerContent = "";
-            
-            if (file.type.startsWith('image/')) {
-                innerContent = `<img src="${event.target.result}" class="w-full h-full object-cover">`;
-            } else if (file.type.startsWith('video/')) {
-                innerContent = `
-                    <video src="${event.target.result}" class="w-full h-full object-cover"></video>
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <span class="text-[10px] text-amber-400 font-bold bg-slate-900/80 px-1.5 py-0.5 rounded border border-amber-500/30">VIDEO</span>
-                    </div>`;
-            }
-
-            // Inject media payload layout + the interactive remove button (✕)
-            mediaWrapper.innerHTML = `
-                ${innerContent}
-                <button type="button" onclick="removeSelectedFile(${index})" class="absolute top-1 right-1 w-5 h-5 bg-slate-950/80 hover:bg-red-600 border border-slate-700/50 hover:border-red-500 text-white hover:text-white rounded-full flex items-center justify-center text-[10px] font-bold cursor-pointer transition-all shadow-md z-10">
-                    ✕
-                </button>
-            `;
-        };
-        
-        reader.readAsDataURL(file);
-        previewGrid.appendChild(mediaWrapper);
-    });
-};
-
-// --- Target execution to remove specific item array indexes ---
-window.removeSelectedFile = function(indexToRemove) {
-    // Splice target index position out of active stack allocation
-    selectedFilesArray.splice(indexToRemove, 1);
-    
-    // Refresh preview interface state matching updated array
-    renderMediaPreviews();
-};
-
-// --- Updated Submission Handler (Uses the tracked array) ---
-window.handleDashboardServiceSubmission = async function(e) {
-    // 1. Prevent native form submission reloads safely
-    if (e && e.preventDefault) e.preventDefault();
-    else if (window.event) window.event.preventDefault();
-
-    const submitBtn = document.getElementById('dashTicketSubmitBtn');
-    const previewGrid = document.getElementById('formMediaPreviewGrid');
-    const formElement = document.getElementById('dashboardServiceRequestForm');
-    
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>⏳ Creating Service Ticket...</span>';
-    }
-
-    try {
-       // 2. Gather structural inputs from your UI fields
-        const category = document.getElementById('dashServiceCategory').value;
-        const serviceMode = document.getElementById('dashServiceMode').value;
-        
-        // Changed back to const since we are no longer overwriting it
-        const location = (document.getElementById('dashProjectLocation').value || "").trim(); 
-        const description = (document.getElementById('dashTechnicalDetails').value || "").trim();
-
-        if (!description) {
-            throw new Error("Please provide the technical details/description.");
-        }
-
-        // Location is now ALWAYS required, but the error message is more helpful
-        if (!location) {
-            throw new Error("Please provide your location/address.");
-        }        // --------------------------
-
-        const currentUser = auth.currentUser;
-        if (!currentUser) throw new Error("Authentication context missing. Please log in.");
-
-        // 3. Fetch client profile credentials out of 'client_users'
-        if (submitBtn) {
-            submitBtn.innerHTML = '<span>⏳ Processing...</span>';
-        }
-        
-        const userDocRef = db.collection('client_users').doc(currentUser.uid);
-        const userDocSnapshot = await userDocRef.get();
-        
-        let clientName = "Unknown Client";
-        let clientContact = "N/A";
-        let clientEmail = currentUser.email || "No Email Linked";
-
-        if (userDocSnapshot.exists) {
-            const userData = userDocSnapshot.data();
-            clientName = userData.name || "Unknown Client";
-            clientContact = userData.phone || "N/A";
-        } else {
-            console.warn(`Profile document not found in client_users for UID: ${currentUser.uid}`);
-        }
-
-        // 4. Process and upload media files array if any are queued
-        const mediaUrls = [];
-        if (typeof selectedFilesArray !== 'undefined' && selectedFilesArray.length > 0) {
-            let totalSizeInBytes = 0;
-            const MAX_ALLOWED_SIZE = 100 * 1024 * 1024; // 100 MB Limit
-
-            selectedFilesArray.forEach(file => { totalSizeInBytes += file.size; });
-
-            if (totalSizeInBytes > MAX_ALLOWED_SIZE) {
-                throw new Error(`Upload blocked: Total size is ${(totalSizeInBytes / (1024 * 1024)).toFixed(1)}MB. Limit is 100MB.`);
-            }
-
-            for (let i = 0; i < selectedFilesArray.length; i++) {
-                const file = selectedFilesArray[i];
-                const uniqueFileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
-                
-                if (submitBtn) {
-                    submitBtn.innerHTML = `<span>⏳ UPLOADING: ${file.name.substring(0,12)}... (${i+1}/${selectedFilesArray.length})</span>`;
-                }
-
-                const storageRef = storage.ref(`service_media/${currentUser.uid}/${uniqueFileName}`);
-                const snapshot = await storageRef.put(file);
-                const downloadUrl = await snapshot.ref.getDownloadURL();
-                
-                mediaUrls.push({
-                    url: downloadUrl,
-                    type: file.type.startsWith('video/') ? 'video' : 'image',
-                    name: file.name
-                });
-            }
-        }
-
-        if (submitBtn) {
-            submitBtn.innerHTML = '<span>📩 Sending your service request...</span>';
-        }
-
-        // 5. Generate serial ticket tracking number
-        const randomizedIndex = Math.floor(1000 + Math.random() * 9000);
-        const dynamicTicketSerial = `CS-${randomizedIndex}`;
-
-        // 6. Compile data payload packet cleanly
-        const ticketPayload = {
-            ticketId: dynamicTicketSerial,
-            clientId: currentUser.uid,
-            clientName: clientName,
-            clientPhone: clientContact, // Fixed cross-reference variable allocation match
-            clientEmail: clientEmail,
-            category: category,
-            serviceMode: serviceMode,
-            projectLocation: location,
-            jobDetails: description,
-            attachments: mediaUrls,
-            status: "new",
-            acceptedById: "",
-            acceptedByName: "",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        // Write directly to your unified firestore database collection
-        await db.collection('client_tickets').add(ticketPayload);
-
-        // 7. Clear view layout tracking architectures on deployment success
-        if (formElement) formElement.reset();
-        else e.target.reset();
-
-        if (typeof selectedFilesArray !== 'undefined') {
-            selectedFilesArray = []; // Flush tracking matrix cache array
-        }
-        if (previewGrid) previewGrid.innerHTML = "";
-        
-        alert(`✅Service request sent! An expert Technician or Engineer will review and accept your ticket shortly. Service #: ${dynamicTicketSerial}`);
-
-    } catch (err) {
-        console.error("Submission Error Pipeline Block:", err);
-        alert("Transmission Interrupted: " + err.message);
-    } finally {
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span>⚡ Create and Send Service Request</span>';
-        }
-    }
-};
-function populateDropdown(selectElement, data, placeholder) {
-    selectElement.innerHTML = `<option value="">${placeholder}</option>`;
-    data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.name; // or item.isoCode
-        option.textContent = item.name;
-        selectElement.appendChild(option);
-    });
-    selectElement.disabled = false;
-}
-
-window.handleProRegister = async function(e) {
-    if (e) e.preventDefault();
-    const registerBtn = document.getElementById('proSubmitBtn');
-    
-    if (registerBtn) {
-        registerBtn.disabled = true;
-        registerBtn.innerText = "⏳ PROCESSING...";
-    }
-
-    try {
-        // Get security credentials
-        const email = document.getElementById('proEmail').value.trim();
-        const pass = document.getElementById('proPassword').value;
-        
-        // Compile combined text data from Phase 1
-        const fullLocationText = `${tempRegistrationData.city}, ${tempRegistrationData.state}, ${tempRegistrationData.country}`;
-        
-        // Create Auth Account
-        const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
-        
-        // Send the Verification Email (Crucial Step)
-        await userCredential.user.sendEmailVerification();
-        
-        // Write all combined data to Firestore
-        await db.collection('pro_registers').doc(userCredential.user.uid).set({
-            name: tempRegistrationData.name,
-            email: email,
-            phone: tempRegistrationData.phone,
-            contact: tempRegistrationData.phone,
-            location: fullLocationText,
-            serviceSetup: tempRegistrationData.servicePreference, // Added this field
-            specialties: tempRegistrationData.specialties,
-            role: "pro",
-            isVerified: false, 
-            accountCreated: new Date().toISOString()
-        });
-
-        // Force sign out so they can't bypass the email lock
-        await auth.signOut();
-
-        alert("Registration Complete! Please check your email to verify your account before logging in.");
-        
-        // Reset and close modal
-        document.getElementById('proInfoForm').reset();
-        document.getElementById('proSecurityForm').reset();
-        returnToPhaseOne(); 
-        closeProModal();
-
-    } catch (err) {
-        console.error(err);
-        alert("Registration Failed: " + err.message);
-    } finally {
-        if (registerBtn) {
-            registerBtn.disabled = false;
-            registerBtn.innerText = "💾 COMPLETE REGISTRATION";
-        }
-    }
-};
-    window.handleClientLogout = async function() {
-    try {
-        // Trigger asynchronous signature termination via Firebase backend core
-        await auth.signOut();
-        
-        window.currentAuthenticatedUserDoc = null;
-        localStorage.removeItem('authenticatedProId');
-        localStorage.removeItem('authenticatedProUser');
-
-        // Safely update fallback interface elements if they exist inside the page frame
-        if (document.getElementById('authorizedClientDashboard')) {
-            document.getElementById('authorizedClientDashboard').classList.add('hidden');
-        }
-        if (document.getElementById('anonymousLoginGateway')) {
-            document.getElementById('anonymousLoginGateway').classList.remove('hidden');
-        }
-        if (document.getElementById('clientLoginForm')) {
-            document.getElementById('clientLoginForm').reset();
-        }
-        if (document.getElementById('clientTicketsGrid')) {
-            document.getElementById('clientTicketsGrid').innerHTML = '';
-        }
-        
-        alert("Logged out securely.");
-    } catch (error) {
-        console.error("Logout Routine Aborted: ", error);
-    }
-};
-let tempRegistrationData = {};
-// --- PHASE 1: Transition to Security View ---
-window.advanceToProSecurityPhase = function(e) {
-    e.preventDefault(); // Stop the form from refreshing the page
-    
-    // 1. Check if at least one specialty is selected
-    const checkboxes = document.querySelectorAll('input[name="proSpecialties"]:checked');
-    if (checkboxes.length === 0) {
-        alert("Please select at least one core technical specialty.");
-        return;
-    }
-
-    // 2. Save Phase 1 data to our temporary object
-    tempRegistrationData = {
-        name: document.getElementById('proName').value.trim(),
-        phone: document.getElementById('proPhone').value.trim(),
-        country: document.getElementById('proCountry').value.trim(),
-        state: document.getElementById('proState').value.trim(),
-        city: document.getElementById('proCity').value.trim(),
-        servicePreference: document.getElementById('servicePreference').value,
-        specialties: Array.from(checkboxes).map(cb => cb.value)
-    };
-
-    // 3. Hide Phase 1, Show Phase 2
-    document.getElementById('proInfoForm').classList.add('hidden');
-    document.getElementById('proSecurityForm').classList.remove('hidden');
-};
-
-// --- PHASE 1.5: Optional Back Button ---
-window.returnToPhaseOne = function() {
-    document.getElementById('proSecurityForm').classList.add('hidden');
-    document.getElementById('proInfoForm').classList.remove('hidden');
-};
-window.handleClientRegistration = async function(event) {
-    if (event) event.preventDefault();
-        
-    const emailInput = document.getElementById('clientEmail');
-    const passInput = document.getElementById('clientPassword');
-    const nameInput = document.getElementById('clientName');
-    const phoneInput = document.getElementById('clientPhone');
-    const submitBtn = document.getElementById('clientRegSubmitBtn');
-        
-    if (!emailInput || !passInput) {
-        console.error("Form elements missing");
-        return; 
-    }
-
-    const email = emailInput.value.trim();
-    const pass = passInput.value;
-    const name = nameInput ? nameInput.value.trim() : "";
-    const phone = phoneInput ? phoneInput.value.trim() : "";
-
-    const country = document.getElementById('clientCountry')?.value || document.getElementById('country')?.value || "";
-    const state = document.getElementById('clientState')?.value || document.getElementById('state')?.value || "";
-    const city = document.getElementById('clientCity')?.value || document.getElementById('city')?.value || "";
-    
-    const fullLocationText = `${city}, ${state}, ${country}`;
-
-    // INITIALIZE SERVER LOADING STATE
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-            <svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-slate-500 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg> 
-            CREATING ACCOUNT...
-        `;
-    }
-
-    try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
-        await userCredential.user.sendEmailVerification();
-        
-        // Generate 6-digit Client ID
-        const sixDigitId = userCredential.user.uid.substring(0, 6).toUpperCase();
-        
-        // Write explicit data fields to Firestore
-        await db.collection('client_users').doc(userCredential.user.uid).set({
-            name: name,
-            phone: phone,
-            location: fullLocationText,
-            email: email,
-            role: 'client',
-            isVerified: false,
-            clientId: sixDigitId,
-            accountCreated: new Date().toISOString()
-        });
-
-        // SYSTEM PANEL CROSSFADE TRANSITION ANIMATION
-        const securityForm = document.getElementById('clientSecurityForm');
-        const successPanel = document.getElementById('clientSuccessPanel');
-        
-        if (securityForm && successPanel) {
-            securityForm.classList.add('opacity-0', 'transition-all', 'duration-300');
-            
-            setTimeout(() => {
-                securityForm.classList.add('hidden');
-                successPanel.classList.remove('hidden');
-                successPanel.classList.add('opacity-0', 'scale-95');
-                
-                // Animate Success Elements smoothly into view
-                setTimeout(() => {
-                    successPanel.classList.remove('opacity-0', 'scale-95');
-                    successPanel.classList.add('opacity-100', 'scale-100', 'transition-all', 'duration-500');
-                }, 50);
-            }, 300);
-        }
-        
-        if (document.getElementById('clientSuccessDetails')) {
-            document.getElementById('clientSuccessDetails').innerText = "Registration successful! Please check your email inbox to verify your account. Your Client ID is " + sixDigitId + ".";
-        }
-
-    } catch (error) {
-        alert("Registration Failed: " + error.message);
-    } finally {
-        // RESET STATE AFTER CLOUD PROCESS CONCLUDES
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "💾 COMPLETE CLIENT REGISTRATION";
-        }
-    }
-}
-function advanceToClientSecurityPhase(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    
-    document.getElementById('clientInfoForm').classList.add('hidden');
-    document.getElementById('clientSecurityForm').classList.remove('hidden');
-    const phoneInput = document.getElementById('clientPhoneInputID'); 
-    if (phoneInput && phoneInput.value) {
-        initializeClientDashboard({ phone: phoneInput.value });
-    }
-}
-function regressToClientInfoPhase() {
-    document.getElementById('clientSecurityForm').classList.add('hidden');
-    document.getElementById('clientInfoForm').classList.remove('hidden');
-}
-
-function advanceToProSecurityPhase(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    document.getElementById('proInfoForm').classList.add('hidden');
-    document.getElementById('proSecurityForm').classList.remove('hidden');
-}
-
-function regressToProInfoPhase() {
-    document.getElementById('proSecurityForm').classList.add('hidden');
-    document.getElementById('proInfoForm').classList.remove('hidden');
-}
-
-function openClientRegisterModal() {
-    const modal = document.getElementById('clientRegisterModal');
-    if (modal) {
-        // 1. Reset inner wizard forms
-        document.getElementById('clientInfoForm').classList.remove('hidden');
-        document.getElementById('clientSecurityForm').classList.add('hidden');
-        document.getElementById('clientSuccessPanel').classList.add('hidden');
-        
-        // 2. Un-hide modal base structural layout
-        modal.classList.remove('hidden');
-        
-        // 3. Target the inner scale/fade card container element
-        const modalContainer = modal.querySelector('.transform');
-        
-        // 4. Execute transition step
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            if (modalContainer) {
-                modalContainer.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
-                modalContainer.classList.add('opacity-100', 'scale-100', 'translate-y-0');
-            }
-        }, 10);
-    }
-}
-
-function closeRegisterModals() {
-    // Example for Client Modal closing
-    const clientModal = document.getElementById('clientRegisterModal');
-    if (clientModal) {
-        const container = clientModal.querySelector('.transform');
-        clientModal.classList.add('opacity-0');
-        if (container) container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
-        setTimeout(() => clientModal.classList.add('hidden'), 300);
-    }
-
-    // Example for Pro Modal closing
-    const proModal = document.getElementById('proRegisterModal');
-    if (proModal) {
-        const container = proModal.querySelector('.transform');
-        proModal.classList.add('opacity-0');
-        if (container) container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
-        setTimeout(() => proModal.classList.add('hidden'), 300);
-    }
-}
-
-function openProModal() {
-    const modal = document.getElementById('proRegisterModal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        const modalContainer = modal.querySelector('.transform');
-        
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            if (modalContainer) {
-                modalContainer.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
-                modalContainer.classList.add('opacity-100', 'scale-100', 'translate-y-0');
-            }
-        }, 10);
-    }
-    
-    if (typeof window.loadProRegistrationLocations === 'function') {
-        window.loadProRegistrationLocations();
-    }
-}
-function closeProModal() {
-    const modal = document.getElementById('proRegisterModal');
-    if (modal) {
-        const container = modal.querySelector('.transform');
-        
-        // 1. Fire reverse fade and slide animations
-        modal.classList.add('opacity-0');
-        if (container) {
-            container.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
-            container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
-        }
-        
-        // 2. Wait 300ms for the animation to finish before hiding structural block
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
-    }
-}
-
-function closeModal() {
-    const modal = document.getElementById('successModal');
-    if (modal) {
-        const container = modal.querySelector('.transform');
-        
-        // 1. Fire reverse fade and slide animations
-        modal.classList.add('opacity-0');
-        if (container) {
-            container.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
-            container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
-        }
-        
-        // 2. Wait 300ms for the animation to finish before hiding structural block
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
-    }
-}
-function toggleServiceAccordion(serviceId) {
-    const panel = document.getElementById(`desc-${serviceId}`);
-    const arrowIcon = document.getElementById(`arrow-${serviceId}`);
-
-    if (panel && arrowIcon) {
-        // Check if the panel is currently closed (max-height is 0)
-        const isClosed = panel.style.maxHeight === '0px' || !panel.style.maxHeight;
-        
-        // Target all other service panels to close them (Optional: Creates a true accordion)
-        document.querySelectorAll('[id^="desc-service-"]').forEach(otherPanel => {
-            if (otherPanel !== panel) {
-                otherPanel.style.maxHeight = '0px';
-                otherPanel.classList.remove('p-6', 'opacity-100');
-                otherPanel.classList.add('p-0', 'opacity-0');
-                const otherId = otherPanel.id.replace('desc-', '');
-                const otherArrow = document.getElementById(`arrow-${otherId}`);
-                if (otherArrow) otherArrow.classList.remove('rotate-180');
-            }
-        });
-
-        if (isClosed) {
-            // Set max-height to its exact internal content size dynamically
-            panel.style.maxHeight = panel.scrollHeight + "px";
-            panel.classList.remove('p-0', 'opacity-0');
-            panel.classList.add('p-6', 'opacity-100');
-            arrowIcon.classList.add('rotate-180');
-        } else {
-            // Drop back down to zero
-            panel.style.maxHeight = '0px';
-            panel.classList.remove('p-6', 'opacity-100');
-            panel.classList.add('p-0', 'opacity-0');
-            arrowIcon.classList.remove('rotate-180');
-        }
-    }
-}
-// Add this function to your script
-async function loadAccountInformation(uid) {
-    try {
-        const doc = await db.collection('client_users').doc(uid).get();
-        if (doc.exists) {
-            const userData = doc.data();
-            const idSpan = document.getElementById('metaId');
-            
-            if (idSpan && userData.clientId) {
-                // Set the display to the 6-digit ID
-                idSpan.textContent = userData.clientId;
-                // Store the full ID in data attribute for backend usage
-                idSpan.setAttribute('data-full-id', uid); 
-            }
-        }
-    } catch (error) {
-        console.error("Error loading account info:", error);
-    }
-}
-    </script>
-
-<script>
-    const clientStatusStyles = {
-        "new": "bg-amber-500/10 border-amber-500/40 text-amber-500",
-        "accepted": "bg-emerald-950/80 border-emerald-800 text-emerald-400",
-        "diagnostic": "bg-cyan-950/60 border-cyan-500/40 text-cyan-400", 
-        "waiting for parts": "bg-indigo-950 border-indigo-900 text-indigo-400",
-        "complete": "bg-slate-900 border-slate-800 text-slate-500",
-        "cancel": "bg-red-950 border-red-900 text-red-400"
-    };
-    function gatherDOMClientId() {
-        const fullClientId = user.uid; // Or wherever you fetch your full ID from
-const sixDigitId = fullClientId.substring(0, 6).toUpperCase();
-
-const idSpan = document.getElementById('metaId');
-if (idSpan) {
-    idSpan.textContent = sixDigitId;
-}
-        return null;
-    }
-	function setClientIdDisplay(fullId) {
-    const idSpan = document.getElementById('metaId');
-    if (idSpan) {
-        idSpan.textContent = fullId.substring(0, 6).toUpperCase();
-        idSpan.setAttribute('data-full-id', fullId); // Store the real ID safely
-    }
-}
-
-// When needing to retrieve it for queries
-function gatherDOMClientId() {
-    const idSpan = document.getElementById('metaId');
-    // Always return the full ID from the attribute, not the truncated text
-    return idSpan ? idSpan.getAttribute('data-full-id') : null;
-}
-    async function cancelClientTicket(docId) {
-        if (!docId) return;
-        const userConfirmed = confirm("Are you sure you want to cancel this service ticket?");
-        if (!userConfirmed) return;
-
-        try {
-            await db.collection('client_tickets').doc(docId).update({
-                status: 'cancel'
-            });
-            alert("Ticket successfully cancelled.");
-            const currentId = gatherDOMClientId();
-            if (currentId) loadClientTicketHistory(currentId);
-
-        } catch (error) {
-            console.error("Critical error while modifying ticket execution status:", error);
-            alert("Failed to cancel ticket. Please check connection pipelines.");
-        }
-    }
-
-    /**
-     * Client Request Telemetry Stream - Query Isolated By Client ID
-     */
-async function loadClientTicketHistory(explicitClientId) {
-    let targetId = explicitClientId || gatherDOMClientId();
-
-    const loadingEl = document.getElementById('clientTicketsLoading');
-    const emptyEl = document.getElementById('clientTicketsEmpty');
-    const gridEl = document.getElementById('clientTicketsGrid');
-    if (!loadingEl || !emptyEl || !gridEl) return;
-    
-    if (!targetId) {
-        loadingEl.innerHTML = `
-            <div class="text-slate-500 text-xs font-mono border border-slate-900 bg-slate-950 px-4 py-3 rounded-lg inline-block">
-                🔒 STANDBY: Awaiting authenticated credentials pipeline activation...
-            </div>`;
-        return;
-    }
-    
-    loadingEl.classList.remove('hidden');
-    emptyEl.classList.add('hidden');
-    gridEl.classList.add('hidden');
-    gridEl.innerHTML = '';
-
-    // Ensure the parent container uses a responsive grid system (Columns)
-    // This layouts items in 1 column on mobile, 2 columns on tablets, and 3 columns on desktops
-    gridEl.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
-
-    try {
-        console.log(`Base Query: [clientId == ${targetId}]`);
-        
-        const snapshot = await db.collection('client_tickets')
-            .where('clientId', '==', String(targetId)) 
-            .get();
-            
-        loadingEl.classList.add('hidden');
-        if (snapshot.empty) {
-            emptyEl.classList.remove('hidden');
-            return;
-        }
-        
-        let clientTickets = [];
-        snapshot.forEach(doc => {
-            clientTickets.push({ docId: doc.id, ...doc.data() });
-        });
-        
-        // Sort tickets by timestamp (newest first)
-        clientTickets.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
-
-        clientTickets.forEach(ticket => {
-            const badgeStyle = clientStatusStyles[ticket.status] || "bg-slate-900 border-slate-800 text-slate-400";
-            const ticketNum = ticket.ticketId || ticket.id || 'N/A';
-            
-            // --- 1. HANDLE CANCEL BUTTON MARGINS ---
-            let clientControlActionMarkup = '';
-            if (ticket.status === 'new' || ticket.status === 'pending') {
-                clientControlActionMarkup = `
-                    <div class="mt-3 pt-2 border-t border-slate-900/60 flex justify-end">
-                        <button 
-                            onclick="cancelClientTicket('${ticket.docId}')" 
-                            class="px-3 py-1 text-[11px] font-mono font-bold bg-red-950/40 border border-red-900/60 hover:bg-red-900/40 text-red-400 rounded-md transition-all cursor-pointer">
-                            🚫 Cancel Ticket
-                        </button>
-                    </div>
-                `;
-            }
-            
-            // --- 2. DYNAMICALLY RENDER ATTACHED MEDIA LIST (WITH THUMBNAIL ZOOM) ---
-            let mediaAttachmentsMarkup = '';
-            if (ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachments.length > 0) {
-                let attachmentItems = '';
-                
-                ticket.attachments.forEach((file, index) => {
-                    const isVideo = file.type === 'video';
-                    const safeAttachmentsJson = JSON.stringify(ticket.attachments).replace(/"/g, '&quot;');
-                    const zoomAction = `onclick="window.openGlobalMediaZoom('${file.url}', '${file.type}', ${index}, ${safeAttachmentsJson})"`;
-
-                    attachmentItems += `
-                        <div ${zoomAction} class="relative group w-14 h-14 rounded-md border border-slate-800 bg-slate-900 flex items-center justify-center cursor-pointer overflow-hidden transition-all hover:border-cyan-500/50">
-                            ${isVideo ? 
-                                `<span class="text-lg z-10 text-slate-300">🎥</span>` : 
-                                `<img src="${file.url}" class="w-full h-full object-cover transition-all" alt="Thumbnail">`
-                            }
-                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </div>
-                    `;
-                });
-
-                mediaAttachmentsMarkup = `
-                    <div class="mt-4">
-                        <span class="text-[10px] text-slate-600 font-mono font-bold uppercase tracking-wider block mb-1">Attachments (${ticket.attachments.length})</span>
-                        <div class="flex flex-wrap gap-1.5 pr-1">
-                            ${attachmentItems}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // --- 3. HANDLE ENGINEER ASSIGNMENTS ---
-            let proAssignmentMarkup = '';
-            if (ticket.acceptedById) {
-                proAssignmentMarkup = `
-                    <div class="mt-4 pt-3 border-t border-slate-900 flex flex-col gap-2">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-[9px] text-slate-500 font-mono uppercase block tracking-wider">Assigned Tech</span>
-                                <span class="text-xs font-bold text-cyan-400">${ticket.acceptedByName || 'Field Professional'}</span>
-                            </div>
-                            <span class="text-[9px] bg-cyan-950/40 border border-cyan-900/60 px-1.5 py-0.5 rounded text-cyan-400 font-mono font-bold">
-                                ID: ${ticket.acceptedById.substring(0,6).toUpperCase()}
-                            </span>
-                        </div>
-                        
-                        <div class="flex items-start gap-1.5 text-[10px] font-mono bg-cyan-950/10 border border-cyan-900/30 p-2 rounded-lg text-slate-300">
-                            <i class="fa-solid fa-map-location-dot text-cyan-500 mt-0.5 text-xs"></i>
-                            <div>
-                                <strong class="block text-cyan-500/70 uppercase tracking-widest text-[8px] mb-0.5">Workshop Base</strong>
-                                <span class="leading-relaxed whitespace-pre-wrap text-[10px]">${ticket.proLocation || 'Location details pending.'}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (ticket.status !== 'cancel') {
-                proAssignmentMarkup = `
-                    <div class="mt-4 pt-3 border-t border-slate-900 flex items-center gap-2 text-slate-500 font-mono text-[10px]">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500/70 animate-pulse"></span>
-                        Finding the right expert...
-                    </div>
-                `;
-            }
-
-            // --- 4. CONSTRUCT THE COLUMN CARD MARKUP (Self-contained expansion) ---
-            const cardHTML = `
-                <div class="bg-slate-950/40 border border-slate-900 rounded-xl p-4 hover:border-slate-800 transition-all flex flex-col h-fit shadow-sm">
-                    
-                    <div class="flex items-center justify-between cursor-pointer select-none" onclick="window.toggleTicketDetails('${ticket.docId}')">
-                        <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-mono font-bold text-amber-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                                # ${ticketNum}
-                            </span>
-                            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 border rounded uppercase tracking-wider ${badgeStyle}">
-                                ${ticket.status === 'cancel' ? 'CANCELLED' : ticket.status}
-                            </span>
-                        </div>
-                        <span id="toggleIcon-${ticket.docId}" class="text-slate-500 text-[10px] font-mono font-bold tracking-wider hover:text-slate-300 transition-colors">
-                            ▼ EXPAND
-                        </span>
-                    </div>
-
-                    <div id="details-${ticket.docId}" class="hidden mt-3 pt-3 border-t border-slate-900/80">
-                        <div class="text-[11px] font-mono space-y-1 text-slate-400 mb-2.5">
-                            <p><span class="text-slate-600 font-bold">CATEGORY:</span> <span class="text-white uppercase">${ticket.category || 'General'}</span></p>
-                            <p>
-                                <span class="text-slate-600 font-bold">REQUESTED:</span> 
-                                <span class="text-slate-300">
-                                ${(() => {
-                                    if (!ticket.createdAt) return 'Active Log';
-                                    if (typeof ticket.createdAt.toDate === 'function') {
-                                        return ticket.createdAt.toDate().toLocaleString('en-US', { 
-                                            month: 'short', day: 'numeric', year: 'numeric',
-                                            hour: 'numeric', minute: '2-digit', hour12: true 
-                                        });
-                                    }
-                                    return ticket.createdAt;
-                                })()}
-                                </span>
-                            </p>
-                        </div>
-                        
-                        <div class="bg-slate-900/40 border border-slate-900/80 rounded-lg p-2.5 text-[11px] text-slate-300 leading-relaxed font-sans max-h-24 overflow-y-auto whitespace-pre-wrap">
-                            ${ticket.jobDetails || ticket.description || 'No additional details documented.'}
-                        </div>
-                        
-                        ${mediaAttachmentsMarkup}
-                        ${clientControlActionMarkup}
-                        ${proAssignmentMarkup}
-                    </div>
-                </div>
-            `;
-            gridEl.insertAdjacentHTML('beforeend', cardHTML);
-        });
-
-        gridEl.classList.remove('hidden');
-
-    } catch (error) {
-        console.error("Critical client telemetry pipeline fault:", error);
-        if (loadingEl) {
-            loadingEl.innerHTML = `<span class="text-red-500 font-bold">🔴 DATABASE ERROR:</span> Failed to stream link data lines.`;
-        }
-    }
-}
-window.toggleTicketDetails = function(docId) {
-    const detailsDiv = document.getElementById(`details-${docId}`);
-    const toggleIcon = document.getElementById(`toggleIcon-${docId}`);
-    
-    if (!detailsDiv || !toggleIcon) return;
-    
-    if (detailsDiv.classList.contains('hidden')) {
-        detailsDiv.classList.remove('hidden');
-        toggleIcon.innerText = "▲ COLLAPSE";
-    } else {
-        detailsDiv.classList.add('hidden');
-        toggleIcon.innerText = "▼ EXPAND";
-    }
-};
-</script>
-<script>
-    const countrySelect = document.getElementById('country');
-    const stateSelect = document.getElementById('state');
-    const citySelect = document.getElementById('city');
-    const statusText = document.getElementById('proStatusText');
-
-    let globalData = [], phProvinces = [], phCities = [];
-
-    window.onload = async function() {
-        try {
-            const globalReq = fetch('https://countriesnow.space/api/v0.1/countries/states').then(res => res.json());
-            const phProvReq = fetch('https://raw.githubusercontent.com/wilfredpine/philippine-address-selector/main/ph-json/province.json').then(res => res.json());
-            const phCityReq = fetch('https://raw.githubusercontent.com/wilfredpine/philippine-address-selector/main/ph-json/city.json').then(res => res.json());
-
-            const [globalRes, phProvRes, phCityRes] = await Promise.all([globalReq, phProvReq, phCityReq]);
-
-            if (!globalRes.error) {
-                globalData = globalRes.data;
-                phProvinces = phProvRes;
-                phCities = phCityRes;
-
-                countrySelect.innerHTML = '<option value="">-- Select Country --</option>';
-                countrySelect.disabled = false;
-
-                globalData.sort((a, b) => a.name.localeCompare(b.name));
-                globalData.forEach(countryObj => {
-                    countrySelect.options[countrySelect.options.length] = new Option(countryObj.name, countryObj.name);
-                });
-
-                statusText.style.display = "block";
-                setTimeout(() => statusText.style.display = "none", 3000);
-            }
-        } catch (error) {
-            countrySelect.innerHTML = '<option value="">Network Error. Please refresh.</option>';
-        }
-    };
-
-    countrySelect.addEventListener('change', function() {
-        stateSelect.innerHTML = '<option value="">-- Select State/Province --</option>';
-        citySelect.innerHTML = '<option value="">-- Select Municipality/City --</option>';
-        citySelect.disabled = true;
-        
-        if (this.value === "Philippines") {
-            stateSelect.disabled = false;
-            phProvinces.sort((a, b) => a.province_name.localeCompare(b.province_name));
-            phProvinces.forEach(prov => {
-                stateSelect.options[stateSelect.options.length] = new Option(prov.province_name, prov.province_code);
-            });
-        } else if (this.value) {
-            stateSelect.disabled = false;
-            const countryData = globalData.find(c => c.name === this.value);
-            countryData?.states.forEach(s => {
-                stateSelect.options[stateSelect.options.length] = new Option(s.name, s.name);
-            });
-        } else {
-            stateSelect.disabled = true;
-        }
-    });
-
-    stateSelect.addEventListener('change', async function() {
-        citySelect.innerHTML = '<option value="">Loading...</option>';
-        citySelect.disabled = true;
-
-        if (countrySelect.value === "Philippines") {
-            citySelect.innerHTML = '<option value="">-- Select Municipality/City --</option>';
-            citySelect.disabled = false;
-            phCities.filter(c => c.province_code === this.value)
-                    .sort((a, b) => a.city_name.localeCompare(b.city_name))
-                    .forEach(c => citySelect.options[citySelect.options.length] = new Option(c.city_name, c.city_name));
-        } else {
-            try {
-                const response = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ country: countrySelect.value, state: this.value })
-                });
-                const result = await response.json();
-                citySelect.innerHTML = '<option value="">-- Select Municipality/City --</option>';
-                citySelect.disabled = false;
-                result.data.forEach(c => citySelect.options[citySelect.options.length] = new Option(c, c));
-            } catch (error) {
-                citySelect.innerHTML = '<option value="">Error loading cities</option>';
-            }
-        }
-    });
-
-// Global State
-let currentGallery = [];
-let currentIndex = 0;
-
-// OPENER: Called from your dynamic HTML
-window.openGlobalMediaZoom = function(mediaUrl, type, index, allAttachments) {
-    // Specifically update the window-scoped variables
-    window.currentGallery = allAttachments || [];
-    window.currentcurrentIndex = index !== undefined ? index : 0;
-
-    const modal = document.getElementById('globalMediaZoomModal');
-    const imgTarget = document.getElementById('zoomModalImage');
-    const videoTarget = document.getElementById('zoomModalVideo');
-    
-    if (!modal || !imgTarget || !videoTarget) return;
-
-    // Determine current media
-    const item = currentGallery[currentIndex] || { url: mediaUrl, type: type };
-
-    // Set src and toggle visibility
-    if (item.type === 'video') {
-        videoTarget.src = item.url;
-        videoTarget.classList.remove('hidden');
-        imgTarget.classList.add('hidden');
-        imgTarget.src = ""; 
-    } else {
-        imgTarget.src = item.url;
-        imgTarget.classList.remove('hidden');
-        videoTarget.classList.add('hidden');
-        videoTarget.src = "";
-        videoTarget.pause();
-    }
-
-    modal.classList.remove('hidden');
-    modal.style.opacity = "1";
-};
-
-// CLOSER: This is what your "X" button or background click should call
-window.closeGlobalMediaZoom = function() {
-    const modal = document.getElementById('globalMediaZoomModal');
-    const videoTarget = document.getElementById('zoomModalVideo');
-    
-    if (!modal) return;
-
-    modal.style.opacity = "0";
-    if (videoTarget) videoTarget.pause();
-
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 250);
-};
-
-// Ensure these are at the very top of your JS file
-window.currentGallery = [];
-window.currentcurrentIndex = 0;
-
-window.navigateGallery = function(direction) {
-    // Debugging: Check if we actually have data
-    console.log("Current Gallery Length:", window.currentGallery.length);
-    
-    if (!window.currentGallery || window.currentGallery.length === 0) {
-        console.error("Gallery is empty! Did you open the modal correctly?");
-        return;
-    }
-
-    // Update index
-    window.currentcurrentIndex += direction;
-
-    // Loop logic
-    if (window.currentcurrentIndex >= window.currentGallery.length) window.currentcurrentIndex = 0;
-    if (window.currentcurrentIndex < 0) window.currentcurrentIndex = window.currentGallery.length - 1;
-
-    // Fetch the new item
-    const item = window.currentGallery[window.currentcurrentIndex];
-    console.log("Navigating to index:", window.currentcurrentIndex, item);
-
-    // Re-render
-    // Use the logic directly to avoid conflicts with your open function
-    const imgTarget = document.getElementById('zoomModalImage');
-    const videoTarget = document.getElementById('zoomModalVideo');
-
-    if (item.type === 'video') {
-        videoTarget.src = item.url;
-        videoTarget.classList.remove('hidden');
-        imgTarget.classList.add('hidden');
-        imgTarget.src = "";
-    } else {
-        imgTarget.src = item.url;
-        imgTarget.classList.remove('hidden');
-        videoTarget.classList.add('hidden');
-        videoTarget.src = "";
-        videoTarget.pause();
-    }
-};
-function handleLightboxEscapeKey(e) {
-    if (e.key === "Escape") {
-        window.closeGlobalMediaZoom();
-    }
-}
-// =====================================================================
-// PRO REGISTRATION LOCATION PIPELINE
-// =====================================================================
-document.addEventListener("DOMContentLoaded", () => {
-    const proCountry = document.getElementById("country");
-    const proState = document.getElementById("state");
-    const proCity = document.getElementById("city");
-    const statusText = document.getElementById('statusText');
-    // Only run if the elements exist on the page
-    if (country && state && city) {
-        
-        // 1. Load Countries on Startup
-        fetch("https://countriesnow.space/api/v0.1/countries")
-            .then(res => res.json())
-            .then(data => {
-                proCountry.innerHTML = '<option value="">-- Select Country --</option>';
-                data.data.forEach(item => {
-                    proCountry.innerHTML += `<option value="${item.country}">${item.country}</option>`;
-                });
-                proCountry.disabled = false;
-            })
-            .catch(err => console.error("Error loading Pro countries:", err));
-
-        // 2. Load States when a Country is Selected
-        proCountry.addEventListener("change", (e) => {
-            const country = e.target.value;
-            state.innerHTML = '<option value="">Loading...</option>';
-            state.disabled = true;
-            city.innerHTML = '<option value="">-- Select --</option>';
-            city.disabled = true;
-
-            fetch("https://countriesnow.space/api/v0.1/countries/states", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ country: country })
-            })
-            .then(res => res.json())
-            .then(data => {
-                proState.innerHTML = '<option value="">-- Select State --</option>';
-                // Check if the country actually has states
-                if (data.data && data.data.states && data.data.states.length > 0) {
-                    data.data.states.forEach(state => {
-                        proState.innerHTML += `<option value="${state.name}">${state.name}</option>`;
-                    });
-                } else {
-                    proState.innerHTML += '<option value="N/A">Not Applicable</option>';
-                }
-                proState.disabled = false;
-            })
-            .catch(err => console.error("Error loading Pro states:", err));
-        });
-
-        // 3. Load Cities when a State is Selected
-        proState.addEventListener("change", (e) => {
-            const country = proCountry.value;
-            const state = e.target.value;
-            city.innerHTML = '<option value="">Loading...</option>';
-            city.disabled = true;
-
-            if (state === "N/A") {
-                // If no states exist, fetch cities directly by country
-                fetch("https://countriesnow.space/api/v0.1/countries/cities", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ country: country })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    city.innerHTML = '<option value="">-- Select City --</option>';
-                    if (data.data && data.data.length > 0) {
-                        data.data.forEach(city => {
-                            city.innerHTML += `<option value="${city}">${city}</option>`;
-                        });
-                    } else {
-                        city.innerHTML += '<option value="N/A">Not Applicable</option>';
-                    }
-                    city.disabled = false;
-                });
-            } else {
-                // Fetch cities by specific state
-                fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ country: country, state: state })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    proCity.innerHTML = '<option value="">-- Select City --</option>';
-                    if (data.data && data.data.length > 0) {
-                        data.data.forEach(city => {
-                            proCity.innerHTML += `<option value="${city}">${city}</option>`;
-                        });
-                    } else {
-                        proCity.innerHTML += '<option value="General Area">General Area</option>';
-                    }
-                    proCity.disabled = false;
-                })
-                .catch(err => console.error("Error loading Pro cities:", err));
-            }
-        });
-    }
-});
-// Function 1: Open and close the main modal
-function toggleSupportModal(isOpen) {
-    const modal = document.getElementById('supportModal');
-    const modalContainer = modal.querySelector('div.relative');
-    const foundersNote = document.getElementById('foundersNoteCard');
-
-    if (isOpen) {
-        resetSupportView(); 
-        
-        modal.classList.remove('hidden');
-        
-        // Force layout engine refresh to catch starting animation point
-        if (foundersNote) { void foundersNote.offsetHeight; }
-        
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            modalContainer.classList.remove('scale-95');
-            modalContainer.classList.add('scale-100');
-        }, 10);
-
-        if (foundersNote) {
-            setTimeout(() => {
-                foundersNote.classList.remove('opacity-0', 'translate-y-4');
-                foundersNote.classList.add('opacity-100', 'translate-y-0');
-            }, 200); 
-        }
-    } else {
-        modal.classList.add('opacity-0');
-        modalContainer.classList.remove('scale-100');
-        modalContainer.classList.add('scale-95');
-        
-        if (foundersNote) {
-            foundersNote.classList.add('opacity-0', 'translate-y-4');
-            foundersNote.classList.remove('opacity-100', 'translate-y-0');
-        }
-        
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 500);
-    }
-}
-
-function toggleRoadmapModal(isOpen) {
-    const modal = document.getElementById('roadmapModal');
-    const modalContainer = modal.querySelector('.transform');
-    const items = modal.querySelectorAll('.roadmap-item');
-
-    if (isOpen) {
-        modal.classList.remove('hidden');
-        
-        // REFLOW FIX: Forces browser to recognize individual invisible items on first click
-        if (modalContainer) { void modalContainer.offsetHeight; }
-
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            modalContainer.classList.remove('scale-95');
-            modalContainer.classList.add('scale-100');
-        }, 10);
-
-        items.forEach((item, index) => {
-            setTimeout(() => {
-                item.classList.remove('opacity-0', 'translate-y-4');
-                item.classList.add('opacity-100', 'translate-y-0');
-            }, 200 + (index * 120)); 
-        });
-
-    } else {
-        modal.classList.add('opacity-0');
-        modalContainer.classList.remove('scale-100');
-        modalContainer.classList.add('scale-95');
-        
-        items.forEach((item) => {
-            item.classList.add('opacity-0', 'translate-y-4');
-            item.classList.remove('opacity-100', 'translate-y-0');
-        });
-
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
-    }
-}
-function showSupportQR(type) {
-    const selectionView = document.getElementById('supportSelectionView');
-    const qrView = document.getElementById('supportQRView');
-    
-    // Fade out/scale down selection deck
-    selectionView.classList.remove('opacity-100', 'scale-100');
-    selectionView.classList.add('opacity-0', 'scale-95');
-
-    const qrImage = document.getElementById('qrImage');
-    const qrTitle = document.getElementById('qrTitle');
-    const qrDescription = document.getElementById('qrDescription');
-    const qrLogoContainer = document.getElementById('qrLogoContainer'); // Get the new container
-
-    if (type === 'paypal') {
-      qrTitle.innerText = 'International';
-        qrDescription.innerText = 'Scan with your PayPal app.';
-        qrImage.src = 'SupportUsPP.png';
-        
-        // Inject single PayPal logo
-        qrLogoContainer.innerHTML = `
-            <img src="PayPal_Logo.png" alt="PayPal" class="h-10 w-auto object-contain brightness-110" />
-        `;
-    } else if (type === 'local') {
-        qrTitle.innerText = 'Local Transfer';
-        qrDescription.innerText = 'or your preferred Local Bank';
-        qrImage.src = 'SupportUsCS_InstaPay.png';
-        
-        // Inject GCash, Maya, and QR Ph logos inline together
-        qrLogoContainer.innerHTML = `
-            <div class="flex items-center gap-1 bg-slate-950/40 px-2 py-1 rounded-md border border-slate-800/60">
-                <img src="Gcash_logo.png" alt="GCash" class="h-8 w-auto object-contain rounded-sm" />
-                <img src="Maya_Logo.png" alt="Maya" class="h-10 w-auto object-contain rounded-sm" />
-                <div class="h-9 w-[1px] bg-slate-800"></div>
-                <img src="QR-Ph-InstaPay.png" alt="QR Ph" class="h-9 w-auto object-contain" />
-            </div>
-        `;
-    }
-
-    // Mid-transition view swap with layout reflow
-    setTimeout(() => {
-        selectionView.classList.add('hidden');
-        qrView.classList.remove('hidden');
-        
-        qrView.offsetHeight; // Force reflow
-
-        qrView.classList.remove('opacity-0', 'scale-95');
-        qrView.classList.add('opacity-100', 'scale-100');
-    }, 200);
-}
-function resetSupportView() {
-    const selectionView = document.getElementById('supportSelectionView');
-    const qrView = document.getElementById('supportQRView');
-
-    // 1. Shrink and fade out the active QR view
-    qrView.classList.remove('opacity-100', 'scale-100');
-    qrView.classList.add('opacity-0', 'scale-85');
-
-    // 2. Swap back to the selection deck mid-way
-    setTimeout(() => {
-        qrView.classList.add('hidden');
-        selectionView.classList.remove('hidden');
-        
-        selectionView.offsetHeight; // Force reflow
-
-        // 3. Bring selection menu back into full view
-        selectionView.classList.remove('opacity-0', 'scale-85');
-        selectionView.classList.add('opacity-100', 'scale-100');
-    }, 200);
-}
-</script>
-</div>
-</div>
 
     <div id="globalMediaZoomModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="opacity: 0; z-index: 999999 !important; transition: opacity 0.25s ease-in-out;">
         <div class="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/60 to-transparent flex justify-end items-center px-6 pointer-events-none">
@@ -2811,6 +1220,308 @@ function resetSupportView() {
             <video id="zoomModalVideo" class="hidden max-w-full max-h-full rounded-sm object-contain shadow-2xl" controls src="" onclick="event.stopPropagation()"></video>
         </div>
     </div>
+<!-- =========================
+PRIVACY POLICY MODAL
+========================= -->
+<div
+id="privacyModal"
+class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
 
+    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] mx-4 overflow-hidden transform scale-95 opacity-0 translate-y-4 transition-all duration-300">
+
+        <!-- HEADER -->
+
+        <div class="flex items-center justify-between border-b border-slate-800 p-5">
+
+            <div>
+
+                <h2 class="text-xl font-bold text-white">
+                    Privacy Policy
+                </h2>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Effective Date: June 2026
+                </p>
+
+            </div>
+
+            <button
+            onclick="closePrivacyModal()"
+            class="text-slate-400 hover:text-emerald-400">
+
+                <i class="fa-solid fa-xmark text-xl"></i>
+
+            </button>
+
+        </div>
+
+        <!-- BODY -->
+
+        <div class="overflow-y-auto max-h-[65vh] p-6 text-sm text-slate-300 space-y-5 leading-7">
+<h3 class="text-amber-400 font-extrabold">
+            At circuit-service, accessible from www.circuit-service.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by circuit-service and how we use it.
+
+If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+ </h3>
+            <h3 class="text-emerald-400 font-bold">
+                1. Information We Collect
+            </h3>
+
+            <p>
+                We collect several different types of information for various purposes to provide and improve our service to you.
+
+Personal Data: While using our website, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. This may include your name, email address, phone number, and service request details.
+
+Log Data: Like most websites, we collect information that your browser sends whenever you visit our site. This may include your computer's Internet Protocol (IP) address, browser type, browser version, the pages of our site that you visit, the time and date of your visit, and the time spent on those pages.
+            </p>
+
+            <h3 class="text-emerald-400 font-bold">
+                2. How We Use Your Information
+            </h3>
+
+            <p>
+                We use the collected data for various purposes, including to:
+
+Provide, operate, and maintain our website and services
+
+Improve, personalize, and expand our website  
+
+Understand and analyze how you use our website  
+
+Develop new products, services, features, and functionality  
+
+Communicate with you, either directly or through one of our partners, to provide you with updates and other information relating to the website, and for marketing and promotional purposes  
+
+Send you emails or respond to your service inquiries
+
+Find and prevent fraud
+            </p>
+
+            <h3 class="text-emerald-400 font-bold">
+               3. Cookies and Web Beacons
+            </h3>
+
+            <p>
+                circuit-service uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+            </p>
+
+            <h3 class="text-emerald-400 font-bold">
+                4. Third-Party Privacy Policies
+            </h3>
+
+            <p>
+                Our Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.  
+
+You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites.
+            </p>
+			
+			<h3 class="text-emerald-400 font-bold">
+                5. Data Protection Rights (GDPR & CCPA)
+            </h3>
+
+            <p>
+                We want to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:
+
+The right to access: You have the right to request copies of your personal data.
+
+The right to rectification: You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.  
+
+The right to erasure: You have the right to request that we erase your personal data, under certain conditions.  
+
+The right to restrict or object to processing: You have the right to object to or restrict our processing of your personal data, under certain conditions.
+            </p>
+
+            <h3 class="text-emerald-400 font-bold">
+                6. Children's Information
+            </h3>
+
+            <p>
+                Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.
+
+circuit-service does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.
+            </p>
+
+<h3 class="text-emerald-400 font-bold">
+                7. Changes to This Privacy Policy
+            </h3>
+
+            <p>
+                We may update our Privacy Policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.
+            </p>
+
+            <h3 class="text-emerald-400 font-bold">
+                8. Contact Us
+            </h3>
+
+<p class="text-slate-300 leading-6">
+    If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at:
+    <br><br>
+
+    Email:
+   <a
+    href="mailto:jomjabadan@circuit-service.com?subject=Privacy%20Policy%20Inquiry&body=Hello,%20I%20have%20a%20question%20regarding%20your%20Privacy%20Policy."
+    class="text-amber-cyan hover:text-amber-300 hover:underline">
+    jomjabadan@circuit-service.com
+</a>
+</p>        </div>
+
+        <!-- FOOTER -->
+
+        <div class="border-t border-slate-800 p-4 flex justify-end">
+
+            <button
+            onclick="closePrivacyModal()"
+            class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold px-5 py-2 rounded-lg">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================
+TERMS MODAL
+========================= -->
+
+<div
+id="termsModal"
+class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
+
+    <div class="bg-slate-900 border border-cyan-500/30 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] mx-4 overflow-hidden transform scale-95 opacity-0 translate-y-4 transition-all duration-300">
+
+        <div class="flex items-center justify-between border-b border-slate-800 p-5">
+
+            <div>
+
+                <h2 class="text-xl font-bold text-white">
+                    Terms & Conditions
+                </h2>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Last Updated: June 2026
+                </p>
+
+            </div>
+
+            <button
+            onclick="closeTermsModal()"
+            class="text-slate-400 hover:text-cyan-400">
+
+                <i class="fa-solid fa-xmark text-xl"></i>
+
+            </button>
+
+        </div>
+
+        <div class="overflow-y-auto max-h-[65vh] p-6 text-sm text-slate-300 space-y-5 leading-7">
+<h3 class="text-amber-400 font-extrabold">
+            Welcome to Circuit-Service. Please read these Terms and Conditions ("Terms") carefully before using our website and mobile application (collectively, the "Service") operated by Circuit-Service ("us", "we", or "our").
+
+By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, you may not access the Service.
+</h3>
+            <h3 class="text-cyan-400 font-bold">
+                1. Important Disclaimer: Use at Your Own Risk
+            </h3>
+
+            <p>
+                1.1 In-Development Verification
+Circuit-Service is currently developing and rolling out its comprehensive professional verification process. While we are actively building systems to filter and verify our pre-registered professionals—including checking skills, certifications, and other proofs of professional standing—this verification process is still in development.
+            </p>
+<p>
+               1.2 No Guarantee of Professional Credentials
+At this time, Circuit-Service does not fully guarantee, endorse, or certify the skills, qualifications, background, or legality of any professionals listed on the platform.
+            </p>
+			<p>
+                1.3 Limitation of Liability
+Any engagement, contract, or interaction between you and a professional found through Circuit-Service is strictly at your own risk. Circuit-Service shall not be held liable for any damages, losses, poor workmanship, or disputes resulting from your reliance on unverified profiles.
+            </p>
+            <h3 class="text-cyan-400 font-bold">
+                2. Intellectual Property
+            </h3>
+<p>
+                The name Circuit-Service, the Circuit-Service logo, and all related designs, graphics, text, and software are the exclusive intellectual property of Circuit-Service.
+
+We have applied for and maintain intellectual property protections (including trademarks and copyrights) for our brand elements. You may not use, copy, reproduce, or distribute our name, logo, or proprietary materials without our express written consent.
+            </p>
+            
+
+             <h3 class="text-cyan-400 font-bold">
+                3. Location Data and Public Privacy
+            </h3>
+
+            <p>
+               To connect users with nearby professionals, our Service utilizes location data.
+
+Public Visibility: By using Circuit-Service as a professional or user, you acknowledge that certain geographic data (such as approximate location or service radius) may be made publicly visible to other users to facilitate the pairing of services.
+
+Control: You can manage or restrict your location settings through your device or app preferences; however, doing so may limit the functionality of the Service.
+
+Data Protection: All location data is stored and handled in accordance with our Privacy Policy.
+            </p>
+
+            <h3 class="text-cyan-400 font-bold">
+                4. User Accounts and Conduct
+            </h3>
+
+            <p>
+                You must provide accurate, complete, and current information when creating an account.
+
+You are responsible for safeguarding your account password and for any activities under your account.
+
+You agree not to use the Service for any unlawful purpose, or to harass, abuse, or harm another person.
+            </p>
+
+ <h3 class="text-cyan-400 font-bold">
+                5. Termination
+            </h3>
+
+            <p>
+                We reserve the right to terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.
+            </p>
+
+            <h3 class="text-cyan-400 font-bold">
+                6. Changes to These Terms
+            </h3>
+
+            <p>
+                We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will notify users of any major changes by updating the "Last Updated" date at the top of this page.
+            </p>
+
+ <h3 class="text-cyan-400 font-bold">
+                7. Contact Us
+            </h3>
+
+<p class="text-slate-300 leading-6">
+    If you have any questions about these Terms, please contact us at:
+    <br><br>
+
+    Email:
+   <a
+    href="mailto:jomjabadan@circuit-service.com?subject=Terms%20&%20Conditions%20Inquiry&body=Hello,%20I%20have%20a%20question%20regarding%20your%20Terms%20&%20Conditions."
+    class="text-cyan-400 hover:text-amber-300 hover:underline">
+    jomjabadan@circuit-service.com
+</a>
+</p>       
+
+        </div>
+
+        <div class="border-t border-slate-800 p-4 flex justify-end">
+
+            <button
+            onclick="closeTermsModal()"
+            class="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold px-5 py-2 rounded-lg">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>
