@@ -3,19 +3,15 @@ window.toggleMobileNavigation = function(forceClose) {
     const toggleIcon = document.getElementById("menuToggleIcon");
     
     if (!navPanel || !toggleIcon) return;
-
-    // Explicit overlay override toggle mechanism
     if (forceClose === false) {
         navPanel.classList.add("hidden");
         toggleIcon.className = "fa-solid fa-bars";
         return;
     }
-
-    // Standard visibility alternation tracking loop
     if (navPanel.classList.contains("hidden")) {
         navPanel.classList.remove("hidden");
         navPanel.classList.add("flex");
-        toggleIcon.className = "fa-solid fa-xmark text-amber-400"; // Transforms hamburger into a 'Close' X icon
+        toggleIcon.className = "fa-solid fa-xmark text-amber-400"; 
     } else {
         navPanel.classList.remove("flex");
         navPanel.classList.add("hidden");
@@ -23,9 +19,8 @@ window.toggleMobileNavigation = function(forceClose) {
     }
 };
 
-// Clean UI Lifecycle Safe Guard: Automatically hide the vertical mobile flyout menu if a user resizes their window out to desktop scale
 window.addEventListener("resize", function() {
-    if (window.innerWidth >= 768) { // 768px matches Tailwind's 'md:' screen size breakpoint
+    if (window.innerWidth >= 768) { 
         const navPanel = document.getElementById("navAuthGroup");
         const toggleIcon = document.getElementById("menuToggleIcon");
         if (navPanel && toggleIcon) {
@@ -39,8 +34,6 @@ window.toggleDashboardMenu = function(forceClose) {
     const menuIcon = document.getElementById("dashboardMenuIcon");
     
     if (!navPanel || !menuIcon) return;
-
-    // Direct override to guarantee structural closure after selecting an anchor path link
     if (forceClose === false) {
         navPanel.classList.add("hidden");
         navPanel.classList.remove("flex");
@@ -48,11 +41,10 @@ window.toggleDashboardMenu = function(forceClose) {
         return;
     }
 
-    // Toggle view visibility layer classes
     if (navPanel.classList.contains("hidden")) {
         navPanel.classList.remove("hidden");
         navPanel.classList.add("flex");
-        menuIcon.className = "fa-solid fa-xmark text-amber-400"; // Mutates hamburger to clean X layout close indicator
+        menuIcon.className = "fa-solid fa-xmark text-amber-400"; 
     } else {
         navPanel.classList.remove("flex");
         navPanel.classList.add("hidden");
@@ -60,9 +52,8 @@ window.toggleDashboardMenu = function(forceClose) {
     }
 };
 
-// Monitor monitor widths to reset mobile states if view formats scale back out to wide configurations
 window.addEventListener("resize", function() {
-    if (window.innerWidth >= 768) { // Matches tailwind 'md:' breakpoint boundary metrics
+    if (window.innerWidth >= 768) { 
         const navPanel = document.getElementById("dashboardNavGroup");
         const menuIcon = document.getElementById("dashboardMenuIcon");
         if (navPanel && menuIcon) {
@@ -71,7 +62,7 @@ window.addEventListener("resize", function() {
         }
     }
 });
-// Initialize Firebase Storage (Ensure this is near where you initialize db and auth)
+
 function switchLoginRole(role) {
         const targetRoleInput = document.getElementById('loginTargetRole');
         const mainTitle = document.getElementById('loginMainTitle');
@@ -95,10 +86,8 @@ function showSides(id) {
     const leftEl = document.getElementById(`side-l-${id}`);
     const rightEl = document.getElementById(`side-r-${id}`);
     if(leftEl && rightEl) {
-        // Left Side Animation
         leftEl.classList.remove('opacity-0', 'translate-x-4');
         leftEl.classList.add('opacity-100', 'translate-x-0');
-        // Right Side Animation
         rightEl.classList.remove('opacity-0', '-translate-x-4');
         rightEl.classList.add('opacity-100', 'translate-x-0');
     }
@@ -121,13 +110,9 @@ function openDetailModal(imageSrc, title, itemsArray) {
     const modal = document.getElementById('detailModal');
     const modalBox = modal.querySelector('.transform');
     
-   
-    
-    // Set dynamic assets
     document.getElementById('modalImage').src = imageSrc;
     document.getElementById('modalTitle').innerText = title;
-    
-    // Generate clean, custom worded bullet points
+
     const listContainer = document.getElementById('modalList');
     listContainer.innerHTML = ''; 
     
@@ -143,7 +128,6 @@ function openDetailModal(imageSrc, title, itemsArray) {
         listContainer.appendChild(li);
     });
 
-    // Handle animations smoothly
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     setTimeout(() => {
@@ -156,8 +140,7 @@ function openDetailModal(imageSrc, title, itemsArray) {
 function closeDetailModal() {
     const modal = document.getElementById('detailModal');
     const modalBox = modal.querySelector('.transform');
-    
-    // Restore normal website scrolling
+
     document.body.classList.remove('overflow-hidden');
     
     modal.classList.add('opacity-0');
@@ -173,7 +156,7 @@ function closeDetailModal() {
 
 window.handleProLogout = async function() {
     try {
-        // Trigger asynchronous signature termination via Firebase backend core
+
         await auth.signOut();
         
         window.currentAuthenticatedUserDoc = null;
@@ -198,11 +181,6 @@ window.handleProLogout = async function() {
         document.getElementById('clientLoginForm').reset();
     }
 	
-
-
-       // ---------------------------------------------------------
-// 1. FIREBASE CONFIGURATION (Runs on every page)
-// ---------------------------------------------------------
 const firebaseConfig = {
     apiKey: "AIzaSyDvYhemJCzP4Q30_GAs5DzA-nbrdMqBthU",
     authDomain: "circuit-service.firebaseapp.com",
@@ -212,40 +190,31 @@ const firebaseConfig = {
     appId: "1:931697304500:web:9d6c2521d5953fa64308e1"
 };
 
-// Safe initialization check: Only start if it hasn't started yet
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Global Firebase Variables
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// ---------------------------------------------------------
-// 2. INDEX.HTML LOGIC (Login Role Switching)
-// ---------------------------------------------------------
 let currentAuthenticatedUserDoc = null;
 
-// Making this a global function so onclick="" works in HTML
 window.switchLoginRole = function(role) {
     const clientBtn = document.getElementById('tabBtnClient');
     const proBtn = document.getElementById('tabBtnPro');
     const targetRoleInput = document.getElementById('loginTargetRole');
     const mainTitle = document.getElementById('loginMainTitle');
 
-    // Safety check: Only run this code if the elements actually exist on the page
     if (!clientBtn || !proBtn || !targetRoleInput || !mainTitle) {
-        return; // Exit the function silently if we are not on index.html
+        return; 
     }
 
     targetRoleInput.value = role;
 
-    // Prevent re-triggering animation
     if (role === 'client' && clientBtn.classList.contains('bg-amber-500')) return;
     if (role === 'pro' && proBtn.classList.contains('bg-blue-500')) return;
 
-    // Fade out
     targetRoleInput.classList.remove('opacity-100');
     mainTitle.classList.remove('opacity-100');
     targetRoleInput.classList.add('opacity-0');
@@ -264,14 +233,12 @@ window.switchLoginRole = function(role) {
             targetRoleInput.classList.add('text-blue-400');
         }
 
-        // Fade back in
         targetRoleInput.classList.remove('opacity-0');
         mainTitle.classList.remove('opacity-0');
         targetRoleInput.classList.add('opacity-100');
         mainTitle.classList.add('opacity-100');
     }, 200);
 
-    // Morph Tab Styles
     if (role === 'client') {
         clientBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out bg-amber-500 text-slate-950 shadow-md shadow-amber-500/10 transform active:scale-98";
         proBtn.className = "py-2 text-xs font-bold uppercase tracking-wider tech-mono rounded-lg transition-all duration-300 ease-in-out text-slate-400 hover:text-white bg-transparent transform active:scale-98";
@@ -281,21 +248,16 @@ window.switchLoginRole = function(role) {
     }
 };
 
-// ---------------------------------------------------------
-// 3. PRO_PROFILE.HTML LOGIC (Session Loading)
-// ---------------------------------------------------------
 let currentProUser = null;
 let hasActiveJob = false; 
 
 
 window.addEventListener('DOMContentLoaded', async () => {
-    // Determine which page we are on by looking for the dropdown
+
     const isClientDashboard = document.getElementById('postTypeSelector') !== null;
 
     if (isClientDashboard) {
-        // ========================================================
-        // 1. CLIENT DASHBOARD INITIALIZATION
-        // ========================================================
+
         const savedClientId = localStorage.getItem('authenticatedClientId'); 
         
         if (!savedClientId) {
@@ -307,21 +269,16 @@ window.addEventListener('DOMContentLoaded', async () => {
             listenToSocialFeed();
         }
 
-         // 👇 CLIENT MAP INITIALIZATION (Uncomment when token ready) 👇
          if (typeof initClientMap === "function") {
              initClientMap();
          }
 
     } else {
-        // ========================================================
-        // 2. PRO PROFILE INITIALIZATION
-        // ========================================================
+
        let savedProId = localStorage.getItem('authenticatedProId');
 
-// If no Pro ID is found, check if they are just visiting the home page.
-// If they are on the pro_profile page without an ID, kick to login.
 if (!savedProId) {
-    // Only redirect if they are actually trying to view the protected profile page
+
     if (window.location.pathname.includes('pro_profile.html')) {
         alert("Security session tracking break. Re-authenticate access credentials.");
         window.location.replace("index.html");
@@ -329,7 +286,6 @@ if (!savedProId) {
     return; 
 }
 
-// Initialize Pro Profile functions securely using the verified ID
 if (typeof fetchProProfileById === "function") {
     fetchProProfileById(savedProId);
 }
@@ -337,7 +293,6 @@ if (typeof listenToSocialFeed === "function") {
     listenToSocialFeed();
 }
 
-         // 👇 PRO MAP INITIALIZATION (Uncomment when token ready) 👇
          if (typeof initProMap === "function") {
              initProMap();
          }
@@ -358,49 +313,35 @@ window.handleUnifiedLogin = async function(e) {
             loginBtn.innerText = "⏳ VERIFYING... PLEASE WAIT";
         }
 
-        // 1. Authenticate with Firebase Auth
         const userCredential = await auth.signInWithEmailAndPassword(email, pass);
 
-        // 2. Check Verification Status
         if (!userCredential.user.emailVerified) {
             alert("Account not verified. Please check your email.");
             await auth.signOut();
             return;
         }
 
-        // 3. Determine which collection to search based on Role
         const targetedCollection = (currentRole === 'client') ? 'client_users' : 'pro_registers';
-
-        // 4. Fetch the profile data using the Auth UID
         const userDocRef = await db.collection(targetedCollection).doc(userCredential.user.uid).get();
 
         if (userDocRef.exists) {
             const userData = userDocRef.data();
-            
-            // Set the global variable so your ticket submission function can use it
+
             window.currentAuthenticatedUserDoc = userData;
-            // Ensure the doc has an ID property for ticket tracking
             window.currentAuthenticatedUserDoc.clientId = userCredential.user.uid;
 
-            // 5. Redirect based on role
             if (currentRole === 'client') {
-                // --- CLIENT REDIRECTION ---
                 localStorage.setItem('authenticatedClientId', userCredential.user.uid);
-                
-                // --- 🌟 THE FIX: SAVE THE NAME FOR THE FEED POSTS ---
-                // If your database uses '.name' instead of '.fullName', change this below!
                 localStorage.setItem('dashClientName', userData.fullName || userData.name || "Client User");
                 localStorage.setItem('authenticatedClientEmail', userData.email || userCredential.user.email);
                 
                 window.location.href = 'client_dashboard.html'; 
             } else {
-                // --- PRO REDIRECTION ---
                 localStorage.setItem('authenticatedProId', userCredential.user.uid);
                 window.location.href = 'pro_profile.html'; 
             }
 
         } else {
-            // Profile does not exist in the targeted collection
             alert(`Access Denied: No profile found in our ${currentRole.toUpperCase()} records.`);
             await auth.signOut();
         }
@@ -416,8 +357,6 @@ window.handleUnifiedLogin = async function(e) {
     }
 };
 
-
-
 	auth.onAuthStateChanged((user) => {
     const path = window.location.pathname;
     const isDashboardPage = path.includes('client_dashboard.html');
@@ -429,13 +368,11 @@ window.handleUnifiedLogin = async function(e) {
     const logoutBtn = document.getElementById('headerLogoutBtn');
 
     if (user) {
-        // --- USER IS LOGGED IN ---
+
         if (loginBtn) loginBtn.style.setProperty('display', 'none', 'important');
         if (regClientBtn) regClientBtn.style.setProperty('display', 'none', 'important');
         if (regProBtn) regProBtn.style.setProperty('display', 'none', 'important');
         if (logoutBtn) logoutBtn.style.setProperty('display', 'inline-block', 'important');
-
-        // Context-aware Dashboard Unhiding
         if (isDashboardPage) {
             const dashboard = document.getElementById('authorizedClientDashboard');
             if (dashboard) dashboard.classList.remove('hidden');
@@ -444,13 +381,11 @@ window.handleUnifiedLogin = async function(e) {
             if (typeof loadClientTicketHistory === 'function') loadClientTicketHistory(user.uid);
         }
 
-        // Add specific Pro-loading logic here if needed
         if (isProPage && typeof loadProProfile === 'function') {
             loadProProfile(user.uid);
         }
         
     } else {
-        // --- USER IS LOGGED OUT ---
         if (isDashboardPage || isProPage) {
             window.location.href = 'index.html';
             return; 
@@ -480,13 +415,10 @@ function handleClientLogout() {
 function updateServiceTermsBanner(selectElement) {
     const banner = document.getElementById('serviceTermsBanner');
     const selectedValue = selectElement.value;
-    
-    // Define the categories
     const noFixNoPayServices = ['repair', 'computer', 'industrial', 'software'];
     const projectBasedServices = ['academic', 'schematic', 'cctv', 'solar'];
     
     if (noFixNoPayServices.includes(selectedValue)) {
-        // Apply Green styling for No Fix, No Pay
         banner.className = "mt-2 p-2.5 rounded-lg border border-emerald-900/50 bg-emerald-950/20 text-emerald-400 text-[11px] flex gap-2 items-start transition-all duration-300";
         banner.innerHTML = `
             <i class="fa-solid fa-shield-halved mt-0.5"></i> 
@@ -501,7 +433,6 @@ function updateServiceTermsBanner(selectElement) {
 </div>
         `;
     } else if (projectBasedServices.includes(selectedValue)) {
-    // Apply Blue styling for Project-Based
     banner.className = "mt-2 p-2.5 rounded-lg border border-blue-900/50 bg-blue-950/20 text-blue-400 text-[11px] flex gap-2 items-start transition-all duration-300";
     banner.innerHTML = `
         <i class="fa-solid fa-file-contract mt-0.5"></i> 
@@ -513,7 +444,6 @@ function updateServiceTermsBanner(selectElement) {
         </div>
         `;
     } else {
-        // Hide if nothing valid is selected
         banner.className = "hidden";
     }
 }
@@ -522,16 +452,12 @@ function toggleServiceLocationField() {
     const selectMode = document.getElementById('dashServiceMode');
     const banner = document.getElementById('serviceModeBanner');
     const locationSection = document.getElementById('ticketLocationSection');
-    
-    // Grab all specific structured fields
     const countryInput = document.getElementById('ticketCountry');
     const stateInput = document.getElementById('ticketState');
     const cityInput = document.getElementById('ticketCity');
     const streetInput = document.getElementById('ticketStreet');
-    
     const selectedValue = selectMode.value;
 
-    // 1. UPDATE THE BANNER UI CONTENT (Your elegant original text templates)
     let bannerContent = "";
     
     if (selectedValue === "Home Service") {
@@ -559,8 +485,6 @@ function toggleServiceLocationField() {
             </div>
         `;
     }
-
-    // Apply styles and inject banner content
     if (bannerContent) {
         banner.className = "mt-2 p-2.5 rounded-lg border border-amber-900/50 bg-amber-950/20 text-amber-400 text-[11px] flex gap-2 items-start transition-all duration-300";
         banner.innerHTML = bannerContent;
@@ -568,81 +492,64 @@ function toggleServiceLocationField() {
         banner.className = "hidden";
     }
 
-    // 2. MANAGE THE STRUCTURED LOCATION INPUTS
     if (!locationSection) return;
 
     if (selectedValue === "Home Service" || selectedValue === "Agreed Location") {
-        // Show the entire location form block
+
         locationSection.classList.remove('hidden');
-        
-        // Restore default layout system validation rules
         stateInput.setAttribute('required', '');
         cityInput.setAttribute('required', '');
         streetInput.setAttribute('required', '');
-        
-        // Dynamically shift street placeholders based on the style choice
         streetInput.placeholder = selectedValue === "Home Service" 
             ? "e.g. 123 Sesame St. ATBP Subd. Brgy.Batibot" 
             : "e.g. SM City Santa Rosa / Coffee Shop Address";
 
     } else if (selectedValue === "Bring to Workshop") {
-        // Hide the entire location field collection cleanly
         locationSection.classList.add('hidden');
-        
-        // Clear out stale data text inputs so empty items don't save to the database
+
         if (countryInput) countryInput.value = "";
         if (stateInput) stateInput.value = "";
         if (cityInput) { cityInput.value = ""; cityInput.disabled = true; }
         if (streetInput) streetInput.value = "";
-        
-        // Reset maps telemetry strings
+
         document.getElementById('ticketGeoLat').value = "0";
         document.getElementById('ticketGeoLng').value = "0";
         document.getElementById('ticketMapWrapper')?.classList.add('hidden');
 
-        // CRITICAL: Strip the HTML validation tags so the user can submit the ticket without browser blocker popup errors
         stateInput.removeAttribute('required');
         cityInput.removeAttribute('required');
         streetInput.removeAttribute('required');
     } else {
-        // Nothing selected yet
+
         locationSection.classList.add('hidden');
     }
-}// Global tracker array to hold the actual files scheduled for upload
+}
 let selectedFilesArray = [];
 
-// --- Handles New File Input Selections ---
 window.handleFileSelection = function(e) {
     const files = e.target.files;
     if (!files) return;
 
-    // Convert FileList to normal Array and append to our tracker list
     Array.from(files).forEach(file => {
         selectedFilesArray.push(file);
     });
 
-    // Clear input field value so the user can re-select the same file if they want to later
     e.target.value = ""; 
 
-    // Re-render the thumbnail display matrix
     renderMediaPreviews();
 };
 
-// --- Renders Grid Display with Functional Remove Buttons ---
+
 window.renderMediaPreviews = function() {
     const previewGrid = document.getElementById('formMediaPreviewGrid');
     if (!previewGrid) return;
     
-    previewGrid.innerHTML = ""; // Clear existing grid space
+    previewGrid.innerHTML = ""; 
 
     selectedFilesArray.forEach((file, index) => {
         const reader = new FileReader();
-        
-        // Wrapper container for the element block
         const mediaWrapper = document.createElement('div');
         mediaWrapper.className = "relative aspect-square rounded-lg border border-slate-800 bg-slate-950 overflow-hidden group shadow-md";
-
-        // Read and parse the file data stream
         reader.onload = function(event) {
             let innerContent = "";
             
@@ -656,7 +563,6 @@ window.renderMediaPreviews = function() {
                     </div>`;
             }
 
-            // Inject media payload layout + the interactive remove button (✕)
             mediaWrapper.innerHTML = `
                 ${innerContent}
                 <button type="button" onclick="removeSelectedFile(${index})" class="absolute top-1 right-1 w-5 h-5 bg-slate-950/80 hover:bg-red-600 border border-slate-700/50 hover:border-red-500 text-white hover:text-white rounded-full flex items-center justify-center text-[10px] font-bold cursor-pointer transition-all shadow-md z-10">
@@ -670,20 +576,16 @@ window.renderMediaPreviews = function() {
     });
 };
 
-// --- Target execution to remove specific item array indexes ---
 window.removeSelectedFile = function(indexToRemove) {
-    // Splice target index position out of active stack allocation
+
     selectedFilesArray.splice(indexToRemove, 1);
-    
-    // Refresh preview interface state matching updated array
+
     renderMediaPreviews();
 };
 
 let ticketMapInstance = null;
 let ticketMarkerInstance = null;
 
-// Add this runner hook execution to your dashboard's modal initialization script block
-// or inside your general DOMContentLoaded handler event window context.
 document.addEventListener('DOMContentLoaded', () => {
     populateTicketCountries();
 });
@@ -700,8 +602,6 @@ function populateTicketCountries() {
     placeholder.disabled = true;
     placeholder.selected = true;
     countrySelect.appendChild(placeholder);
-    
-    // Sort array
     countriesList.sort((a, b) => a.name.localeCompare(b.name));
 
     countriesList.forEach(c => {
@@ -792,8 +692,7 @@ function toggleTicketMap() {
             if (!ticketMapInstance) {
                 initTicketFormMap();
             } else {
-                // Critical step: Force Mapbox canvas calculations recalculation
-                // in case it was toggled open inside an active dashboard modal wrapper
+
                 ticketMapInstance.resize(); 
             }
         }, 120);
@@ -832,19 +731,14 @@ function captureTicketSubmissionPayload() {
     const stateText = document.getElementById('ticketState').value.trim();
     const cityText = document.getElementById('ticketCity').value.trim();
     const streetText = document.getElementById('ticketStreet').value.trim();
-
     const latVal = parseFloat(document.getElementById('ticketGeoLat').value);
     const lngVal = parseFloat(document.getElementById('ticketGeoLng').value);
-
-    // Build unified string structure out of discrete component properties
     const completeUnifiedAddress = `${streetText}, ${cityText}, ${stateText}, ${countryText}`;
 
-    // Return the completed ticket map array target model payload
     return {
         description: document.getElementById('dashProjectDescription')?.value || "",
         category: document.getElementById('dashProjectCategory')?.value || "",
-        
-        // Match both legacy inputs and optimized properties layout patterns
+
         location: completeUnifiedAddress, 
         metaLocation: {
             street: streetText,
@@ -852,13 +746,12 @@ function captureTicketSubmissionPayload() {
             state: stateText,
             country: countryText
         },
-        geoPoint: [lngVal, latVal], // Used to map tickets visually on a technician tracking radar board!
+        geoPoint: [lngVal, latVal], 
         status: "pending",
         timestamp: new Date().toISOString()
     };
 }
 
-// Click listener to handle drop dismissals cleanly
 document.addEventListener('click', (e) => {
     if (!e.target.closest('#ticketState') && !e.target.closest('#ticketState-dropdown')) {
         document.getElementById('ticketState-dropdown')?.classList.add('hidden');
@@ -868,9 +761,8 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// --- Updated Submission Handler (Uses the tracked array) ---
 window.handleDashboardServiceSubmission = async function(e) {
-    // 1. Prevent native form submission reloads safely
+
     if (e && e.preventDefault) e.preventDefault();
     else if (window.event) window.event.preventDefault();
 
@@ -884,7 +776,7 @@ window.handleDashboardServiceSubmission = async function(e) {
     }
 
     try {
-        // 2. Gather structural inputs from your UI fields
+
         const category = document.getElementById('dashServiceCategory').value;
         const serviceMode = document.getElementById('dashServiceMode').value;
         const description = (document.getElementById('dashTechnicalDetails').value || "").trim();
@@ -900,7 +792,6 @@ const assignedProName =
 	const requestType =
     assignedProId ? "direct" : "broadcast";
 
-        // --- NEW CONDITIONAL ADDRESS & COORDINATE PARSING ENGINE ---
         let finalLocationString = "";
         let geoCoordinatesArray = "";
 
@@ -911,32 +802,27 @@ const assignedProName =
             const cityVal = (document.getElementById('ticketCity').value || "").trim();
             const streetVal = (document.getElementById('ticketStreet').value || "").trim();
 
-            // Validate that mandatory fields are filled out for on-site/meetup assignments
             if (!countryVal || countryVal === "Select Country" || !stateVal || !cityVal || !streetVal) {
                 throw new Error("Please complete all address fields (Country, Province, City, and Street/Barangay).");
             }
 
-            // Build cohesive location string
             finalLocationString = `${streetVal}, ${cityVal}, ${stateVal}, ${countryVal}`;
-            
-            // Extract map coordinates telemetry
+
             const latVal = parseFloat(document.getElementById('ticketGeoLat').value) || 14.3142;
             const lngVal = parseFloat(document.getElementById('ticketGeoLng').value) || 121.1114;
-            geoCoordinatesArray = [lngVal, latVal]; // [longitude, latitude] matching Mapbox/GeoJSON rules
+            geoCoordinatesArray = [lngVal, latVal]; 
 
         } else if (serviceMode === "Bring to Workshop") {
-            // For workshop drop-offs, bypass client physical tracking validation constraints
+
             finalLocationString = "Bring to Workshop Drop-off";
             geoCoordinatesArray = ""; 
         } else {
             throw new Error("Please select a valid Delivery Option.");
         }
-        // -------------------------------------------------------------
 
         const currentUser = auth.currentUser;
         if (!currentUser) throw new Error("Authentication context missing. Please log in.");
 
-        // 3. Fetch client profile credentials out of 'client_users'
         if (submitBtn) {
             submitBtn.innerHTML = '<span>⏳ Processing...</span>';
         }
@@ -956,11 +842,11 @@ const assignedProName =
             console.warn(`Profile document not found in client_users for UID: ${currentUser.uid}`);
         }
 
-        // 4. Process and upload media files array if any are queued
+
         const mediaUrls = [];
         if (typeof selectedFilesArray !== 'undefined' && selectedFilesArray.length > 0) {
             let totalSizeInBytes = 0;
-            const MAX_ALLOWED_SIZE = 100 * 1024 * 1024; // 100 MB Limit
+            const MAX_ALLOWED_SIZE = 100 * 1024 * 1024; 
 
             selectedFilesArray.forEach(file => { totalSizeInBytes += file.size; });
 
@@ -992,71 +878,45 @@ const assignedProName =
             submitBtn.innerHTML = '<span>📩 Sending your service request...</span>';
         }
 
-        // 5. Generate serial ticket tracking number
         const randomizedIndex = Math.floor(1000 + Math.random() * 9000);
         const dynamicTicketSerial = `CS-${randomizedIndex}`;
-
-        // 6. Compile data payload packet cleanly
         const ticketPayload = {
 
     ticketId: dynamicTicketSerial,
-
     clientId: currentUser.uid,
-
     clientName: clientName,
-
     clientPhone: clientContact,
-
     clientEmail: clientEmail,
-
     category: category,
-
     serviceMode: serviceMode,
-
     projectLocation: finalLocationString,
-
     coordinates: geoCoordinatesArray,
-
     jobDetails: description,
-
     attachments: mediaUrls,
-
     assignedProId,
-
     assignedProName,
-
     requestType,
-
     status: "new",
-
     acceptedById: "",
-
     acceptedByName: "",
-
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-
     termsVersion: "2026-06",
-
     privacyVersion: "2026-06",
-
     accountCreated: new Date().toISOString()
 
 };
 
-        // Write directly to your unified firestore database collection
         await db.collection('client_tickets').add(ticketPayload);
 
-        // 7. Clear view layout tracking architectures on deployment success
         if (formElement) formElement.reset();
         else e.target.reset();
 
-        // Safely hide the location section block and banners on reset
         document.getElementById('ticketLocationSection')?.classList.add('hidden');
         const banner = document.getElementById('serviceModeBanner');
         if (banner) banner.className = "hidden";
 
         if (typeof selectedFilesArray !== 'undefined') {
-            selectedFilesArray = []; // Flush tracking matrix cache array
+            selectedFilesArray = []; 
         }
         if (previewGrid) previewGrid.innerHTML = "";
         
@@ -1076,7 +936,7 @@ function populateDropdown(selectElement, data, placeholder) {
     selectElement.innerHTML = `<option value="">${placeholder}</option>`;
     data.forEach(item => {
         const option = document.createElement('option');
-        option.value = item.name; // or item.isoCode
+        option.value = item.name; 
         option.textContent = item.name;
         selectElement.appendChild(option);
     });
@@ -1085,7 +945,7 @@ function populateDropdown(selectElement, data, placeholder) {
 
 window.handleProRegister = async function(event) {
 
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
 
     if (!document.getElementById("proTermsAgree").checked){
 
@@ -1103,13 +963,10 @@ window.handleProRegister = async function(event) {
     }
 
     try {
-        // 1. Get credentials and text references
         const email = document.getElementById('proEmail').value.trim();
         const pass = document.getElementById('proPassword').value;
         const fullLocationText = `${tempRegistrationData.city}, ${tempRegistrationData.state}, ${tempRegistrationData.country}`;
         const preference = tempRegistrationData.servicePreference || "in-shop";
-
-        // 2. PARSE EXACT MAP CANVAS PINS DIRECTLY
         const latVal = parseFloat(document.getElementById('proGeoLat').value);
         const lngVal = parseFloat(document.getElementById('proGeoLng').value);
         
@@ -1117,59 +974,37 @@ window.handleProRegister = async function(event) {
         if (!isNaN(lngVal) && !isNaN(latVal)) {
             targetCoordinates = [lngVal, latVal];
         } else {
-            // Hard fallback if map container fails to read
+
             targetCoordinates = [121.1114, 14.3142]; 
         }
 
-        // 3. Create Auth Account
         const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
         const newProUid = userCredential.user.uid;
-        
-        // 4. Send the Verification Email
+
         await userCredential.user.sendEmailVerification();
-        
-        // 5. Write everything cleanly to Firestore in one single call
         await db.collection('pro_registers').doc(newProUid).set({
 
     name: tempRegistrationData.name || document.getElementById('proName').value,
-
     email: email,
-
     phone: tempRegistrationData.phone,
-
     contact: tempRegistrationData.phone,
-
     location: fullLocationText,
-
     coordinates: targetCoordinates,
-
     serviceSetup: preference,
-
     specialties: tempRegistrationData.specialties || [],
-
     role: "pro",
-
     isVerified: false,
-
     termsAccepted: true,
-
     termsAcceptedAt: firebase.firestore.FieldValue.serverTimestamp(),
-
     termsVersion: "2026-06",
-
     privacyVersion: "2026-06",
-
     accountCreated: new Date().toISOString()
 
 });	
-        console.log("Professional successfully registered with active map metrics!");
-
-        // Force sign out so they can't bypass the verification lock
+        
         await auth.signOut();
 
         alert("Registration Complete! Please check your email to verify your account before logging in.");
-        
-        // Reset and close UI elements
         document.getElementById('proInfoForm').reset();
         document.getElementById('proSecurityForm').reset();
         if (typeof returnToPhaseOne === 'function') returnToPhaseOne(); 
@@ -1278,17 +1113,15 @@ function closeTermsModal(){
 }
   window.handleClientLogout = async function() {
     try {
-        // 1. Sign out of Firebase
+
         if (typeof auth !== 'undefined') {
             await auth.signOut();
         }
         
-        // 2. Clear out any stored global variables or local storage
         window.currentAuthenticatedUserDoc = null;
         localStorage.removeItem('authenticatedClientId');
         localStorage.removeItem('authenticatedProId');
         
-        // 3. Redirect back to the landing page
         window.location.href = 'index.html';
         
     } catch (error) {
@@ -1297,18 +1130,16 @@ function closeTermsModal(){
     }
 };
 let tempRegistrationData = {};
-// --- PHASE 1: Transition to Security View ---
+
 window.advanceToProSecurityPhase = function(e) {
-    e.preventDefault(); // Stop the form from refreshing the page
-    
-    // 1. Check if at least one specialty is selected
+    e.preventDefault(); 
+
     const checkboxes = document.querySelectorAll('input[name="proSpecialties"]:checked');
     if (checkboxes.length === 0) {
         alert("Please select at least one core technical specialty.");
         return;
     }
 
-    // 2. Save Phase 1 data to our temporary object
     tempRegistrationData = {
         name: document.getElementById('proName').value.trim(),
         phone: document.getElementById('proPhone').value.trim(),
@@ -1319,19 +1150,17 @@ window.advanceToProSecurityPhase = function(e) {
         specialties: Array.from(checkboxes).map(cb => cb.value)
     };
 
-    // 3. Hide Phase 1, Show Phase 2
     document.getElementById('proInfoForm').classList.add('hidden');
     document.getElementById('proSecurityForm').classList.remove('hidden');
 };
 
-// --- PHASE 1.5: Optional Back Button ---
 window.returnToPhaseOne = function() {
     document.getElementById('proSecurityForm').classList.add('hidden');
     document.getElementById('proInfoForm').classList.remove('hidden');
 };
 
 async function getCoordinatesFromAddress(addressText) {
-    // Make sure mapboxgl is loaded and an access token exists
+
     const token = typeof mapboxgl !== 'undefined' ? mapboxgl.accessToken : null;
     if (!token) {
         console.warn("Mapbox access token missing. Skipping geocoding pipeline.");
@@ -1344,7 +1173,6 @@ async function getCoordinatesFromAddress(addressText) {
         const data = await response.json();
         
         if (data.features && data.features.length > 0) {
-            // Mapbox returns coordinates as [lng, lat]
             return data.features.geometry.coordinates;
         }
         return null;
@@ -1355,40 +1183,30 @@ async function getCoordinatesFromAddress(addressText) {
 }
 window.handleClientRegistration = async function(event) {
 
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
 
     if (!document.getElementById("clientTermsAgree").checked) {
 
         alert("Please accept the Privacy Policy and Terms & Conditions.");
 
         return false;
-
     }
 
-        
     const emailInput = document.getElementById('clientEmail');
     const passInput = document.getElementById('clientPassword');
     const nameInput = document.getElementById('clientName');
     const phoneInput = document.getElementById('clientPhone');
     const submitBtn = document.getElementById('clientRegSubmitBtn');
-    
   const countrySelect = document.getElementById('country');
 const countryText = countrySelect.options[countrySelect.selectedIndex].text;
 const stateText = document.getElementById('state').value.trim();
 const cityText = document.getElementById('city').value.trim();
 const streetText = document.getElementById('street-address').value.trim();
-
-// Read exact coordinates from map pinning system
 const lat = parseFloat(document.getElementById('geoLat').value);
 const lng = parseFloat(document.getElementById('geoLng').value);
-
 const fullLocationText = streetText 
     ? `${streetText}, ${cityText}, ${stateText}, ${countryText}` 
     : `${cityText}, ${stateText}, ${countryText}`;
-    
-   
-
-   
     
     if (!emailInput || !passInput) {
         console.error("Form elements missing");
@@ -1419,7 +1237,7 @@ const fullLocationText = streetText
     city: cityText || "Unknown",
     state: stateText || "Unknown",
     country: countryText,
-    coordinates: [lng, lat], // Saved exactly for service distance maps!
+    coordinates: [lng, lat], 
     email: email,
     role: 'client',
     isVerified: false,
@@ -1428,7 +1246,7 @@ const fullLocationText = streetText
 	termsAcceptedAt:firebase.firestore.FieldValue.serverTimestamp(),
     accountCreated: new Date().toISOString()
 });
-        // SYSTEM PANEL CROSSFADE TRANSITION ANIMATION
+
         const securityForm = document.getElementById('clientSecurityForm');
         const successPanel = document.getElementById('clientSuccessPanel');
         
@@ -1459,7 +1277,6 @@ const MAPBOX_TOKEN = 'pk.eyJ1Ijoiam9tamFiYWRhbjE5IiwiYSI6ImNtcXE0bXpuMDBiOGkycm9
 let registerMapInstance = null;
 let registerMarker = null;
 
-// Array of 50 major countries sorted alphabetically (with ISO-2 codes)
 const countriesList = [
     { code: "PH", name: "Philippines" }, { code: "US", name: "United States" },
     { code: "CA", name: "Canada" }, { code: "GB", name: "United Kingdom" },
@@ -1488,9 +1305,7 @@ const countriesList = [
     { code: "MO", name: "Macau" }, { code: "MV", name: "Maldives" }
 ];
 
-// Make sure this listener is active in your global script area
 document.addEventListener('DOMContentLoaded', () => {
-    // This forces the dropdown to fill up with the 50 countries
     populateCountriesDropdown();
 });
 
@@ -1498,20 +1313,14 @@ function populateCountriesDropdown() {
     const countrySelect = document.getElementById('country');
     if (!countrySelect) return; 
     
-    countrySelect.innerHTML = ''; // Clear out everything
-    
-    // 1. Create the default "Select Country" placeholder
+    countrySelect.innerHTML = ''; 
     const placeholderOpt = document.createElement('option');
     placeholderOpt.value = "";
     placeholderOpt.innerText = "Select Country";
-    placeholderOpt.disabled = true;  // Prevents them from picking it again
-    placeholderOpt.selected = true;  // Makes it show up by default
+    placeholderOpt.disabled = true;  
+    placeholderOpt.selected = true;  
     countrySelect.appendChild(placeholderOpt);
-    
-    // 2. Sort your global countriesList array alphabetically
     countriesList.sort((a, b) => a.name.localeCompare(b.name));
-
-    // 3. Append the 50 sorted countries right below the placeholder
     countriesList.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.code;
@@ -1529,7 +1338,7 @@ window.onCountryChange = function() {
         cityInput.disabled = true;
     }
 };
-// Mapbox Search Input Hook
+
 async function searchLocationLevel(level) {
     const country = document.getElementById('country').value;
     const stateInput = document.getElementById('state');
@@ -1572,7 +1381,6 @@ async function searchLocationLevel(level) {
                 } else {
                     cityInput.value = feature.text;
                     
-                    // Automatically update coordinates based on selected text item node
                     const [lng, lat] = feature.center;
                     document.getElementById('geoLng').value = lng;
                     document.getElementById('geoLat').value = lat;
@@ -1594,7 +1402,6 @@ async function searchLocationLevel(level) {
     }
 }
 
-// Collapsible Map Control
 function togglePinningMap() {
     const wrapper = document.getElementById('pinningMapWrapper');
     if (!wrapper) return;
@@ -1602,7 +1409,7 @@ function togglePinningMap() {
     wrapper.classList.toggle('hidden');
     
     if (!wrapper.classList.contains('hidden') && !registerMapInstance) {
-        setTimeout(initRegisterMap, 100); // give wrapper tiny time fraction to render display sizes
+        setTimeout(initRegisterMap, 100);
     }
 }
 
@@ -1632,7 +1439,6 @@ function initRegisterMap() {
     });
 }
 
-// Clear active dropdowns on window workspace body background clicks
 document.addEventListener('click', (e) => {
     if (!e.target.closest('#state') && !e.target.closest('#state-dropdown')) {
         document.getElementById('state-dropdown')?.classList.add('hidden');
@@ -1670,18 +1476,15 @@ function regressToProInfoPhase() {
 function openClientRegisterModal() {
     const modal = document.getElementById('clientRegisterModal');
     if (modal) {
-        // 1. Reset inner wizard forms
+
         document.getElementById('clientInfoForm').classList.remove('hidden');
         document.getElementById('clientSecurityForm').classList.add('hidden');
         document.getElementById('clientSuccessPanel').classList.add('hidden');
         
-        // 2. Un-hide modal base structural layout
         modal.classList.remove('hidden');
         
-        // 3. Target the inner scale/fade card container element
         const modalContainer = modal.querySelector('.transform');
-        
-        // 4. Execute transition step
+
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             if (modalContainer) {
@@ -1716,23 +1519,21 @@ function togglePassword(inputId, button) {
 function closeClientRegisterModal() {
     const modal = document.getElementById('clientRegisterModal');
     if (modal) {
-        // Target the inner container for the scale/fade animation
+
         const container = modal.querySelector('.transform');
-        
-        // Start fade out
+
         modal.classList.add('opacity-0');
         if (container) {
             container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
         }
-        
-        // Wait for animation to finish before hiding completely
+
         setTimeout(() => {
             modal.classList.add('hidden');
         }, 300);
     }
 }
 function closeRegisterModals() {
-    // Example for Client Modal closing
+
     const clientModal = document.getElementById('clientRegisterModal');
     if (clientModal) {
         const container = clientModal.querySelector('.transform');
@@ -1741,7 +1542,6 @@ function closeRegisterModals() {
         setTimeout(() => clientModal.classList.add('hidden'), 300);
     }
 
-    // Example for Pro Modal closing
     const proModal = document.getElementById('proRegisterModal');
     if (proModal) {
         const container = proModal.querySelector('.transform');
@@ -1774,15 +1574,13 @@ function closeProModal() {
     const modal = document.getElementById('proRegisterModal');
     if (modal) {
         const container = modal.querySelector('.transform');
-        
-        // 1. Fire reverse fade and slide animations
+
         modal.classList.add('opacity-0');
         if (container) {
             container.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
             container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
         }
-        
-        // 2. Wait 300ms for the animation to finish before hiding structural block
+
         setTimeout(() => {
             modal.classList.add('hidden');
         }, 300);
@@ -1793,15 +1591,13 @@ function closeModal() {
     const modal = document.getElementById('successModal');
     if (modal) {
         const container = modal.querySelector('.transform');
-        
-        // 1. Fire reverse fade and slide animations
+
         modal.classList.add('opacity-0');
         if (container) {
             container.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
             container.classList.add('opacity-0', 'scale-95', 'translate-y-4');
         }
-        
-        // 2. Wait 300ms for the animation to finish before hiding structural block
+
         setTimeout(() => {
             modal.classList.add('hidden');
         }, 300);
@@ -1812,10 +1608,9 @@ function toggleServiceAccordion(serviceId) {
     const arrowIcon = document.getElementById(`arrow-${serviceId}`);
 
     if (panel && arrowIcon) {
-        // Check if the panel is currently closed (max-height is 0)
+
         const isClosed = panel.style.maxHeight === '0px' || !panel.style.maxHeight;
-        
-        // Target all other service panels to close them (Optional: Creates a true accordion)
+
         document.querySelectorAll('[id^="desc-service-"]').forEach(otherPanel => {
             if (otherPanel !== panel) {
                 otherPanel.style.maxHeight = '0px';
@@ -1828,13 +1623,13 @@ function toggleServiceAccordion(serviceId) {
         });
 
         if (isClosed) {
-            // Set max-height to its exact internal content size dynamically
+
             panel.style.maxHeight = panel.scrollHeight + "px";
             panel.classList.remove('p-0', 'opacity-0');
             panel.classList.add('p-6', 'opacity-100');
             arrowIcon.classList.add('rotate-180');
         } else {
-            // Drop back down to zero
+
             panel.style.maxHeight = '0px';
             panel.classList.remove('p-6', 'opacity-100');
             panel.classList.add('p-0', 'opacity-0');
@@ -1842,7 +1637,7 @@ function toggleServiceAccordion(serviceId) {
         }
     }
 }
-// Add this function to your script
+
 async function loadAccountInformation(uid) {
     try {
         const doc = await db.collection('client_users').doc(uid).get();
@@ -1850,28 +1645,23 @@ async function loadAccountInformation(uid) {
             const userData = doc.data();
             console.log("Data successfully fetched");
 
-            // 1. Fix the name field (use 'name', not 'fullName')
             const nameSpan = document.getElementById('dashClientName');
             if (nameSpan) {
                 nameSpan.textContent = userData.name || 'Client';
             }
 
-            // 2. Fix the ID field (use 'clientId' from the DB object)
             const idSpan = document.getElementById('metaId');
             if (idSpan) {
                 idSpan.textContent = userData.clientId || 'N/A';
                 idSpan.setAttribute('data-full-id', uid);
             }
             
-            // 3. Fix the Email
             const emailSpan = document.getElementById('metaEmail');
             if (emailSpan) emailSpan.textContent = userData.email || 'N/A';
-            
-            // 4. Fix the Phone
+
             const phoneSpan = document.getElementById('metaPhone');
             if (phoneSpan) phoneSpan.textContent = userData.phone || 'N/A';
 
-            // 5. Fix the Location (use 'location', not 'address')
             const locSpan = document.getElementById('metaLocation');
             if (locSpan) locSpan.textContent = userData.location || 'N/A';
 			const preview =
@@ -1884,11 +1674,8 @@ if(doc.data().avatarUrl){
 
     preview.src =
         doc.data().avatarUrl;
-
     preview.classList.remove("hidden");
-
     placeholder.classList.add("hidden");
-
     localStorage.setItem(
         "clientAvatarUrl",
         doc.data().avatarUrl
@@ -1909,7 +1696,7 @@ if(doc.data().avatarUrl){
         "cancel": "bg-red-950 border-red-900 text-red-400"
     };
     function gatherDOMClientId() {
-        const fullClientId = user.uid; // Or wherever you fetch your full ID from
+        const fullClientId = user.uid; 
 const sixDigitId = fullClientId.substring(0, 6).toUpperCase();
 
 const idSpan = document.getElementById('metaId');
@@ -1922,14 +1709,12 @@ if (idSpan) {
     const idSpan = document.getElementById('metaId');
     if (idSpan) {
         idSpan.textContent = fullId.substring(0, 6).toUpperCase();
-        idSpan.setAttribute('data-full-id', fullId); // Store the real ID safely
+        idSpan.setAttribute('data-full-id', fullId); 
     }
 }
 
-// When needing to retrieve it for queries
 function gatherDOMClientId() {
     const idSpan = document.getElementById('metaId');
-    // Always return the full ID from the attribute, not the truncated text
     return idSpan ? idSpan.getAttribute('data-full-id') : null;
 }
     async function cancelClientTicket(docId) {
@@ -1951,9 +1736,7 @@ function gatherDOMClientId() {
         }
     }
 
-    /**
-     * Client Request Telemetry Stream - Query Isolated By Client ID
-     */
+
 async function loadClientTicketHistory(explicitClientId) {
     let targetId = explicitClientId || gatherDOMClientId();
 
@@ -1973,8 +1756,6 @@ async function loadClientTicketHistory(explicitClientId) {
     loadingEl.classList.remove('hidden');
     emptyEl.classList.add('hidden');
     gridEl.classList.add('hidden');
-   
-    // Ensure the parent container uses a straight vertical list view instead of a responsive grid
     gridEl.className = "flex flex-col gap-3";
 
     try {
@@ -1996,15 +1777,12 @@ async function loadClientTicketHistory(explicitClientId) {
         snapshot.forEach(doc => {
             clientTickets.push({ docId: doc.id, ...doc.data() });
         });
-        
-        // Sort tickets by timestamp (newest first)
+
         clientTickets.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
 
         clientTickets.forEach(ticket => {
             const badgeStyle = clientStatusStyles[ticket.status] || "bg-slate-900 border-slate-800 text-slate-400";
             const ticketNum = ticket.ticketId || ticket.id || 'N/A';
-            
-            // --- 0. PRE-FORMAT DATE FOR CLEANER HTML ---
             let formattedDate = 'Active Log';
             if (ticket.createdAt) {
                 if (typeof ticket.createdAt.toDate === 'function') {
@@ -2017,7 +1795,6 @@ async function loadClientTicketHistory(explicitClientId) {
                 }
             }
 
-            // --- 1. HANDLE CANCEL BUTTON MARGINS ---
             let clientControlActionMarkup = '';
             if (ticket.status === 'new' || ticket.status === 'pending') {
                 clientControlActionMarkup = `
@@ -2030,19 +1807,15 @@ async function loadClientTicketHistory(explicitClientId) {
                     </div>
                 `;
             }
-            
-          // --- 2. DYNAMICALLY RENDER ATTACHED MEDIA LIST (WITH THUMBNAIL ZOOM) ---
+
 let mediaAttachmentsMarkup = '';
 if (ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachments.length > 0) {
     let attachmentItems = '';
     
-    // Safely escape the attachments array using URI encoding to protect against quote breaking
     const safeAttachmentsData = encodeURIComponent(JSON.stringify(ticket.attachments));
     
     ticket.attachments.forEach((file, index) => {
         const isVideo = file.type === 'video';
-        
-        // Pass the safe encoded string as a clean text parameter
         const zoomAction = `onclick="window.openGlobalMediaZoom('${file.url}', '${file.type}', ${index}, '${safeAttachmentsData}')"`;
 
         attachmentItems += `
@@ -2066,7 +1839,6 @@ if (ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachment
     `;
 }
 
-            // --- 3. HANDLE ENGINEER ASSIGNMENTS ---
             let proAssignmentMarkup = '';
             if (ticket.acceptedById) {
                 proAssignmentMarkup = `
@@ -2099,7 +1871,6 @@ if (ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachment
                 `;
             }
 
-            // --- 4. CONSTRUCT THE EXPANDABLE LIST ITEM MARKUP ---
             const cardHTML = `
                 <details class="group bg-slate-950/40 border border-slate-900 hover:border-slate-800 rounded-lg overflow-hidden transition-colors [&_summary::-webkit-details-marker]:hidden">
                     
@@ -2167,11 +1938,8 @@ if (ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachment
 
 window.currentGallery = [];
 window.currentGalleryIndex = 0;
-
-// OPENER: Called from your dynamic HTML card system
-// OPENER: Called from your dynamic HTML card system
 window.openGlobalMediaZoom = function(mediaUrl, type, index, encodedAttachments) {
-    // Decode the safe URI string back into a functional JavaScript array
+
     if (encodedAttachments) {
         try {
             window.currentGallery = JSON.parse(decodeURIComponent(encodedAttachments));
@@ -2209,7 +1977,7 @@ window.openGlobalMediaZoom = function(mediaUrl, type, index, encodedAttachments)
     modal.classList.remove('hidden');
     modal.style.opacity = "1";
 };
-// CLOSER: This is what your "X" button or background click should call
+
 window.closeGlobalMediaZoom = function() {
     const modal = document.getElementById('globalMediaZoomModal');
     const videoTarget = document.getElementById('zoomModalVideo');
@@ -2228,7 +1996,7 @@ window.currentGallery = [];
 window.currentGalleryIndex = 0;
 
 window.navigateGallery = function(direction) {
-    // Debugging verification checkpoint
+
     console.log("Current Gallery Length:", window.currentGallery.length);
     
     if (!window.currentGallery || window.currentGallery.length === 0) {
@@ -2236,14 +2004,11 @@ window.navigateGallery = function(direction) {
         return;
     }
 
-    // Step the index counter forward or backward cleanly
     window.currentGalleryIndex += direction;
 
-    // Standard cyclical boundary verification loops
     if (window.currentGalleryIndex >= window.currentGallery.length) window.currentGalleryIndex = 0;
     if (window.currentGalleryIndex < 0) window.currentGalleryIndex = window.currentGallery.length - 1;
 
-    // Fetch the structural profile of the target index offset 
     const item = window.currentGallery[window.currentGalleryIndex];
     console.log("Navigating to index:", window.currentGalleryIndex, item);
 
@@ -2251,7 +2016,6 @@ window.navigateGallery = function(direction) {
     const videoTarget = document.getElementById('zoomModalVideo');
     if (!imgTarget || !videoTarget) return;
 
-    // Re-render display configuration maps 
     if (item.type === 'video') {
         videoTarget.src = item.url;
         videoTarget.classList.remove('hidden');
@@ -2272,7 +2036,6 @@ function handleLightboxEscapeKey(e) {
     }
 }
 
-// Function 1: Open and close the main modal
 function toggleSupportModal(isOpen) {
     const modal = document.getElementById('supportModal');
     const modalContainer = modal.querySelector('div.relative');
@@ -2282,8 +2045,7 @@ function toggleSupportModal(isOpen) {
         resetSupportView(); 
         
         modal.classList.remove('hidden');
-        
-        // Force layout engine refresh to catch starting animation point
+
         if (foundersNote) { void foundersNote.offsetHeight; }
         
         setTimeout(() => {
@@ -2321,8 +2083,7 @@ function toggleRoadmapModal(isOpen) {
 
     if (isOpen) {
         modal.classList.remove('hidden');
-        
-        // REFLOW FIX: Forces browser to recognize individual invisible items on first click
+
         if (modalContainer) { void modalContainer.offsetHeight; }
 
         setTimeout(() => {
@@ -2356,8 +2117,7 @@ function toggleRoadmapModal(isOpen) {
 function showSupportQR(type) {
     const selectionView = document.getElementById('supportSelectionView');
     const qrView = document.getElementById('supportQRView');
-    
-    // Fade out/scale down selection deck
+
     selectionView.classList.remove('opacity-100', 'scale-100');
     selectionView.classList.add('opacity-0', 'scale-95');
 
@@ -2370,8 +2130,6 @@ function showSupportQR(type) {
       qrTitle.innerText = 'International';
         qrDescription.innerText = 'Scan with your PayPal app.';
         qrImage.src = 'SupportUsPP.png';
-        
-        // Inject single PayPal logo
         qrLogoContainer.innerHTML = `
             <img src="PayPal_Logo.png" alt="PayPal" class="h-10 w-auto object-contain brightness-110" />
         `;
@@ -2379,8 +2137,6 @@ function showSupportQR(type) {
         qrTitle.innerText = 'Local Transfer';
         qrDescription.innerText = 'or your preferred Local Bank';
         qrImage.src = 'SupportUsCS_InstaPay.png';
-        
-        // Inject GCash, Maya, and QR Ph logos inline together
         qrLogoContainer.innerHTML = `
             <div class="flex items-center gap-1 bg-slate-950/40 px-2 py-1 rounded-md border border-slate-800/60">
                 <img src="Gcash_logo.png" alt="GCash" class="h-8 w-auto object-contain rounded-sm" />
@@ -2391,12 +2147,12 @@ function showSupportQR(type) {
         `;
     }
 
-    // Mid-transition view swap with layout reflow
+
     setTimeout(() => {
         selectionView.classList.add('hidden');
         qrView.classList.remove('hidden');
         
-        qrView.offsetHeight; // Force reflow
+        qrView.offsetHeight; 
 
         qrView.classList.remove('opacity-0', 'scale-95');
         qrView.classList.add('opacity-100', 'scale-100');
@@ -2406,18 +2162,13 @@ function resetSupportView() {
     const selectionView = document.getElementById('supportSelectionView');
     const qrView = document.getElementById('supportQRView');
 
-    // 1. Shrink and fade out the active QR view
     qrView.classList.remove('opacity-100', 'scale-100');
     qrView.classList.add('opacity-0', 'scale-85');
 
-    // 2. Swap back to the selection deck mid-way
     setTimeout(() => {
         qrView.classList.add('hidden');
-        selectionView.classList.remove('hidden');
-        
-        selectionView.offsetHeight; // Force reflow
-
-        // 3. Bring selection menu back into full view
+        selectionView.classList.remove('hidden');    
+        selectionView.offsetHeight; 
         selectionView.classList.remove('opacity-0', 'scale-85');
         selectionView.classList.add('opacity-100', 'scale-100');
     }, 200);
@@ -2425,19 +2176,18 @@ function resetSupportView() {
 function refreshDashboard() {
     console.log("Refresh triggered...");
 
-    // 1. Scroll logic (Keep your existing array)
     const containerIds = ['leftSidebar', 'centerFeedSection', 'workDashboardContainer','profileSidebar','historyLogsContainer'];
     containerIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 2. Smart Refresh Routing
+
     const isClientDashboard = document.getElementById('clientTicketsGrid');
     const isProDashboard = document.getElementById('liveTicketsQueue');
 
     if (isClientDashboard) {
-        // We are on the Client page. Only refresh the Client history.
+
         const currentUser = firebase.auth().currentUser;
         if (currentUser && typeof loadClientTicketHistory === 'function') {
             loadClientTicketHistory(currentUser.uid);
@@ -2445,15 +2195,14 @@ function refreshDashboard() {
     }
 
     if (isProDashboard) {
-        // We are on the Pro page. Refresh the Pro queue.
+
         const updateFunctions = ['renderEngineeringFeed', 'listenToIncomingTickets', 'loadProfessionalProfile'];
         updateFunctions.forEach(fnName => {
             if (typeof window[fnName] === 'function') window[fnName]();
         });
     }
 }
- // Function to update the Pro's profile copier copies line persistent copy persistent copy on every single persistent line copy:
-// ========================================================
+
 async function fetchProProfileById(proId) {
     try {
         const docSnapshot = await db.collection('pro_registers').doc(proId).get();
@@ -2474,44 +2223,29 @@ async function fetchProProfileById(proId) {
         
         document.getElementById('proNameDisplay').textContent = displayProName;
         document.getElementById('proIdDisplay').textContent = structuralUniqueId.substring(0, 8).toUpperCase();
-        
-        // ========================================================
-        // 🟢 RESTORED: Your missing details mapping
-        // (Make sure these IDs match the IDs in your HTML file!)
-        // ========================================================
         document.getElementById('proEmailDisplay').textContent = currentProUser.email || "---";
         document.getElementById('proPhoneDisplay').textContent = currentProUser.phone || "---";
         document.getElementById('proLocDisplay').textContent = currentProUser.location || "---";
          document.getElementById('proSetupDisplay').textContent = currentProUser.serviceSetup || "---";
-        // Map the specialties array nicely
         if (currentProUser.specialties && Array.isArray(currentProUser.specialties)) {
             document.getElementById('proSpecialtiesDisplay').textContent = currentProUser.specialties.join(", ");
         } else {
             document.getElementById('proSpecialtiesDisplay').textContent = currentProUser.specialties || "---";
         }
 
-        // ========================================================
-        // 🟢 PERSISTENT AVATAR & HIDE STATUS LOG
-        // ========================================================
         if (currentProUser.avatarUrl && currentProUser.avatarUrl.trim() !== "") {
             const previewImg = document.getElementById('profileAvatarPreview');
             const placeholder = document.getElementById('profileAvatarPlaceholder');
             const statusLog = document.getElementById('uploadStatusLog');
 
-            // Inject the saved URL
             previewImg.src = currentProUser.avatarUrl;
-            
-            // Unhide the image and hide the "PRO" text
             previewImg.classList.remove('hidden');
             placeholder.classList.add('hidden');
             
-            // Hides the "Upload Your Profile Photo" text completely
             if (statusLog) statusLog.style.display = 'none'; 
         }
         
-        // Ensure our local copie Copies copies copier copiers copies copier copying persistent copy copier copying copying line copies copie lines copy is active with the newest information copier copying copiar copie line copies copies copying copier copies copies copiar copie copying copying copier copiers copies copie copying copier copiers copier lines copie line copying copiar copies copying copiar copier copies copiers copying copies copy.
         localStorage.setItem('authenticatedProUser', JSON.stringify(currentProUser));
-
         listenToAcceptedTickets(structuralUniqueId);
         listenToCompletedHistory(structuralUniqueId);
     } catch (error) {
@@ -2520,10 +2254,9 @@ async function fetchProProfileById(proId) {
 }
 
 async function handleProfilePhotoUpload() {
-    // 1. Grab the file directly from the unique ID
+   
     const fileInput = document.getElementById('hiddenFileInput');
 
-    // If the user clicked "Cancel" in the file picker, just stop silently
     if (!fileInput.files || fileInput.files.length === 0) {
         console.log("No file selected. User canceled the prompt.");
         return; 
@@ -2534,7 +2267,7 @@ async function handleProfilePhotoUpload() {
 console.log(targetFile.name);
 console.log(targetFile.size);
 console.log(targetFile.type);
-    // 2. Load the User from Local Storage
+
     const localUserData = localStorage.getItem('authenticatedProUser'); 
     if (localUserData) {
         currentProUser = JSON.parse(localUserData); 
@@ -2546,7 +2279,6 @@ console.log(targetFile.type);
         return;
     }
 
-    // 3. Size Validation (Under 2MB)
     if (targetFile.size > 2 * 1024 * 1024) {
         alert("Operation Intercept: Profile assets must be strictly under 2MB.");
         fileInput.value = ""; 
@@ -2562,25 +2294,21 @@ console.log(targetFile.type);
     statusLog.style.display = 'block';
 
     try {
-        // 4. Send the image to Firebase Storage
+
         const storageRef = firebase.storage().ref(`pro_avatars/${currentProUser.id}/avatar_${Date.now()}`);
         const snapshot = await storageRef.put(targetFile);
         
         statusLog.textContent = "💾 Saving your upload...";
         const photoUrl = await snapshot.ref.getDownloadURL();
-
-        // 5. THE FIX: Save to Firestore using SET with MERGE
       
         await db.collection('pro_registers').doc(currentProUser.id).set({
             avatarUrl: photoUrl
         }, { merge: true });
 
-        // 6. Update the UI
         previewImg.src = photoUrl;
         previewImg.classList.remove('hidden');
         placeholder.classList.add('hidden');
 
-        // Update active run-time storage states
         currentProUser.avatarUrl = photoUrl;
         localStorage.setItem('authenticatedProUser', JSON.stringify(currentProUser));
 
@@ -2656,19 +2384,15 @@ function openGallery(){
 
 }
 
-// Global Window Lightbox Context Handlers
 
 function handleLightboxEscapeKey(e) {
     if (e.key === "Escape") window.closeGlobalMediaZoom();
 }
- // Global scope placeholder tracking our target attachment binary data
-// Global placeholder to store the selected file object globally
 window.targetSelectedFileObj = null;
 
 function previewSelectedMedia(event) {
     console.log("Media selection event fired:", event);
-    
-    // Robust parsing that handles both direct input pointers and event paths
+
     let inputSource = null;
     if (event.target) {
         inputSource = event.target;
@@ -2683,7 +2407,6 @@ function previewSelectedMedia(event) {
         return;
     }
 
-    // Capture the file context
     const selectedFile = inputSource.files[0];
 
 window.targetSelectedFileObj = selectedFile;
@@ -2694,18 +2417,16 @@ window.targetSelectedFileObj = selectedFile;
     const nameLabel = document.getElementById('previewFileName');
     const iconLabel = document.getElementById('previewIcon');
 
-    // Update UI status chip text content securely
     if (nameLabel) {
         nameLabel.innerText = selectedFile.name;
     } else {
-        // Fallback fallback pointer in case your original layout used a different ID tag structure
+ 
         const genericLabel = document.querySelector('#mediaAttachmentPreview span') || document.getElementById('mediaAttachmentPreview');
         if (genericLabel && genericLabel.innerText.includes('undefined')) {
             genericLabel.innerHTML = `<i class="fa-solid fa-image text-amber-400 mr-2"></i> ${selectedFile.name}`;
         }
     }
     
-    // Dynamically adjust icon style
     if (iconLabel && selectedFile.type) {
         if (selectedFile.type.startsWith('video/')) {
             iconLabel.className = "fa-solid fa-video text-cyan-400 mr-2";
@@ -2714,10 +2435,8 @@ window.targetSelectedFileObj = selectedFile;
         }
     }
 
-    // Reveal preview bar container element layout
     if (previewContainer) {
         previewContainer.classList.remove('hidden');
-        // If your preview wrapper contains an explicit utility block, make sure it overrides hidden states
         previewContainer.style.setProperty('display', 'flex', 'important');
     }
 }
@@ -2733,14 +2452,10 @@ function clearSelectedMedia() {
         previewContainer.style.display = 'none';
     }
 }
-// --- UPDATED HANDLER TO MANAGE FIREBASE STORAGE TRANSFERS ---
-// =====================================================================
-// 2. UNIFIED POST CREATOR (Smart function for both Pros and Clients)
-// =====================================================================
+
 async function handleCreatePost(event) {
     event.preventDefault();
     
-    // Check if the dropdown exists to determine the environment
     const typeSelector = document.getElementById('postTypeSelector');
     const isClientDashboard = typeSelector !== null;
 
@@ -2749,9 +2464,8 @@ async function handleCreatePost(event) {
     let selectedPostType = "";
 	let uploadedAttachments = [];
 	
-    // A. Setup Variables Based on Environment
     if (isClientDashboard) {
-        // --- CLIENT LOGIC ---
+
         postAuthorId = localStorage.getItem('authenticatedClientId');
         const savedClientEmail = localStorage.getItem('authenticatedClientEmail');
         const savedClientName = localStorage.getItem('dashClientName');
@@ -2772,7 +2486,7 @@ authorAvatar =
             return;
         }
     } else {
-        // --- PRO LOGIC ---
+
         const activeUser = typeof currentProUser !== 'undefined' ? currentProUser : window.currentAuthenticatedUserDoc;
         
         if (!activeUser) {
@@ -2791,7 +2505,6 @@ authorAvatar =
     activeUser.avatarUrl || "";
     }
 
-    // B. Grab text content and prep button
     const textContent = document.getElementById('postTextContent').value.trim();
     const submitBtn = document.getElementById('submitPostBtn');
     submitBtn.disabled = true;
@@ -2801,7 +2514,6 @@ authorAvatar =
         let finalUploadedMediaUrl = "";
         let verifiedMimeGroup = "";
 
-        // C. Handle Media Upload (Identical for both)
         if (window.targetSelectedFileObj && window.targetSelectedFileObj.type) {
             verifiedMimeGroup = window.targetSelectedFileObj.type.startsWith('video/') ? "video" : "image";
             
@@ -2827,33 +2539,22 @@ uploadedAttachments.push({
     type: verifiedMimeGroup
 
 });
-        // D. Build Unified Payload
         const postPayload = {
 
     authorId: postAuthorId,
-
     authorName: postAuthorName,
-
     authorAvatar: authorAvatar,
-
     content: textContent,
-
     postType: selectedPostType,
-
     attachments: uploadedAttachments,
-
     likeCount:0,
-
     commentCount:0,
-
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
 
 };
-
-        // E. Save to Firestore
         await db.collection('pro_feed').add(postPayload);
         
-        // F. Wipe forms cleanly
+
         document.getElementById('engineeringPostForm').reset();
         if (typeof clearSelectedMedia === 'function') {
             clearSelectedMedia();
@@ -2868,10 +2569,6 @@ uploadedAttachments.push({
     }
 }
 
-
-// =====================================================================
-// 3. UNIFIED FEED LISTENER (Shows dynamic tags for both dashboards)
-// =====================================================================
 function listenToSocialFeed() {
     db.collection('pro_feed')
         .orderBy('timestamp', 'desc')
@@ -2942,11 +2639,10 @@ onclick="openMediaViewer('${file.url}','image')">
 
 }
 
-                // 🛑 DYNAMIC POST TYPE & ROLE LOGIC
                 const postTypeLabel = post.postType || "Article"; 
                 
                 let labelColors = "text-sky-400 bg-sky-500/5 border-sky-500/10";
-                let roleBadge = "PRO"; // Default assuming it's an article
+                let roleBadge = "PRO"; 
 
                 if (postTypeLabel === "Question") {
                     labelColors = "text-emerald-400 bg-emerald-500/5 border-emerald-500/10";
@@ -2956,7 +2652,6 @@ onclick="openMediaViewer('${file.url}','image')">
                     roleBadge = "USER|CLIENT";
                 }
 
-                // 🛠️ BUILD FEED CARD
                 htmlBuffer += `
                     <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 p-3 rounded-2xl shadow-xl transition-all hover:border-slate-700/50 space-y-3 mb-4">
                         
@@ -3081,7 +2776,6 @@ function getRelativeTime(timestamp){
 
     const now = new Date();
     const date = timestamp.toDate();
-
     const seconds = Math.floor((now - date)/1000);
 
     if(seconds < 60)
@@ -3201,8 +2895,6 @@ async function addComment(postId){
     let userName = "Anonymous";
     let avatarUrl = "";
 
-
-   // Try technician
 const proDoc = await db
 .collection("pro_registers")
 .doc(uid)
@@ -3222,8 +2914,6 @@ console.log(proDoc.data());
         pro.avatarUrl || "";
 
 }else{
-
-    // Try client
 
     const clientDoc = await db
     .collection("client_users")
@@ -3363,12 +3053,10 @@ window.closeMediaViewer = function() {
     const overlay = document.getElementById("globalMediaViewer");
     const video = document.getElementById("viewerVideo");
 
-    // Safely hide the overlay if it's currently rendered
     if (overlay) {
         overlay.classList.add("hidden");
     }
 
-    // Safely reset the video stream to prevent background audio playback
     if (video && typeof video.pause === "function") {
         video.pause();
         video.currentTime = 0;
@@ -3376,45 +3064,31 @@ window.closeMediaViewer = function() {
     }
 };
 
-// 🎯 FIX SCENARIO B: Global Event Delegation
-// We listen to the entire page. If the user clicks the overlay background, 
-// it catches it dynamically—even if the element loaded late!
 document.addEventListener("click", function(e) {
     if (e.target && e.target.id === "globalMediaViewer") {
         window.closeMediaViewer();
     }
 });
 
-// Global Escape Key Listener
 document.addEventListener("keydown", function(e) {
     if (e.key === "Escape") {
         window.closeMediaViewer();
     }
 });
 
-// ========================================================
-// GLOBAL MEDIA CACHE
-// ========================================================
 window.activeTicketsMediaCache = {};
 
-// ========================================================
-// GLOBAL VARIABLES FOR LIGHTBOX
-// ========================================================
 let lightboxMediaArray = [];
 let currentLightboxIndex = 0;
 
-// ========================================================
-// THE BRIDGE: Connects the Ticket Card to your new Lightbox
-// ========================================================
 window.safelyLaunchCachedLightbox = function(event, ticketId, targetIndex) {
-    // 1. Stops the ticket card from opening/closing when clicking the image
+
     if (event && event.stopPropagation) event.stopPropagation();
     
-    // 2. Get the images for this specific ticket
     const relevantAttachments = window.activeTicketsMediaCache[ticketId];
     
     if (relevantAttachments) {
-        // 3. Encode the array safely and send it to your Universal Lightbox
+
         const securelyEncodedList = btoa(unescape(encodeURIComponent(JSON.stringify(relevantAttachments))));
         openUniversalLightbox(securelyEncodedList, targetIndex);
     } else {
@@ -3422,18 +3096,14 @@ window.safelyLaunchCachedLightbox = function(event, ticketId, targetIndex) {
     }
 };
 
-// ========================================================
-// YOUR UNIVERSAL LIGHTBOX ENGINE
-// ========================================================
 function openUniversalLightbox(encodedMedia, startIndex) {
     try {
-        // Decode the base64-packed attachments array safely
+
         lightboxMediaArray = JSON.parse(decodeURIComponent(escape(atob(encodedMedia))));
         currentLightboxIndex = startIndex;
         
         let lightbox = document.getElementById('universalLightboxModal');
-        
-        // If the lightbox element layout doesn't exist on page context yet, create it dynamically
+
         if (!lightbox) {
             lightbox = document.createElement('div');
             lightbox.id = 'universalLightboxModal';
@@ -3451,8 +3121,7 @@ function openUniversalLightbox(encodedMedia, startIndex) {
                 <div id="lightboxMediaCounter" class="absolute bottom-4 text-slate-500 font-mono text-[10px] tracking-widest bg-slate-900/50 px-3 py-1 rounded-full border border-slate-800/40 z-50">0 / 0</div>
             `;
             document.body.appendChild(lightbox);
-            
-            // Backdrop safety close interception setup 
+
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox || e.target === document.getElementById('lightboxContentStage')) {
                     closeUniversalLightbox();
@@ -3479,7 +3148,7 @@ function renderLightboxCurrentMedia() {
     const activeMedia = lightboxMediaArray[currentLightboxIndex];
     const isVideo = activeMedia.type === 'video' || activeMedia.url.includes('.mp4');
     
-    // Clear display stage area before loading the new asset
+
     stage.innerHTML = "";
     
     if (isVideo) {
@@ -3487,11 +3156,9 @@ function renderLightboxCurrentMedia() {
     } else {
         stage.innerHTML = `<img src="${activeMedia.url}" class="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl pointer-events-none" />`;
     }
-    
-    // Update counter text
+
     counter.textContent = `${currentLightboxIndex + 1} / ${lightboxMediaArray.length}`;
-    
-    // Manage visibility of navigation controls based on available array options
+
     prevBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
     nextBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
 }
@@ -3499,7 +3166,6 @@ function renderLightboxCurrentMedia() {
 function navigateLightbox(direction) {
     if (lightboxMediaArray.length <= 1) return;
     
-    // Safely shift index pointers up or down, wrapping around if they go out of bounds
     currentLightboxIndex += direction;
     if (currentLightboxIndex >= lightboxMediaArray.length) currentLightboxIndex = 0;
     if (currentLightboxIndex < 0) currentLightboxIndex = lightboxMediaArray.length - 1;
@@ -3510,23 +3176,20 @@ function navigateLightbox(direction) {
 function closeUniversalLightbox() {
     const lightbox = document.getElementById('universalLightboxModal');
     if (lightbox) {
-        // Stop any running video content elements before closing the modal container frame
+
         const videoElement = lightbox.querySelector('video');
         if (videoElement) videoElement.pause();
         
         lightbox.classList.add('hidden');
     }
 }
-// ========================================================
-// 1. SPECIALTY SMART-MATCH FILTER (The Translator)
-// ========================================================
+
 function checkSpecialtyMatch(proSkillsArray, ticketCategoryValue) {
-    // Safety check for empty inputs
+
     if (!proSkillsArray || !Array.isArray(proSkillsArray) || proSkillsArray.length === 0) {
         return false;
     }
 
-    // Your exact schema mapping rules
     const categoryMapping = {
         'repair': 'General Electronic Hardware Diagnostic & Repair',
         'computer': 'Desktop/Laptop Repair & Upgrade Including Networking (wired/wireless)',
@@ -3538,61 +3201,46 @@ function checkSpecialtyMatch(proSkillsArray, ticketCategoryValue) {
         'industrial': 'Electric Vehicle & Power Inverter Board Repairs'
     };
 
-    // Clean up the incoming category string
     const inputClean = String(ticketCategoryValue || "").toLowerCase().trim();
 
-    // 🎯 STEP 1: Resolve what full-text value we are actually looking for
     let targetSpecialty = categoryMapping[inputClean];
 
-    // Fallback: If the ticket already passed the full string instead of the short key
     if (!targetSpecialty) {
         targetSpecialty = Object.values(categoryMapping).find(
             val => val.toLowerCase().trim() === inputClean
         );
     }
 
-    // Final Fallback: If it's not matching anything in our dictionary, use the raw text
     if (!targetSpecialty) {
         targetSpecialty = inputClean;
     } else {
         targetSpecialty = targetSpecialty.toLowerCase().trim();
     }
 
-    // 🎯 STEP 2: Use .some() instead of .includes() for case-insensitive array matching
     return proSkillsArray.some(skill => {
         return String(skill).toLowerCase().trim() === targetSpecialty;
     });
 }
 
-// ========================================================
-// 2. DELIVERY SMART-MATCH FILTER (Assuming you already have this, but here for safety)
-// ========================================================
 function checkServiceSetupMatch(proSetup, ticketDelivery) {
     const pro = String(proSetup).toLowerCase().trim();
     const ticket = String(ticketDelivery).toLowerCase().trim();
 
-    // Rule 3: Hybrid sees ALL types of delivery options (including Agreed Location)
     if (pro === 'hybrid') {
         return true; 
     }
 
-    // Rule 1: In-Shop Pro ONLY sees "Bring to workshop"
     if (pro === 'in-shop') {
         return ticket === 'bring to workshop' || ticket === 'in-shop';
     }
 
-    // Rule 2: On-Site Pro ONLY sees "Home Service"
     if (pro === 'on-site') {
         return ticket === 'home service' || ticket === 'on-site';
     }
 
-    return false; // Fallback security block
+    return false;
 }
 
-// ========================================================
-// 3. MAIN TICKETS PIPELINE (Scope fixed)
-// ========================================================
-// Array to keep track of all general ticket pins drawn on initial scan
 window.allTicketMarkers = [];
 
 function listenToIncomingTickets() {
@@ -3607,7 +3255,6 @@ function listenToIncomingTickets() {
     const queueContainer = document.getElementById('liveTicketsQueue');
     const countBadge = document.getElementById('ticketCountBadge');
 
-    // STEP 1: Fetch the Pro's Profile Data FIRST
     db.collection('pro_registers').doc(currentUser.uid).get()
         .then((proSnapshot) => {
             if (!proSnapshot.exists) {
@@ -3619,19 +3266,11 @@ function listenToIncomingTickets() {
             const proSetup = proData.serviceSetup || "";        
             const proSkills = proData.specialties || [];
 
-            console.log("=========================================");
-            console.log("💼 LOGGED-IN PRO ACCOUNT CONFIGURATION:");
-            console.log("-> serviceSetup (proSetup):", proSetup);
-            console.log("-> specialties (proSkills):", proSkills);
-            console.log("=========================================");
-
-            // STEP 2: Start the real-time ticket listener INSIDE the profile fetch block
             db.collection('client_tickets') 
                 .where('status', '==', 'new')
                 .onSnapshot((snapshot) => {
                     if (!queueContainer) return;
 
-                    // Clear out old batch markers from the map before plotting new telemetry updates
                     if (window.allTicketMarkers) {
                         window.allTicketMarkers.forEach(marker => marker.remove());
                     }
@@ -3647,8 +3286,7 @@ function listenToIncomingTickets() {
                     snapshot.forEach((doc) => {
                         localTicketsArray.push({ id: doc.id, ...doc.data() });
                     });
-					
-                    // Sort Newest First
+
                     localTicketsArray.sort((a, b) => {
                         const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
                         const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
@@ -3660,25 +3298,18 @@ function listenToIncomingTickets() {
                     window.activeTicketsMediaCache = {};
 
                     localTicketsArray.forEach((ticket) => {
-                        
-                        // --- THE GATEKEEPER WITH LIVE TELEMETRY ---
+
                         const ticketDelivery = ticket.deliveryOption || ticket.serviceMode || "";
                         const matchesSpecialty = checkSpecialtyMatch(proSkills, ticket.category);
                         const matchesDelivery = checkServiceSetupMatch(proSetup, ticketDelivery);
-
-                        // 🔍 HIGH-RESOLUTION DEBUG LOG
-                        console.log(`🔎 SCANNING TICKET ID: ${ticket.id}`);
-                        console.log(`   - Category: "${ticket.category}" | Specialty Match: ${matchesSpecialty}`);
-                        console.log(`   - Delivery Option Found: "${ticketDelivery}" | Matrix Match: ${matchesDelivery}`);
 
                         if (!matchesDelivery || !matchesSpecialty) {
                             console.warn(`❌ TICKET REJECTED: Ticket ${ticket.id} hidden by filtering logic.`);
                             return; 
                         }
 
-                        console.log(`✅ TICKET PASSED: Ticket ${ticket.id} matches your profile matrix!`);
                         matchedCount++;
-                        // ----------------------
+
 
                         const ticketId = ticket.ticketId || ticket.id.substring(0, 7).toUpperCase();
                         const clientName = ticket.clientName || 'Unnamed Client';
@@ -3702,21 +3333,14 @@ function listenToIncomingTickets() {
                             }
                         }
 
-                        // --- COORDINATE EXTRACTOR & DYNAMIC EVENT LINKING ---
                         let locationMarkup = `<span class="text-slate-200">${location}</span>`;
-                        console.log("========== MAP DEBUG ==========");
-console.log(ticket.ticketId);
-console.log(ticket.coordinates);
-console.log(ticket.deliveryOption);
-console.log(ticket.category);
-console.log("===============================");
+                      
                         if (ticket.coordinates && Array.isArray(ticket.coordinates) && ticket.coordinates.length === 2) {
                             const [lng, lat] = ticket.coordinates;
                             
                             if (lng !== 0 || lat !== 0) {
                                 const safeLocationString = location.replace(/'/g, "\\'");
-                                
-                                // Step 2a: Plot this ticket initially onto the Mapbox canvas map background layer
+                                   
                                 plotTicketOnInitialMap(lat, lng, ticketId, safeLocationString);
 
                                 locationMarkup = `
@@ -3812,7 +3436,6 @@ function plotTicketOnInitialMap(lat, lng, ticketId, addressText) {
     const map = window.proMapInstance;
     if (!map) return;
 
-    // Create a subtle, professional sky-blue dot for general map visibility
     const el = document.createElement('div');
     el.className = 'passive-ticket-marker';
     el.innerHTML = `
@@ -3822,7 +3445,6 @@ function plotTicketOnInitialMap(lat, lng, ticketId, addressText) {
         </div>
     `;
 
-    // Tooltip popup if they click the marker pin directly on the map
     const basePopup = new mapboxgl.Popup({ 
         offset: 10, 
         closeButton: false,
@@ -3839,28 +3461,23 @@ function plotTicketOnInitialMap(lat, lng, ticketId, addressText) {
         .setPopup(basePopup)
         .addTo(map);
 
-    // Click behavior directly on the marker pins triggers the full precision view
     el.addEventListener('click', (e) => {
         window.viewTicketOnMap(e, lat, lng, ticketId, addressText);
     });
 
-    // Save context reference to manage clean state resets on collection rewrites
     window.allTicketMarkers.push(marker);
 }
-// Global trackers to manage temporary map layers cleanly
+
 window.activeTicketMarker = null;
 window.activeTicketPopup = null;
 
 window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
-    // 1. Terminate event bubbling so the card container accordion doesn't collapse
+
     if (event) {
         event.stopPropagation();
         event.preventDefault();
     }
 
-    // 2. Locate your active Mapbox GL map instance
-    // NOTE: Make sure when you initialize your map, you save it to window.proMapInstance 
-    // (e.g., window.proMapInstance = new mapboxgl.Map({ ... }); )
     const map = window.proMapInstance;
     
     if (!map) {
@@ -3869,11 +3486,9 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
         return;
     }
 
-    // 3. Clean up any existing ticket pins from previous clicks to avoid cluttering the view
     if (window.activeTicketMarker) window.activeTicketMarker.remove();
     if (window.activeTicketPopup) window.activeTicketPopup.remove();
 
-    // 4. Create a striking amber pin element for high contrast on dark slate mapping textures
     const el = document.createElement('div');
     el.className = 'ticket-live-pin';
     el.innerHTML = `
@@ -3883,7 +3498,6 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
         </div>
     `;
 
-    // 5. Generate a sleek dark theme info popup window attachment
     const popupHTML = `
         <div class="p-2 font-mono text-[10px] text-slate-300 bg-slate-950 border border-slate-800 rounded-lg shadow-xl">
             <div class="font-bold text-amber-400 border-b border-slate-800 pb-1 mb-1 flex items-center gap-1">
@@ -3899,39 +3513,30 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
         className: 'custom-dark-popup' 
     }).setHTML(popupHTML);
 
-    // 6. Mount the new temporary marker directly to the spatial coordinates
     window.activeTicketMarker = new mapboxgl.Marker({ element: el })
         .setLngLat([lng, lat])
         .setPopup(window.activeTicketPopup)
         .addTo(map);
 
-    // 7. Execute high-performance tracking camera sweep
     map.flyTo({
         center: [lng, lat],
         zoom: 14.5,
         essential: true,
-        pitch: 45, // Add subtle 3D structural tilt perspective for a more interactive grid feel
+        pitch: 45, 
         bearing: 0
     });
 
-    // Automatically open the popup data layout panel right after flight completion
     window.activeTicketMarker.togglePopup();
 
-    // 8. MOBILE VIEW RADAR SCROLL FIX
-    // If the technician is using a phone or tight interface, snap the map into viewport view smoothly
     const mapElement = document.getElementById('proMap');
     if (mapElement) {
         mapElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 };
-// ========================================================
-// SECURE AUTOMATIC RUNTIME TIMING INTERCEPTOR
-// ========================================================
-// Waits for the entire window and all external CDNs to finish loading
+
 window.addEventListener('load', () => {
     if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
         
-        // ONE Single Auth Listener to rule them all
         firebase.auth().onAuthStateChanged((user) => {
             const loginBtn = document.getElementById('navLoginBtn');
             const regClientBtn = document.getElementById('navRegisterClientBtn');
@@ -3939,41 +3544,35 @@ window.addEventListener('load', () => {
             const logoutBtn = document.getElementById('navLogoutBtn');
 
             if (user) {
-                // --- 1. USER IS LOGGED IN (UI Updates) ---
+
                 if (loginBtn) loginBtn.style.setProperty('display', 'none', 'important');
                 if (regClientBtn) regClientBtn.style.setProperty('display', 'none', 'important');
                 if (regProBtn) regProBtn.style.setProperty('display', 'none', 'important');
                 if (logoutBtn) logoutBtn.style.setProperty('display', 'inline-block', 'important');
 
-                // --- 2. SMART PAGE AUTODETECT ROUTER ---
-                // We check the DOM to see which HTML file we are currently looking at
                 const isClientDashboard = document.getElementById('clientTicketsGrid');
                 const isProDashboard = document.getElementById('liveTicketsQueue');
 
                 if (isClientDashboard) {
                     console.log("👤 User Detected. Loading Profile");
                     if (typeof loadAccountInformation === 'function') loadAccountInformation(user.uid);
-                    
-                    // Crucial: Pass the user.uid here so it doesn't load all tickets!
+
                     if (typeof loadClientTicketHistory === 'function') loadClientTicketHistory(user.uid);
                 }
 
                if (isProDashboard) {
     console.log("🛠️ Professional Dashboard Detected. Starting live queue...");
     
-    // Initialize this tracker early so real-time map plots don't crash
     window.allTicketMarkers = window.allTicketMarkers || [];
     
     if (typeof loadProfessionalProfile === 'function') loadProfessionalProfile(user.uid);
     if (typeof listenToIncomingTickets === 'function') listenToIncomingTickets();
     
-    // Initialize your professional map base safely
     initProMap();
 	loadAvailabilityStatus();
 }
 
             } else {
-                // --- 3. USER IS LOGGED OUT ---
                 if (loginBtn) loginBtn.style.setProperty('display', 'inline-block', 'important');
                 if (regClientBtn) regClientBtn.style.setProperty('display', 'inline-block', 'important');
                 if (regProBtn) regProBtn.style.setProperty('display', 'inline-block', 'important');
@@ -3986,9 +3585,6 @@ window.addEventListener('load', () => {
     }
 });
 
-// ========================================================
-// ACTIVE WORKSPACE (MY WORK DASHBOARD)
-// ========================================================
 function listenToAcceptedTickets(proId) {
     db.collection('client_tickets')
         .where('acceptedById', '==', proId)
@@ -4010,7 +3606,6 @@ function listenToAcceptedTickets(proId) {
             let activeJobsArray = [];
             snapshot.forEach((doc) => { activeJobsArray.push({ id: doc.id, ...doc.data() }); });
             
-            // --- FIXED: Sort accepted tickets chronologically using 'createdAt' ---
             activeJobsArray.sort((a, b) => {
                 const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
                 const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
@@ -4040,7 +3635,6 @@ function listenToAcceptedTickets(proId) {
                     badgeColorClass = "text-indigo-400 bg-indigo-950/50 border-indigo-900/40";
                 }
                 
-                // --- ADDED: Parse the standard format for your display row if needed ---
                 let displayTime = "Active";
                 if (ticket.createdAt) {
                     const parsedDate = (typeof ticket.createdAt.toDate === 'function') ? ticket.createdAt.toDate() : new Date(ticket.createdAt);
@@ -4075,7 +3669,7 @@ function listenToAcceptedTickets(proId) {
         <span class="text-[9px] font-bold uppercase tracking-wider text-slate-600 font-mono block">Attached Media</span>
         <div class="flex flex-wrap gap-2 pt-1">
             ${attachments.map(att => {
-                // Check if the attachment is explicitly saved as a video type
+
                 if (att.type === 'video' || att.url.includes('.mp4')) {
                     return `
                         <div class="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center group hover:border-emerald-500 transition-all">
@@ -4087,7 +3681,7 @@ function listenToAcceptedTickets(proId) {
                         </div>
                     `;
                 } else {
-                    // Regular Image Layout Output Asset
+  
                     return `
                         <div onclick="openImageModal('${att.url}')" class="block w-20 h-20 rounded-lg overflow-hidden border border-slate-800 hover:border-emerald-500 transition-all cursor-pointer">
                             <img src="${att.url}" class="w-full h-full object-cover pointer-events-none" />
@@ -4132,13 +3726,12 @@ function listenToAcceptedTickets(proId) {
 
 function openUniversalLightbox(encodedMedia, startIndex) {
     try {
-        // Decode the base64-packed attachments array safely
+
         lightboxMediaArray = JSON.parse(atob(encodedMedia));
         currentLightboxIndex = startIndex;
         
         let lightbox = document.getElementById('universalLightboxModal');
         
-        // If the lightbox element layout doesn't exist on page context yet, create it dynamically
         if (!lightbox) {
             lightbox = document.createElement('div');
             lightbox.id = 'universalLightboxModal';
@@ -4156,8 +3749,7 @@ function openUniversalLightbox(encodedMedia, startIndex) {
                 <div id="lightboxMediaCounter" class="absolute bottom-4 text-slate-500 font-mono text-[10px] tracking-widest bg-slate-900/50 px-3 py-1 rounded-full border border-slate-800/40">0 / 0</div>
             `;
             document.body.appendChild(lightbox);
-            
-            // Backdrop safety close interception setup 
+
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox || e.target === document.getElementById('lightboxContentStage')) {
                     closeUniversalLightbox();
@@ -4184,7 +3776,6 @@ function renderLightboxCurrentMedia() {
     const activeMedia = lightboxMediaArray[currentLightboxIndex];
     const isVideo = activeMedia.type === 'video' || activeMedia.url.includes('.mp4');
     
-    // Clear display stage area before loading the new asset
     stage.innerHTML = "";
     
     if (isVideo) {
@@ -4193,10 +3784,8 @@ function renderLightboxCurrentMedia() {
         stage.innerHTML = `<img src="${activeMedia.url}" class="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl pointer-events-none" />`;
     }
     
-    // Update counter text
     counter.textContent = `${currentLightboxIndex + 1} / ${lightboxMediaArray.length}`;
     
-    // Manage visibility of navigation controls based on available array options
     prevBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
     nextBtn.style.display = lightboxMediaArray.length > 1 ? "flex" : "none";
 }
@@ -4204,7 +3793,6 @@ function renderLightboxCurrentMedia() {
 function navigateLightbox(direction) {
     if (lightboxMediaArray.length <= 1) return;
     
-    // Safely shift index pointers up or down, wrapping around if they go out of bounds
     currentLightboxIndex += direction;
     if (currentLightboxIndex >= lightboxMediaArray.length) currentLightboxIndex = 0;
     if (currentLightboxIndex < 0) currentLightboxIndex = lightboxMediaArray.length - 1;
@@ -4215,16 +3803,13 @@ function navigateLightbox(direction) {
 function closeUniversalLightbox() {
     const lightbox = document.getElementById('universalLightboxModal');
     if (lightbox) {
-        // Stop any running video content elements before closing the modal container frame
         const videoElement = lightbox.querySelector('video');
         if (videoElement) videoElement.pause();
         
         lightbox.classList.add('hidden');
     }
 }
-        // ========================================================
-        // LIVE TICKETS PIPELINE ENGINE (SERVICE HISTORY LOGS)
-        // ========================================================
+
         function listenToCompletedHistory(proId) {
     db.collection('client_tickets')
         .where('acceptedById', '==', proId)
@@ -4246,7 +3831,6 @@ function closeUniversalLightbox() {
                 historyArray.push({ id: doc.id, ...doc.data() });
             });
             
-            // 🟢 FIX 1: Sort using the correct database field 'createdAt'
             historyArray.sort((a, b) => {
                 const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
                 const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
@@ -4261,7 +3845,6 @@ function closeUniversalLightbox() {
                 const details = ticket.jobDetails || 'No diagnostic data.';
                 const category = ticket.category || 'Service';
 
-                // 🟢 FIX 2: Generate 'displayTime' from the 'createdAt' field here before calling it
                 let displayTime = "Closed Log";
                 if (ticket.createdAt) {
                     try {
@@ -4309,21 +3892,18 @@ function closeUniversalLightbox() {
         });
 }
 
-        // ========================================================
-        // INTERACTIVE ENGINE: TRANSITION DATA ASSIGNMENT STATUS
-        // ========================================================
+
         async function handleAcceptJob(event, firestoreDocId, systemTicketId) {
     event.stopPropagation(); 
     if (!currentProUser) return;
     
     try {
-        // 1. Query Firestore to see how many jobs this technician currently has active
+
         const activeTicketsSnapshot = await db.collection('client_tickets')
             .where('acceptedById', '==', currentProUser.id)
             .where('status', 'in', ['accepted', 'diagnostic', 'waiting for parts'])
             .get();
 
-        // 2. Enforce the limit of 2 active tickets
         if (activeTicketsSnapshot.size >= 2) {
             alert(`Limit Exceeded: You can only manage a maximum of 2 active service tickets simultaneously. Please finish or close your current jobs first.`);
             return;
@@ -4331,8 +3911,7 @@ function closeUniversalLightbox() {
 
         const activeProName = currentProUser.name || currentProUser.username;
         if (!confirm(`Have you reviewed the details and ready to accept Service #${systemTicketId}?`)) return;
-        
-        // 3. Proceed to update the ticket
+
         await db.collection('client_tickets').doc(firestoreDocId).update({
             status: 'accepted',
             acceptedById: currentProUser.id,
@@ -4353,49 +3932,39 @@ function closeUniversalLightbox() {
     
     const selectionValue = selectSelector.value;
     const activeProName = currentProUser.name || currentProUser.username;
-    
-    // Get the previous status value from a data attribute (fallback to empty string if not found)
     const previousStatus = selectSelector.getAttribute('data-prev') || "";
     
     let updatedFields = { status: selectionValue };
     let confirmationMessage = "";
 
-    // 1. Setup specific fields and alert text based on the chosen dropdown state
     if (selectionValue === "complete") {
         updatedFields.completedBy = activeProName;
         updatedFields.completedById = currentProUser.id;
         confirmationMessage = `Confirm completion of Service #${systemTicketId}? This job will be closed.`;
     } else {
-        // Human-friendly label for intermediate states (diagnostic, waiting for parts, etc.)
         confirmationMessage = `Confirm status update for Service #${systemTicketId} to "${selectionValue}"?`;
     }
 
-    // 2. Run the dynamic confirm box challenge
     if (!confirm(confirmationMessage)) {
-        // If canceled, revert the dropdown selection back to its previous operational state
+       
         selectSelector.value = previousStatus;
         return;
     }
 
-    // 3. If confirmed, proceed to push changes to Firestore
     try {
         await db.collection('client_tickets').doc(firestoreDocId).update(updatedFields);
-        
-        // Update the custom tracking attribute so the next cancel choice works correctly too
+
         selectSelector.setAttribute('data-prev', selectionValue);
         
     } catch (error) {
         console.error("Lifecycle adjustment state update error:", error);
         alert("Database operations write dropped. Check connection logs.");
-        // Revert UI dropdown layout if the database write rejects/fails
         selectSelector.value = previousStatus;
     }
 }
-        // ========================================================
-        // INTERACTIVE INTERFACE ACCORDION TOGGLE HANDLE
-        // ========================================================
+
        window.toggleTicketDetails = function(event, cardElement) {
-    // Ignore clicks on inner buttons, selects, or links
+
     if (event.target.tagName === 'BUTTON' || event.target.closest('button') || event.target.tagName === 'SELECT' || event.target.tagName === 'A') return;
 
     const detailsBlock = cardElement.querySelector('.element-details-content');
@@ -4414,11 +3983,11 @@ function closeUniversalLightbox() {
 		
 
 function openVideoModal(videoUrl) {
-    // Check if an asset modal wrapper context template layer exists already
+
     let modal = document.getElementById('globalVideoModal');
     
     if (!modal) {
-        // Build an on-the-fly clean backdrop wrapper overlay context
+
         modal = document.createElement('div');
         modal.id = 'globalVideoModal';
         modal.className = 'fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4 hidden';
@@ -4430,7 +3999,6 @@ function openVideoModal(videoUrl) {
         `;
         document.body.appendChild(modal);
         
-        // Close modal if user clicks outside the video frame box area
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeVideoModal();
         });
@@ -4446,7 +4014,7 @@ function closeVideoModal() {
     const player = document.getElementById('modalVideoPlayer');
     if (modal) modal.classList.add('hidden');
     if (player) {
-        player.pause(); // Pause video instantly so audio doesn't keep running in the background
+        player.pause(); 
         player.src = "";
     }
 }
@@ -4461,17 +4029,12 @@ function closeImageModal() {
     document.getElementById('imageModal').classList.add('hidden');
 }
 
-// =====================================================================
-// MAPBOX: CLIENT DASHBOARD LOCATION SERVICES
-// =====================================================================
-// 1. Define the marker function outside so it's clean and reusable
 function displayTicketLocation(map, ticket) {
-    // 1. If the ticket is completed, don't show it on the map
+
     if (ticket.status === 'completed') {
         return; 
     }
 
-    // 2. Double check coordinates exist so the map doesn't crash
     if (!ticket.coordinates || ticket.coordinates.length !== 2) {
         console.warn(`Ticket ${ticket.ticketId} is missing coordinates. Skipping pin.`);
         return;
@@ -4498,17 +4061,12 @@ function displayTicketLocation(map, ticket) {
         .addTo(map);
 }
 
-// 2. Updated fetching function using dynamic imports
 async function fetchAndPlotClientTickets(map, clientId) {
     try {
-        // 1. Reference the collection using the global 'db' variable from your config
-        // Using the v8 syntax: db.collection("collection_name")
+
         const ticketsRef = db.collection("client_tickets"); 
-        
-        // 2. Query using v8 syntax: .where()
         const querySnapshot = await ticketsRef.where("clientId", "==", clientId).get();
         
-        // 3. Loop through the documents
         querySnapshot.forEach((doc) => {
             const ticketData = doc.data();
             displayTicketLocation(map, ticketData);
@@ -4519,7 +4077,6 @@ async function fetchAndPlotClientTickets(map, clientId) {
     }
 }
 
-// 3. Your main map initialization function
 function initClientMap() {
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam9tamFiYWRhbjE5IiwiYSI6ImNtcXE0bXpuMDBiOGkycm91NjBwOHl6M3AifQ.Skgcjl5ytTVSUFEefgdwcg'; 
 
@@ -4548,38 +4105,30 @@ function initClientMap() {
     map.on('load', () => {
         geolocate.trigger();
 
-        // 1. Load basic map locations if defined
         if (typeof loadMapLocations === "function") {
             loadMapLocations(map);
         }
 
-        // 2. FIXED: Safely load Hybrid Pro locations independently
         if (typeof loadHybridProsOnMap === "function") {
             loadHybridProsOnMap(map);
         }
 
-        // 3. Kick off real-time transit tracking links
         if (savedClientId && typeof startProTrackingListener === "function") {
             startProTrackingListener(map, savedClientId);
         }
 
-        // 4. Draw existing static history markers
         if (savedClientId && typeof fetchAndPlotClientTickets === "function") {
             fetchAndPlotClientTickets(map, savedClientId);
         }
     });
 }
 
-// =====================================================================
-// MAPBOX: PRO PROFILE SERVICE ZONES
-// =====================================================================
 async function initProMap() {
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam9tamFiYWRhbjE5IiwiYSI6ImNtcXE0bXpuMDBiOGkycm91NjBwOHl6M3AifQ.Skgcjl5ytTVSUFEefgdwcg';
 
     const mapContainer = document.getElementById('proMap');
     if (!mapContainer) return;
 
-    // Default location (Santa Rosa)
     let defaultLandingCenter = [121.1114, 14.3142];
     let defaultZoom = 11;
 
@@ -4608,15 +4157,9 @@ async function initProMap() {
                     proData.coordinates.length === 2
                 ) {
 
-                    // ✅ Correctly separate longitude and latitude
                     const separateLng = Number(proData.coordinates[0]);
                     const separateLat = Number(proData.coordinates[1]);
 
-                    console.log("=== SEPARATED VARIABLE VALIDATION ===");
-                    console.log("Longitude:", separateLng);
-                    console.log("Latitude:", separateLat);
-
-                    // Validate coordinates
                     if (
                         !isNaN(separateLng) &&
                         !isNaN(separateLat) &&
@@ -4655,7 +4198,6 @@ async function initProMap() {
 
     }
 
-    // Initialize Mapbox
     try {
 
         window.proMapInstance = new mapboxgl.Map({
@@ -4680,8 +4222,8 @@ async function initProMap() {
 
         map.on('load', () => {
 
-    loadCurrentProLocation(map);   // only my workshop
-    listenToIncomingTickets();     // client tickets only
+    loadCurrentProLocation(map);
+    listenToIncomingTickets();    
 
 });
 
@@ -4728,14 +4270,12 @@ function startProTrackingListener(map, clientId) {
     const hudDistance = document.getElementById('hudDistanceVal');
     const hudProName = document.getElementById('hudProName');
 
-    // Initialize global tracking variable if not set up
     if (!window.trackingMarkers) {
         window.trackingMarkers = { client: null, pro: null };
     }
 
     console.log("Listening directly for your accepted ticket tasks...");
 
-    // 1. Direct Realtime listener on tickets table
     db.collection('client_tickets')
         .where('clientId', '==', clientId)
         .where('status', '==', 'accepted')
@@ -4748,13 +4288,11 @@ function startProTrackingListener(map, clientId) {
                 return;
             }
 
-            // Extract values directly out of the raw doc layer
             const firstTicketDoc = ticketSnapshot.docs;
             const ticketData = typeof firstTicketDoc.data === 'function' ? firstTicketDoc.data() : firstTicketDoc;
             
             if (!ticketData) return;
 
-            // Safe property checks
             const clientCoords = ticketData.coordinates || (ticketData.location && ticketData.location.coordinates);
             const proId = ticketData.acceptedById || ticketData.acceptedBy || ticketData.proId;
 
@@ -4765,7 +4303,6 @@ function startProTrackingListener(map, clientId) {
                 return;
             }
 
-            // 2. Query the Pro's live profile position in 'pro_registers'
             db.collection('pro_registers').doc(proId).get()
                 .then((proDoc) => {
                     if (!proDoc.exists) {
@@ -4776,7 +4313,6 @@ function startProTrackingListener(map, clientId) {
                     const proData = proDoc.data();
                     if (!proData) return;
 
-                    // Fallback to whichever location metric field has data populated
                     const proCoords = proData.liveCoordinates || proData.coordinates || proData.workshopCoordinates;
                     const activeProName = currentProUser.name || currentProUser.username;
 
@@ -4787,14 +4323,11 @@ function startProTrackingListener(map, clientId) {
                         return;
                     }
 
-                    // Clear past markers before drawing fresh ones
                     clearLiveTrackingAssets(map);
 
-                    // Reveal Dashboard Telemetry Layer
                     if (hud) hud.classList.remove('hidden');
                     if (hudProName) hudProName.textContent = `Expert: ${proName}`;
 
-                    // Update Distance calculation display using index coordinates
                     const distanceKm = calculateHaversineDistance(
                         clientCoords, clientCoords, 
                         proCoords, proCoords
@@ -4806,7 +4339,6 @@ function startProTrackingListener(map, clientId) {
                             : `${distanceKm.toFixed(2)} km away`;
                     }
 
-                    // Render Client House Pin
                     const clientEl = document.createElement('div');
                     clientEl.className = 'custom-client-marker';
                     clientEl.innerHTML = `
@@ -4819,7 +4351,6 @@ function startProTrackingListener(map, clientId) {
                         .setPopup(new mapboxgl.Popup({ offset: 10 }).setHTML(`<div class="text-xs font-mono font-bold p-1">Your Location</div>`))
                         .addTo(map);
 
-                    // Render Dispatched Pro Pin
                     const proEl = document.createElement('div');
                     proEl.className = 'custom-pro-marker';
                     proEl.innerHTML = `
@@ -4832,10 +4363,8 @@ function startProTrackingListener(map, clientId) {
                         .setPopup(new mapboxgl.Popup({ offset: 10 }).setHTML(`<div class="text-xs font-mono font-bold p-1">${proName} (En Route)</div>`))
                         .addTo(map);
 
-                    // Connect them with a routing visual vector line
                     drawConnectingVectorLine(map, clientCoords, proCoords);
 
-                    // Camera frame adjustment bounding box
                     const bounds = new mapboxgl.LngLatBounds();
                     bounds.extend(clientCoords);
                     bounds.extend(proCoords);
@@ -4924,29 +4453,21 @@ window.toggleMapFullscreen = function(event) {
         return;
     }
 
-    // Determine current state based on visibility class
     const isCurrentlyHidden = lightbox.classList.contains('hidden');
 
     if (isCurrentlyHidden) {
-        // --- STEP A: POPUP LIGHTBOX ENGAGEMENT ---
-        // Physical relocation to the root body lightbox node wrapper
         lightboxSlot.appendChild(mapElement);
         
-        // Remove Tailwind hidden asset lock states
         lightbox.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Freeze dashboard screen scroll mechanics
+        document.body.style.overflow = 'hidden'; 
     } else {
-        // --- STEP B: RETURN TO DASHBOARD PROFILE GRID ---
-        // Send the element right back to the original dashboard card housing element
+
         originalSlot.appendChild(mapElement);
-        
-        // Re-engage hidden overlay flags
+
         lightbox.classList.add('hidden');
-        document.body.style.overflow = ''; // Unlock background document tracking
+        document.body.style.overflow = ''; 
     }
 
-    // --- STEP C: FORCE MAPBOX CANVAS RECOMPUTATION ---
-    // Since the canvas dimensions warped violently, force immediate rasterization updates
     setTimeout(() => {
         mapInstance.resize();
     }, 60);
@@ -4957,7 +4478,6 @@ window.resetMapToInitialState = function(event) {
         event.preventDefault();
     }
 
-    // 1. Clear out targeted pin telemetry
     if (window.activeTicketMarker) {
         window.activeTicketMarker.remove();
         window.activeTicketMarker = null;
@@ -4967,7 +4487,6 @@ window.resetMapToInitialState = function(event) {
         window.activeTicketPopup = null;
     }
 
-    // 2. Snap Mapbox camera parameters back to default configuration vectors
     const map = window.proMapInstance;
     if (map) {
         map.flyTo({
@@ -4980,14 +4499,11 @@ window.resetMapToInitialState = function(event) {
         });
     }
 
-    // 3. Hide the Home/Reset view button layout layer
     const resetBtn = document.getElementById('mapResetViewBtn');
     if (resetBtn) {
         resetBtn.classList.add('hidden');
     }
 
-    // --- NEW: SIDEBAR VIEWPORT SCROLL RECOVERY MATRIX ---
-    // Safely pull the sidebar scroll container back up to the zero origin mark smoothly
     const sidebar = document.getElementById('profileSidebar');
     if (sidebar) {
         sidebar.scrollTo({
@@ -4999,7 +4515,6 @@ window.resetMapToInitialState = function(event) {
 function loadHybridProsOnMap(map) {
     if (!map) return;
 
-    // Fetch all verified pros who configured a hybrid setup
     db.collection('pro_registers')
         .where('serviceSetup', '==', 'hybrid')
         .get()
@@ -5014,7 +4529,6 @@ function loadHybridProsOnMap(map) {
     const proData = doc.data();
     const proId = doc.id;
 
-    // Hide yourself
     if (proId === currentProUser?.id) return;
 
     const coords = proData.coordinates || proData.workshopCoordinates;
@@ -5027,10 +4541,8 @@ function loadHybridProsOnMap(map) {
         "Technician | Engineer";
 
           
-                // Skip if this pro hasn't successfully generated coordinates
                 if (!coords || coords.length !== 2) return;
 
-                // Create a unique, distinct visual element for the Hybrid Pro Shop pin
                 const hybridEl = document.createElement('div');
                 hybridEl.className = 'custom-hybrid-shop-marker';
                 hybridEl.innerHTML = `
@@ -5042,7 +4554,6 @@ function loadHybridProsOnMap(map) {
                     </div>
                 `;
 
-                // Build a stylish dark telemetry popup card matching your brand theme
                 const popupHTML = `
                     <div style="
                         color: #f8fafc; 
@@ -5068,7 +4579,6 @@ function loadHybridProsOnMap(map) {
                     </div>
                 `;
 
-                // Drop the static Hybrid Pro marker onto the map
                 new mapboxgl.Marker({ element: hybridEl })
                     .setLngLat(coords)
                     .setPopup(new mapboxgl.Popup({ offset: 15, closeButton: false }).setHTML(popupHTML))
@@ -5077,7 +4587,7 @@ function loadHybridProsOnMap(map) {
         })
         .catch((err) => console.error("Error mapping hybrid network:", err));
 }
-// --- UPDATE YOUR FOCUS METHOD TO ENGAGE OVERLAY VISIBILITY ON CLICK ---
+
 window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
     if (event) {
         event.stopPropagation();
@@ -5086,12 +4596,9 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
 
     const map = window.proMapInstance;
     if (!map) return;
-
-    // Flush any preceding targeting telemetry profiles
     if (window.activeTicketMarker) window.activeTicketMarker.remove();
     if (window.activeTicketPopup) window.activeTicketPopup.remove();
 
-    // Spawn precise active targeting nodes
     const el = document.createElement('div');
     el.className = 'ticket-live-pin';
     el.innerHTML = `
@@ -5121,7 +4628,6 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
         .setPopup(window.activeTicketPopup)
         .addTo(map);
 
-    // Dynamic wide angle 3D tilt tracking vector mapping switch
     map.flyTo({
         center: [lng, lat],
         zoom: 14.5,
@@ -5132,19 +4638,17 @@ window.viewTicketOnMap = function(event, lat, lng, ticketId, addressText) {
 
     window.activeTicketMarker.togglePopup();
 
-    // REVEAL THE RESET RADAR CONTROLLER STRIP OVERLAY
     const resetBtn = document.getElementById('mapResetViewBtn');
     if (resetBtn) {
         resetBtn.classList.remove('hidden');
     }
 
-    // Smooth interface scroll into position context matrix anchor points
     const mapElement = document.getElementById('proMap');
     if (mapElement) {
         mapElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 };
-// When the map loads, fetch dynamic data from Firestore
+
    async function loadAvailabilityStatus() {
 
     const currentUser = firebase.auth().currentUser;
@@ -5243,10 +4747,8 @@ function loadMapLocations(mapInstance) {
                 const address =
                     proData.location ||
                     "No address available";
-// Detect which page is open
-const isClientDashboard = window.location.pathname.includes("client_dashboard");
 
-// Only show the Request button on the client page
+const isClientDashboard = window.location.pathname.includes("client_dashboard");
 const requestButton = isClientDashboard
     ? `
         <button
@@ -5424,22 +4926,16 @@ async function toggleAvailability(isAvailable) {
 }
 window.selectProFromMap = function (proId, proName) {
 
-    // Save selected professional
     document.getElementById("assignedProId").value = proId;
     document.getElementById("assignedProName").value = proName;
-
-    // Show selected professional card
     document.getElementById("selectedProBusiness").textContent = proName;
     document.getElementById("selectedProCard").classList.remove("hidden");
-
-    // Scroll to the request form
     document.getElementById("dashboardServiceRequestForm")
         .scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
 
-    // Highlight the form briefly
     const form = document.getElementById("dashboardServiceRequestForm");
 
     form.classList.add("ring-2","ring-cyan-400");
@@ -5463,7 +4959,6 @@ function clearSelectedProfessional(){
 let proMapInstance = null;
 let proMarkerInstance = null;
 
-// Initialize layout dependencies on loading target page document nodes
 document.addEventListener('DOMContentLoaded', () => {
     populateProCountries();
 });
@@ -5474,17 +4969,13 @@ function populateProCountries() {
     
     countrySelect.innerHTML = '';
     
-    // Default placeholder configuration node injection
     const placeholder = document.createElement('option');
     placeholder.value = "";
     placeholder.innerText = "Select Country";
     placeholder.disabled = true;
     placeholder.selected = true;
     countrySelect.appendChild(placeholder);
-    
-    // Sort global list alphabetically
     countriesList.sort((a, b) => a.name.localeCompare(b.name));
-
     countriesList.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.code;
@@ -5499,7 +4990,7 @@ window.onProCountryChange = function() {
     document.getElementById('proCity').disabled = true;
 };
 
-// Cascading Engine Lookup Hook
+
 async function searchProLocation(level) {
     const country = document.getElementById('proCountry').value;
     const stateInput = document.getElementById('proState');
@@ -5563,7 +5054,6 @@ async function searchProLocation(level) {
     }
 }
 
-// Collapsible Mapping Canvas View toggles
 function toggleProMap() {
     const wrapper = document.getElementById('proMapWrapper');
     if (!wrapper) return;
@@ -5582,8 +5072,6 @@ function initProVerificationMap() {
     let initialLng = parseFloat(document.getElementById('proGeoLng').value) || 121.1114;
     let initialLat = parseFloat(document.getElementById('proGeoLat').value) || 14.3142;
 
-    // Force default coordinates into inputs immediately on load 
-    // so it saves properly even if they don't drag the pin!
     document.getElementById('proGeoLat').value = initialLat;
     document.getElementById('proGeoLng').value = initialLng;
     document.getElementById('proDisplayLat').innerText = initialLat.toFixed(4);
@@ -5600,7 +5088,6 @@ function initProVerificationMap() {
         .setLngLat([initialLng, initialLat])
         .addTo(proMapInstance);
 
-    // Update coordinates when moving the marker
     proMarkerInstance.on('dragend', () => {
         const lngLat = proMarkerInstance.getLngLat();
         document.getElementById('proGeoLat').value = lngLat.lat;
@@ -5609,7 +5096,6 @@ function initProVerificationMap() {
         document.getElementById('proDisplayLng').innerText = lngLat.lng.toFixed(4);
     });
 
-    // OPTIONAL BONUS: Update marker when clicking somewhere else on the map
     proMapInstance.on('click', (e) => {
         proMarkerInstance.setLngLat(e.lngLat);
         document.getElementById('proGeoLat').value = e.lngLat.lat;
@@ -5618,7 +5104,7 @@ function initProVerificationMap() {
         document.getElementById('proDisplayLng').innerText = e.lngLat.lng.toFixed(4);
     });
 }
-// Global workspace click catch to clean up open dropdown interfaces
+
 document.addEventListener('click', (e) => {
     if (!e.target.closest('#proTarget') && !e.target.closest('#proState-dropdown')) {
         document.getElementById('proState-dropdown')?.classList.add('hidden');
@@ -5641,14 +5127,13 @@ async function updateProProfileDetails(userId) {
         ? `${streetVal}, ${cityVal}, ${stateVal}, ${countryVal}` 
         : `${cityVal}, ${stateVal}, ${countryVal}`;
 
-    // Target your specialized professional data collections object mapping path
     await db.collection('pro_registers').doc(userId).update({
         location: consolidatedAddress,
         streetOrBarangay: streetVal || "N/A",
         city: cityVal,
         state: stateVal,
         country: countryVal,
-        coordinates: [lngVal, latVal] // Saved for precise geolocation distance querying!
+        coordinates: [lngVal, latVal]
     });
 }
 
@@ -5735,4 +5220,82 @@ console.log("Placeholder:", placeholder);
 
     }
 
+}
+function switchMobileTab(targetSectionId, clickedBtnId) {
+    // 1. Array of all target screen segments
+    const sections = ['leftSidebar', 'centerFeedSection', 'profileSidebar'];
+    
+    sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        
+        if (id === targetSectionId) {
+            // Remove hidden properties to bring the selected element forward
+            el.classList.remove('hidden');
+        } else {
+            // Apply hidden element tag
+            el.classList.add('hidden');
+        }
+    });
+
+    // 2. Control tab active styles matching UI configuration
+    const tabButtons = ['mobileTabBtnProfile', 'mobileTabBtnFeed', 'mobileTabBtnRadar'];
+    
+    tabButtons.forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        
+        if (btnId === clickedBtnId) {
+            // Highlight styling for selection
+            btn.classList.add('text-amber-400', 'border-amber-400', 'bg-slate-900/40');
+            btn.classList.remove('text-slate-400', 'border-transparent');
+        } else {
+            // Revert back to unselected grey configuration
+            btn.classList.remove('text-amber-400', 'border-amber-400', 'bg-slate-900/40');
+            btn.classList.add('text-slate-400', 'border-transparent');
+        }
+    });
+    
+    // Optional layout update triggers (e.g. Leaflet map recalculation when view is switched)
+    if (targetSectionId === 'profileSidebar' && typeof window.proMap !== 'undefined') {
+         setTimeout(() => { window.proMap.invalidateSize(); }, 150);
+    }
+}function switchMobileDashboardTab(selectedTab) {
+    // Only target screens operating under the desktop breakpoint configuration
+    if (window.innerWidth >= 1024) return;
+
+    const sections = {
+        profile: document.getElementById('leftSidebar'),
+        feed: document.getElementById('centerFeedSection'),
+        support: document.getElementById('rightSidebar')
+    };
+
+    const buttons = {
+        profile: document.getElementById('mobileTabBtn-profile'),
+        feed: document.getElementById('mobileTabBtn-feed'),
+        support: document.getElementById('mobileTabBtn-support')
+    };
+
+    // Cycle layouts to toggle baseline visibility arrays
+    Object.keys(sections).forEach(tabKey => {
+        if (sections[tabKey] && buttons[tabKey]) {
+            if (tabKey === selectedTab) {
+                // Show selected dashboard layout target element
+                sections[tabKey].classList.remove('hidden');
+                sections[tabKey].classList.add('block');
+                
+                // Active Amber Highlight styling
+                buttons[tabKey].classList.remove('text-slate-500');
+                buttons[tabKey].classList.add('text-amber-400');
+            } else {
+                // Hide inactive targets
+                sections[tabKey].classList.remove('block');
+                sections[tabKey].classList.add('hidden');
+                
+                // Muted state styling
+                buttons[tabKey].classList.remove('text-amber-400');
+                buttons[tabKey].classList.add('text-slate-500');
+            }
+        }
+    });
 }
