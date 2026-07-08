@@ -23,8 +23,7 @@
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script> 
 	<script src="script.js" defer></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
-	<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body class="flex flex-col min-h-screen bg-slate-950 overflow-hidden">
@@ -44,19 +43,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             </div>
         </a>
 
-        <button 
-            id="dashboardMenuToggle" 
-            onclick="window.toggleDashboardMenu()" 
-            class="flex md:hidden text-slate-400 hover:text-amber-400 text-xl p-2 transition-colors duration-200 focus:outline-none cursor-pointer z-50"
-            aria-label="Toggle Dashboard Menu"
-        >
+        <button id="dashboardMenuToggle" onclick="window.toggleDashboardMenu()" class="flex md:hidden text-slate-400 hover:text-amber-400 text-xl p-2 transition-colors duration-200 focus:outline-none cursor-pointer z-50" aria-label="Toggle Dashboard Menu">
             <i id="dashboardMenuIcon" class="fa-solid fa-bars"></i>
         </button>
 
-        <div 
-            id="dashboardNavGroup" 
-            class="hidden md:flex flex-col md:flex-row items-stretch md:items-center justify-between md:flex-1 absolute md:static top-20 left-0 w-full md:w-auto bg-slate-950/95 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border-b border-slate-900 md:border-none p-6 md:p-0 gap-6 md:gap-4 shadow-2xl md:shadow-none z-40"
-        >
+        <div id="dashboardNavGroup" class="hidden md:flex flex-col md:flex-row items-stretch md:items-center justify-between md:flex-1 absolute md:static top-20 left-0 w-full md:w-auto bg-slate-950/95 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border-b border-slate-900 md:border-none p-6 md:p-0 gap-6 md:gap-4 shadow-2xl md:shadow-none z-40">
             <nav class="flex flex-col md:flex-row items-start md:items-center gap-5 md:mx-auto w-full md:w-auto">
                 <a href="#service" onclick="window.toggleDashboardMenu(false)" class="text-xs md:text-[11px] uppercase tracking-widest text-white hover:text-amber-400 font-bold transition-all duration-300 border-b border-amber-500/50 hover:border-amber-400 pb-1 md:pb-0.5 block w-full md:w-auto">Request a Service</a>
                 <a href="#articles" onclick="window.toggleDashboardMenu(false)" class="text-xs md:text-[11px] uppercase tracking-widest text-white hover:text-amber-400 font-bold transition-all duration-300 border-b border-amber-500/50 hover:border-amber-400 pb-1 md:pb-0.5 block w-full md:w-auto">Electronics Articles</a>
@@ -77,64 +68,27 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     </div>
 </header>
     <main class="flex-grow w-full bg-slate-300/10 backdrop-blur-md max-w-7xl mx-auto px-6 pt-28 pb-6">
-        <div id="authorizedClientDashboard" class="hidden space-y-6">
+    <div id="authorizedClientDashboard" class="hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"> 
             
-            
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                
-      <aside id="leftSidebar" class="lg:col-span-3 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
+           <aside id="leftSidebar" class="hidden lg:block lg:col-span-3 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
     <div class="flex flex-col gap-6">
-
-        <div class="bg-slate-900/60 border border-amber-500 p-5 rounded-2xl flex flex-col shadow-lg shadow-amber-500/50">
-           
-			<div class="flex flex-col items-center mb-5">
-
-    <div class="relative group">
-
-        <div class="w-24 h-24 rounded-full border border-slate-700 bg-slate-900 overflow-hidden flex items-center justify-center">
-
-            <img
-                id="clientAvatarPreview"
-                class="hidden w-full h-full object-cover cursor-pointer"
-                onclick="openMediaViewer(this.src,'image')">
-
-            <span
-                id="clientAvatarPlaceholder"
-                class="text-6xl">
-
-                👤
-
-            </span>
-
-        </div>
-
-        <button
-            onclick="document.getElementById('clientAvatarInput').click()"
-            class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-amber-500 text-slate-900 hover:scale-110 transition">
-
-            <i class="fa-solid fa-camera"></i>
-
-        </button>
-
-    </div>
-
-    <input
-    id="clientAvatarInput"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    class="hidden"
-    onchange="handleClientPhotoUpload()">
-
-<p
-    id="clientUploadStatus"
-    class="mt-2 text-xs text-slate-400">
-</p>
-
-   
-
-</div>
+        
+        <div class="bg-slate-900/60 border border-amber-500 p-5 rounded-2xl flex flex-col shadow-lg shadow-amber-500/50">   
+            <div class="flex flex-col items-center mb-5">
+                <div class="relative group">
+                    <div class="w-24 h-24 rounded-full border border-slate-700 bg-slate-900 overflow-hidden flex items-center justify-center">
+                        <img id="clientAvatarPreview" class="hidden w-full h-full object-cover cursor-pointer" onclick="openMediaViewer(this.src,'image')">
+                        <span id="clientAvatarPlaceholder" class="text-6xl">👤</span>
+                    </div>
+                    <button onclick="document.getElementById('clientAvatarInput').click()" class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-amber-500 text-slate-900 hover:scale-110 transition flex items-center justify-center">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+                </div>
+                <input id="clientAvatarInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="handleClientPhotoUpload()">
+                <p id="clientUploadStatus" class="mt-2 text-xs text-slate-400"></p>
+            </div>
+            
             <h2 class="text-2xl font-black text-white tracking-tight">Welcome Back, <span id="dashClientName" class="text-amber-400"></span>!</h2>
             
             <div class="border-t border-slate-800 pt-6 mt-6 space-y-4">
@@ -142,7 +96,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
                 <div class="space-y-3 text-xs">
                     <div>
                         <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">CLIENT ID</span>
-                        <span id="metaId" class="text-slate-300 font-mono">N/A</span>
+                        <span id="metaId" class="text-slate-330 font-mono">N/A</span>
                     </div>
                     <div>
                         <span class="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Registered Email</span>
@@ -160,53 +114,48 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             </div>
         </div>
 
-<div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 p-5 rounded-2xl shadow-xl mt-6 relative">
-    <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sky-400 font-bold text-l flex items-center gap-2">
-        </h3>
-        <span class="text-xs bg-sky-500/10 text-sky-400 px-2 py-1 rounded border border-sky-500/20 font-mono">Nearby Verified Pros | WorkShops</span>
-    </div>
-    
-    <div class="relative w-full h-[350px] rounded-xl border border-slate-700/50 overflow-hidden bg-slate-950">
-        
-        <div id="clientMap" class="w-full h-full relative">
-            
-            <div id="proTrackingHud" class="hidden absolute top-3 left-3 z-20 px-3 py-2 bg-slate-950/90 border border-slate-800 text-slate-200 text-xs font-mono rounded-xl shadow-2xl backdrop-blur-sm space-y-1 max-w-[240px]">
-                <div class="text-amber-400 font-bold flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
-                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                    Pro En Route
-                </div>
-                <div class="text-[11px] text-slate-300">Distance: <span id="hudDistanceVal" class="text-sky-400 font-bold">Calculating...</span></div>
-                <div id="hudProName" class="text-[10px] text-slate-500 truncate">Expert: Tracking Profile...</div>
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800/80 p-5 rounded-2xl shadow-xl relative">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sky-400 font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-map-location-dot"></i> Live Map
+                </h3>
+                <span class="text-xs bg-sky-500/10 text-sky-400 px-2 py-1 rounded border border-sky-500/20 font-mono">Nearby Verified Pros | Workshops</span>
             </div>
-
+            
+            <div class="relative w-full h-[350px] rounded-xl border border-slate-700/50 overflow-hidden bg-slate-950">
+                <div id="clientMap" class="w-full h-full relative">
+                    <div id="proTrackingHud" class="hidden absolute top-3 left-3 z-20 px-3 py-2 bg-slate-950/90 border border-slate-800 text-slate-200 text-xs font-mono rounded-xl shadow-2xl backdrop-blur-sm space-y-1 max-w-[240px]">
+                        <div class="text-amber-400 font-bold flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                            Pro En Route
+                        </div>
+                        <div class="text-[11px] text-slate-300">Distance: <span id="hudDistanceVal" class="text-sky-400 font-bold">Calculating...</span></div>
+                        <div id="hudProName" class="text-[10px] text-slate-500 truncate">Expert: Tracking Profile...</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-
-        <div class="bg-slate-900/60 border border-amber-500 p-5 rounded-2xl flex flex-col items-center justify-center min-h-[250px] shadow-lg shadow-amber-500/50">
+        <div class="bg-slate-900/60 border border-amber-500 p-5 rounded-2xl flex flex-col items-center justify-center min-h-[250px] shadow-lg shadow-amber-500/50 group">
             <span class="text-5xl mb-2">🛒</span>
-            <span class="font-extrabold text-m tracking-tight text-white group-hover:text-amber-400 transition-colors duration-300">
-                        Circuit<span class="text-amber-400 group-hover:text-white transition-colors duration-300">-Shop</span>
-                    </span>
-					<p class="text-[12px] text-amber-500 mt-3 text-center">New | Pre-owned | Parts | Devices</p>
+            <span class="font-extrabold text-base tracking-tight text-white group-hover:text-amber-400 transition-colors duration-300">
+                Circuit<span class="text-amber-400 group-hover:text-white transition-colors duration-300">-Shop</span>
+            </span>
+            <p class="text-[12px] text-amber-500 mt-3 text-center">New | Pre-owned | Parts | Devices</p>
             <p class="text-[12px] text-slate-200 mt-2 text-center">Coming Soon in Future Updates</p>
         </div>
 
     </div>
 </aside>
 
-               <div id="centerFeedSection" class="lg:col-span-5 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
+          <div id="centerFeedSection" class="block lg:block lg:col-span-5 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
     <div class="flex flex-col gap-6">
         
         <div class="bg-slate-950/90 backdrop-blur-xl border border-slate-700/60 p-5 rounded-2xl space-y-4 shadow-2xl">
             <h3 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">Ask Questions, or Drop Testimonials.</h3>
             
             <form id="engineeringPostForm" onsubmit="handleCreatePost(event)" class="space-y-3">
-                <textarea id="postTextContent" rows="3" required 
-                          class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-400 transition-colors placeholder:text-slate-500 font-medium tracking-wide shadow-inner" 
-                          placeholder="Ask a question, or share a testimonial to shout out an expert..."></textarea>
+                <textarea id="postTextContent" rows="3" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-400 transition-colors placeholder:text-slate-500 font-medium tracking-wide shadow-inner" placeholder="Ask a question, or share a testimonial to shout out an expert..."></textarea>
                 
                 <div id="mediaAttachmentPreview" class="hidden flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-300">
                     <span class="flex items-center gap-2 font-mono">
@@ -220,9 +169,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
                 <div class="flex justify-between items-center pt-2">
                     <div class="flex items-center gap-2">
-                        
                         <select id="postTypeSelector" required class="bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-amber-500/40 text-xs font-bold rounded-xl px-3 py-2 font-mono cursor-pointer transition-all focus:outline-none focus:border-amber-400 appearance-none">
-                            <option value="" disabled selected>❓Ask |⭐Review</option>
+                            <option value="" disabled selected>❓Ask | ⭐Review</option>
                             <option value="Question">Question</option>
                             <option value="Testimonial">Testimonial</option>
                         </select>
@@ -241,187 +189,176 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         </div>
 
         <div class="space-y-4">
-            <h4 class="text-xs font-bold uppercase tracking-widest text-amber-500 font-bold pl-1 drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]">
-    Electronics Articles, Questions & Testimonials Feed
-</h4>
+            <h4 class="text-xs font-bold uppercase tracking-widest text-amber-500 pl-1 drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]">
+                Electronics Articles, Questions & Testimonials Feed
+            </h4>
             <div id="socialFeedContainer" class="space-y-4 bg-slate-950/60 backdrop-blur-md rounded-2xl p-2 border border-slate-800/40 shadow-inner">
-                <div class="text-center py-8 text-xs text-amber-300 font-mono font-bold animate-pulse tracking-wide drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">Loading Shared Testimonials, Question and Articles...</div>
+                <div class="text-center py-8 text-xs text-amber-300 font-mono font-bold animate-pulse tracking-wide drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">
+                    Loading Shared Testimonials, Questions and Articles...
+                </div>
             </div>
         </div>
 
     </div>
 </div>
-                <aside class="lg:col-span-4 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
-                    <div class="flex flex-col gap-6">
-                        
-                        <div class="bg-slate-900/60 border border-amber-500 p-6 rounded-2xl space-y-4 shadow-xl shadow-amber-500/10">
-                            <div class="border-b border-slate-800 pb-3">
-                                <h3 class="text-base font-bold tech-mono uppercase">
-                                    <span class="text-amber-400">Need help?</span> 
-                                </h3>
-                                <p class="text-[12px] text-slate-300 mt-1 leading-relaxed">Create a service request or submit a Technical / Engineering support ticket.</p>
-                            </div>
-                            
-                            <form id="dashboardServiceRequestForm" onsubmit="handleDashboardServiceSubmission(event)" class="space-y-4">
-                                <div class="grid grid-cols-1 gap-4">
-								<input type="hidden" id="assignedProId">
-<input type="hidden" id="assignedProName">
 
-<div id="selectedProCard" class="hidden mb-4 rounded-xl border border-cyan-500 bg-cyan-500/10 p-4">
-    <div class="flex items-center justify-between">
-        <div>
-            <div class="text-[10px] uppercase tracking-widest text-cyan-300">
-                Selected Professional
-            </div>
-
-            <div id="selectedProBusiness"
-                 class="text-white font-bold text-lg">
-            </div>
-
-            <div class="text-xs text-slate-300">
-                Your request will be sent directly to this professional.
-            </div>
-        </div>
-
-        <button
-            type="button"
-            onclick="clearSelectedProfessional()"
-            class="text-red-400 hover:text-red-300 text-xs">
-            ✕ Remove
-        </button>
-    </div>
-</div>
-                                    <div>
-                                        <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Type *</label>
-                                        <select id="dashServiceCategory" required onchange="updateServiceTermsBanner(this)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
-                                            <option value="" disabled selected>-- Select a Service Type --</option>
-                                            <optgroup label="🛠️ NO FIX / NO PAY SERVICES" class="bg-slate-900 text-emerald-400 font-bold">
-                                                <option value="repair" class="text-slate-300 font-normal">Electronic Gadgets & Appliances</option>
-                                                <option value="computer" class="text-slate-300 font-normal">Computer/Laptop & Networking</option>
-                                                <option value="industrial" class="text-slate-300 font-normal">EV & Solar Inverter Boards</option>
-                                                <option value="software" class="text-slate-300 font-normal">App Interface Integration</option>
-                                            </optgroup>
-                                            <optgroup label="📋 PROJECT-BASED" class="bg-slate-900 text-blue-400 font-bold mt-2">
-                                                <option value="academic" class="text-slate-300 font-normal">Academic Project Prototyping</option>
-                                                <option value="schematic" class="text-slate-300 font-normal">Schematic Design & PCB Layout</option>
-                                                <option value="cctv" class="text-slate-300 font-normal">CCTV Installation & Repair</option>
-                                                <option value="solar" class="text-slate-300 font-normal">Solar Installation & Upgrade</option>
-                                            </optgroup>
-                                        </select>
-                                        <div id="serviceTermsBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300"></div>
-                                    </div>
-                                    
-                                    <div>
-    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Delivery Option *</label>
-    <select id="dashServiceMode" required onchange="toggleServiceLocationField()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
-        <option value="" disabled selected>-- Select Delivery Option --</option>
-        <option value="Home Service">Home Service (On-site Visit)</option>
-        <option value="Bring to Workshop">Bring to Expert (WorkShop Drop-off)</option>
-        <option value="Agreed Location">Agreed Location (Meet-up)</option>
-    </select>
-    <div id="serviceModeBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300"></div>
-</div>
-
-<div id="ticketLocationSection" class="hidden space-y-4 mt-4 transition-all duration-300">
-    <label class="block text-[11px] font-semibold uppercase tracking-wider text-amber-500 tech-mono">📍 Service Location Details</label>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div>
-            <label for="ticketCountry" class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">Country*</label>
-            <select id="ticketCountry" onchange="onTicketCountryChange()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors">
-                </select>
-        </div>
-
-        <div class="relative">
-            <label class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">State/Province*</label>
-            <input type="text" id="ticketState" placeholder="Type State(e.g. Laguna)" oninput="searchTicketLocation('state')" autocomplete="off"
-                   class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" />
-            <div id="ticketState-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
-        </div>
-
-        <div class="relative">
-            <label class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">City/Municipality*</label>
-            <input type="text" id="ticketCity" placeholder="Type City(e.g. Santa Rosa)" oninput="searchTicketLocation('city')" autocomplete="off" disabled
-                   class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40" />
-            <div id="ticketCity-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
-        </div>
-    </div>
-
-    <div>
-        <label for="ticketStreet" class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">Address Details*</label>
-        <input type="text" id="ticketStreet" 
-               class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" 
-               placeholder="e.g. 123 Sesame St. ATBP Subd. Brgy.Batibot" />
-    </div>
-
-    <div>
-        <button type="button" onclick="toggleTicketMap()" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 font-mono px-3 py-1.5 rounded flex items-center gap-2 transition-all">
-            <i class="fa-solid fa-map-pin"></i>Pin Exact Service Address on Map
-        </button>
+           <aside id="rightSidebar" class="hidden lg:block lg:col-span-4 h-[calc(100vh-15rem)] overflow-y-auto custom-scrollbar pr-2 pb-6">
+    <div class="flex flex-col gap-6">
         
-        <div id="ticketMapWrapper" class="hidden mt-3 space-y-2">
-            <div id="ticketMapCanvas" class="w-full h-[200px] rounded-xl border border-slate-800 bg-slate-950 overflow-hidden"></div>
-            <div class="flex items-center gap-4 text-[10px] font-mono text-slate-400 px-1">
-                <span>Lat: <strong id="ticketDisplayLat" class="text-white">14.3142</strong></span>
-                <span>Lng: <strong id="ticketDisplayLng" class="text-white">121.1114</strong></span>
+        <div class="bg-slate-900/60 border border-amber-500 p-6 rounded-2xl space-y-4 shadow-xl shadow-amber-500/10">
+            <div class="border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold tech-mono uppercase">
+                    <span class="text-amber-400">Need help?</span> 
+                </h3>
+                <p class="text-[12px] text-slate-300 mt-1 leading-relaxed">Create a service request or submit a Technical / Engineering support ticket.</p>
             </div>
-        </div>
-    </div>
-</div>
+            
+            <form id="dashboardServiceRequestForm" onsubmit="handleDashboardServiceSubmission(event)" class="space-y-4">
+                <input type="hidden" id="assignedProId">
+                <input type="hidden" id="assignedProName">
 
-<input type="hidden" id="ticketGeoLat" value="14.3142">
-<input type="hidden" id="ticketGeoLng" value="121.1114">
-
-                                <div>
-                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Description *</label>
-                                    <textarea id="dashTechnicalDetails" rows="3" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors placeholder:text-slate-700" placeholder="Type the full details of the service request..."></textarea>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Attach Media (Optional)</label>
-                                    <input type="file" id="dashMediaFiles" accept="image/*,video/*" multiple onchange="handleFileSelection(event)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20 file:transition-colors file:cursor-pointer cursor-pointer focus:outline-none focus:border-amber-500 transition-colors">
-                                    <p class="text-[9px] text-slate-500 mt-1 tech-mono">Max: 100MB.</p>
-                                    <div id="formMediaPreviewGrid" class="grid grid-cols-3 gap-2 mt-2 empty:hidden"></div>
-                                </div>
-
-                                <button type="submit" id="dashTicketSubmitBtn" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.15)]">
-                                    <span>⚡ Send Request</span>
-                                </button>
-                            </form>
+                <div id="selectedProCard" class="hidden mb-4 rounded-xl border border-cyan-500 bg-cyan-500/10 p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest text-cyan-300">Selected Professional</div>
+                            <div id="selectedProBusiness" class="text-white font-bold text-lg"></div>
+                            <div class="text-xs text-slate-300">Your request will be sent directly to this professional.</div>
                         </div>
+                        <button type="button" onclick="clearSelectedProfessional()" class="text-red-400 hover:text-red-300 text-xs">✕ Remove</button>
+                    </div>
+                </div>
 
-                        <div class="bg-slate-950/40 border border-slate-900 rounded-2xl p-4 shadow-xl">
-                            <div class="flex flex-col gap-3 border-b border-slate-900 pb-4 mb-4">
-                                <div>
-                                    <h2 class="text-xs font-black uppercase tracking-wider text-white tech-mono flex items-center gap-2">
-                                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                                        🛠️ Ticket History
-                                    </h2>
-                                    <p class="text-[10px] text-slate-500 font-mono mt-0.5">
-                                        Diagnostic Monitoring
-                                    </p>
-                                </div>
-                                <button type="button" onclick="loadClientTicketHistory()" class="px-3 py-1.5 w-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/30 text-amber-400 text-[10px] font-bold rounded-lg uppercase font-mono tracking-wider transition-all hover:bg-slate-900 cursor-pointer">
-                                    🔄 Refresh
-                                </button>
-                            </div>
-
-                            <div id="clientTicketsLoading" class="text-center py-6 font-mono text-[10px] text-slate-500 tracking-wide">
-                                Scanning streams...
-                            </div>
-
-                            <div id="clientTicketsEmpty" class="hidden text-center py-6 font-mono text-[10px] text-slate-600 bg-slate-900/10 border border-slate-900 rounded-xl">
-                                No records found.
-                            </div>
-
-                            <div id="clientTicketsGrid" class="hidden flex flex-col gap-3"></div>
-                        </div>
-
-                    </div> 
-                </aside>
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Service Type *</label>
+                    <select id="dashServiceCategory" required onchange="updateServiceTermsBanner(this)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
+                        <option value="" disabled selected>-- Select a Service Type --</option>
+                        <optgroup label="🛠️ NO FIX / NO PAY SERVICES" class="bg-slate-900 text-emerald-400 font-bold">
+                            <option value="repair" class="text-slate-300 font-normal">Electronic Gadgets & Appliances</option>
+                            <option value="computer" class="text-slate-300 font-normal">Computer/Laptop & Networking</option>
+                            <option value="industrial" class="text-slate-300 font-normal">EV & Solar Inverter Boards</option>
+                            <option value="software" class="text-slate-300 font-normal">App Interface Integration</option>
+                        </optgroup>
+                        <optgroup label="📋 PROJECT-BASED" class="bg-slate-900 text-blue-400 font-bold mt-2">
+                            <option value="academic" class="text-slate-300 font-normal">Academic Project Prototyping</option>
+                            <option value="schematic" class="text-slate-300 font-normal">Schematic Design & PCB Layout</option>
+                            <option value="cctv" class="text-slate-300 font-normal">CCTV Installation & Repair</option>
+                            <option value="solar" class="text-slate-300 font-normal">Solar Installation & Upgrade</option>
+                        </optgroup>
+                    </select>
+                    <div id="serviceTermsBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300"></div>
+                </div>
                 
-            </div> </div> 
-    </main>
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Delivery Option *</label>
+                    <select id="dashServiceMode" required onchange="toggleServiceLocationField()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-colors">
+                        <option value="" disabled selected>-- Select Delivery Option --</option>
+                        <option value="Home Service">Home Service (On-site Visit)</option>
+                        <option value="Bring to Workshop">Bring to Expert (WorkShop Drop-off)</option>
+                        <option value="Agreed Location">Agreed Location (Meet-up)</option>
+                    </select>
+                    <div id="serviceModeBanner" class="hidden mt-2 p-2.5 rounded-lg border text-[11px] flex gap-2 items-start transition-all duration-300"></div>
+                </div>
+
+                <div id="ticketLocationSection" class="hidden space-y-4 mt-4 transition-all duration-300">
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-amber-500 tech-mono">📍 Service Location Details</label>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="ticketCountry" class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">Country*</label>
+                            <select id="ticketCountry" onchange="onTicketCountryChange()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors">
+                                <option value="" disabled selected>Select Country</option>
+                                <option value="PH">Philippines</option>
+                            </select>
+                        </div>
+
+                        <div class="relative">
+                            <label class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">State/Province*</label>
+                            <input type="text" id="ticketState" placeholder="Type Province (e.g. Laguna)" oninput="searchTicketLocation('state')" autocomplete="off" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" />
+                            <div id="ticketState-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+                        </div>
+
+                        <div class="relative">
+                            <label class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">City/Municipality*</label>
+                            <input type="text" id="ticketCity" placeholder="Type City (e.g. Santa Rosa)" oninput="searchTicketLocation('city')" autocomplete="off" disabled class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-40" />
+                            <div id="ticketCity-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50 text-xs text-slate-200 divide-y divide-slate-800/50"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="ticketStreet" class="block text-[9px] font-semibold uppercase tracking-wider text-slate-300 mb-1">Address Details*</label>
+                        <input type="text" id="ticketStreet" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors" placeholder="e.g. 123 Sesame St. ATBP Subd. Brgy. Batibot" />
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="toggleTicketMap()" class="text-[10px] bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 font-mono px-3 py-1.5 rounded flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-map-pin"></i>Pin Exact Service Address on Map
+                        </button>
+                        
+                        <div id="ticketMapWrapper" class="hidden mt-3 space-y-2">
+                            <div id="ticketMapCanvas" class="w-full h-[200px] rounded-xl border border-slate-800 bg-slate-950 overflow-hidden"></div>
+                            <div class="flex items-center gap-4 text-[10px] font-mono text-slate-400 px-1">
+                                <span>Lat: <strong id="ticketDisplayLat" class="text-white">14.3142</strong></span>
+                                <span>Lng: <strong id="ticketDisplayLng" class="text-white">121.1114</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="ticketGeoLat" value="14.3142">
+                <input type="hidden" id="ticketGeoLng" value="121.1114">
+
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Description *</label>
+                    <textarea id="dashTechnicalDetails" rows="3" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors placeholder:text-slate-700" placeholder="Type the full details of the service request..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Attach Media (Optional)</label>
+                    <input type="file" id="dashMediaFiles" accept="image/*,video/*" multiple onchange="handleFileSelection(event)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20 file:transition-colors file:cursor-pointer cursor-pointer focus:outline-none focus:border-amber-500 transition-colors">
+                    <p class="text-[9px] text-slate-500 mt-1 tech-mono">Max: 100MB.</p>
+                    <div id="formMediaPreviewGrid" class="grid grid-cols-3 gap-2 mt-2 empty:hidden"></div>
+                </div>
+
+                <button type="submit" id="dashTicketSubmitBtn" class="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold rounded-xl tracking-widest uppercase text-xs tech-mono transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+                    <span>⚡ Send Request</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-slate-950/40 border border-slate-900 rounded-2xl p-4 shadow-xl">
+            <div class="flex flex-col gap-3 border-b border-slate-900 pb-4 mb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xs font-black uppercase tracking-wider text-white tech-mono flex items-center gap-2">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            🛠️ Ticket History
+                        </h2>
+                        <p class="text-[10px] text-slate-500 font-mono mt-0.5">Diagnostic Monitoring</p>
+                    </div>
+                    <button type="button" onclick="loadClientTicketHistory()" class="px-3 py-1.5 w-1/3 bg-slate-900/80 border border-slate-800 hover:border-amber-500/30 text-amber-400 text-[10px] font-bold rounded-lg uppercase font-mono tracking-wider transition-all hover:bg-slate-900 cursor-pointer">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div id="clientTicketsLoading" class="text-center py-6 font-mono text-[10px] text-slate-500 tracking-wide">
+                Scanning streams...
+            </div>
+
+            <div id="clientTicketsEmpty" class="hidden text-center py-6 font-mono text-[10px] text-slate-600 bg-slate-900/10 border border-slate-900 rounded-xl">
+                No records found.
+            </div>
+
+            <div id="clientTicketsGrid" class="hidden flex flex-col gap-3"></div>
+        </div>
+
+    </div> 
+</aside>
+            
+        </div>
+    </div> 
+	
+</main>
 
 <footer class="fixed bottom-0 w-full bg-slate-950 border-t border-slate-900 p-3 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
@@ -438,17 +375,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <p class="text-xs text-slate-500 transition-colors duration-300 group-hover:text-slate-400 font-mono">
             &copy; 2026 circuit-service.com. All Rights Reserved.
         </p>
-        
-        
     </div>
 </div>
-        
         <div class="flex items-center gap-4">
-            <!-- Progress Button -->
-           <button 
-    onclick="toggleRoadmapModal(true)"
-    class="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 font-medium text-xs px-4 py-2 rounded-full transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
->
+           <button onclick="toggleRoadmapModal(true)" class="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 font-medium text-xs px-4 py-2 rounded-full transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h2.25A1.125 1.125 0 0 1 7.5 19.875v-6.75A1.125 1.125 0 0 1 8.625 12h2.25c.621 0 1.125.504 1.125 1.125v6.75c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 12 19.875v-6.75a1.125 1.125 0 0 1 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v6.75c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 16.5 19.875v-6.75a1.125 1.125 0 0 1 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125C16.5 3.504 17.004 3 17.625 3h2.25c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
     </svg>
@@ -456,10 +386,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 </button>
 
 <div class="flex items-center gap-3 border-l border-slate-800 pl-4">
-    <button 
-        onclick="toggleSupportModal(true)"
-        class="flex items-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-500/50 text-amber-400 font-medium text-xs px-4 py-2 rounded-full shadow-sm shadow-amber-500/5 transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
-    >
+    <button onclick="toggleSupportModal(true)" class="flex items-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-500/50 text-amber-400 font-medium text-xs px-4 py-2 rounded-full shadow-sm shadow-amber-500/5 transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
         </svg>
@@ -474,19 +401,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     </div>
 </footer>
 
-<!-- 2. PUT THE MODAL CODE HERE (Outside and below the footer) -->
-
-<!-- INTERACTIVE ROADMAP MODAL -->
-<div 
-    id="roadmapModal" 
-    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity opacity-0 duration-300"
->
+<div id="roadmapModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity opacity-0 duration-300">
     <div class="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-2xl p-6 shadow-2xl relative transform scale-95 transition-transform duration-300">
         
-        <button 
-            onclick="toggleRoadmapModal(false)"
-            class="absolute top-4 right-4 text-slate-400 hover:text-amber-400 p-1 rounded-lg hover:bg-slate-800 transform transition-all duration-300 ease-in-out hover:rotate-90 hover:scale-110 active:scale-95"
-        >
+        <button onclick="toggleRoadmapModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-amber-400 p-1 rounded-lg hover:bg-slate-800 transform transition-all duration-300 ease-in-out hover:rotate-90 hover:scale-110 active:scale-95">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
@@ -501,9 +419,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         </div>
 
         <div class="space-y-5 font-sans text-left relative pl-1">
-            
             <div class="absolute left-[4px] top-2 bottom-2 w-[1px] bg-slate-800"></div>
-            
             <div class="roadmap-item flex gap-4 relative transition-all duration-500 ease-out opacity-0 translate-y-4 transform">
                 <div class="z-10 w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 flex-shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
                 <div>
@@ -569,175 +485,106 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             </div>
 
         </div> </div> </div>
-<!-- INTERACTIVE LOCAL QR MODAL COMPONENT -->
 <div id="supportModal" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 bg-slate-950/80 backdrop-blur-sm">
     <div class="relative w-full max-w-sm p-6 mx-4 transition-transform transform scale-95 border rounded-2xl bg-slate-900 border-slate-800 shadow-2xl">
-        
-        <!-- Close Button -->
-         <button 
-    onclick="toggleSupportModal(false)"
-    class="absolute top-4 right-4 z-10 text-slate-400 hover:text-amber-400 p-1 rounded-lg hover:bg-slate-800 transform transition-all duration-300 ease-in-out hover:rotate-90 hover:scale-110 active:scale-95"
->
+         <button onclick="toggleSupportModal(false)" class="absolute top-4 right-4 z-10 text-slate-400 hover:text-amber-400 p-1 rounded-lg hover:bg-slate-800 transform transition-all duration-300 ease-in-out hover:rotate-90 hover:scale-110 active:scale-95">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
     </svg>
 </button>
 
-
-        <!-- Menu Screen -->
         <div id="supportSelectionView" class="text-center transition-all duration-300 ease-out transform opacity-100 scale-100"">
             <h3 class="text-xl font-bold text-white mb-2">Support the Project</h3>
             <p class="text-xs text-slate-400 mb-6">Choose your preferred way to help keep Circuit-Service running.</p>
             
             <div class="space-y-3">
-                <!-- PayPal Button -->
-               <button 
-    onclick="showSupportQR('paypal')" 
-    class="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 transition-all duration-200 border rounded-xl bg-slate-800/50 border-slate-700 hover:bg-slate-800 hover:border-blue-500/50 hover:text-white hover:-translate-y-0.5 active:scale-[0.98] shadow-lg hover:shadow-blue-500/10"
->
+               <button onclick="showSupportQR('paypal')" class="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 transition-all duration-200 border rounded-xl bg-slate-800/50 border-slate-700 hover:bg-slate-800 hover:border-blue-500/50 hover:text-white hover:-translate-y-0.5 active:scale-[0.98] shadow-lg hover:shadow-blue-500/10">
     Global Reach
 </button>
 
-<button 
-    onclick="showSupportQR('local')" 
-    class="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 transition-all duration-200 border rounded-xl bg-slate-800/50 border-slate-700 hover:bg-slate-800 hover:border-blue-400/50 hover:text-white hover:-translate-y-0.5 active:scale-[0.98] shadow-lg hover:shadow-blue-400/10"
->
+<button onclick="showSupportQR('local')" class="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm font-medium text-slate-300 transition-all duration-200 border rounded-xl bg-slate-800/50 border-slate-700 hover:bg-slate-800 hover:border-blue-400/50 hover:text-white hover:-translate-y-0.5 active:scale-[0.98] shadow-lg hover:shadow-blue-400/10">
     Local Touch
 </button>
-                
-                <!-- Founder's Note Wrapper Group -->
+
                 <div class="relative mt-5 group">
-                    <!-- Ambient Pulse Glow Effect Behind the Card -->
                     <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl blur-md opacity-75 animate-pulse group-hover:opacity-100 transition-opacity duration-800"></div>
-                    
-                    <!-- Fixed Card Body (Always visible when view is open) -->
-                    <div 
-                        id="foundersNoteCard"
-                        class="relative bg-slate-900/90 border border-amber-500/20 rounded-xl p-4 text-center overflow-hidden shadow-lg shadow-amber-500/5 transition-all duration-500 opacity-100 translate-y-0 transform"
-                    >
-                        <!-- Header Text -->
+                    <div id="foundersNoteCard" class="relative bg-slate-900/90 border border-amber-500/20 rounded-xl p-4 text-center overflow-hidden shadow-lg shadow-amber-500/5 transition-all duration-500 opacity-100 translate-y-0 transform">
                         <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400 block mb-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.2)]">
                             A Founder's Note of Gratitude
                         </span>
-                        
-                        <!-- Heart of the Message -->
                         <p class="text-xs text-slate-300 leading-relaxed italic">
                             "Your support means everything to us while laying the building blocks of this platform. We are keeping track of every founding supporter who believes in our vision early on. If things go great and we hit our milestones together, we fully look forward to giving back to those who helped make it possible."
                         </p>
                     </div>
-                </div> <!-- /relative mt-5 group -->
-            </div> <!-- /space-y-3 -->
-        </div> <!-- /supportSelectionView -->
-
-        <!-- QR Display Screen -->
-      
+                </div>
+            </div>
+        </div>
 
 <div id="supportQRView" class="hidden text-center mt-2 relative transition-all duration-300 ease-out transform opacity-0 scale-95">
     
-    <button 
-        type="button"
-        onclick="resetSupportView()" 
-        class="absolute top-0 left-0 flex items-center gap-1 text-slate-400 hover:text-amber-400 font-extrabold uppercase tracking-widest text-[10px] tech-mono bg-slate-900/60 hover:bg-slate-800/80 px-2 py-1 rounded-lg transition-all duration-300 ease-in-out hover:-translate-x-1.5 active:scale-90 group"
-        title="Back to options"
-    >
+    <button type="button" onclick="resetSupportView()" class="absolute top-0 left-0 flex items-center gap-1 text-slate-400 hover:text-amber-400 font-extrabold uppercase tracking-widest text-[10px] tech-mono bg-slate-900/60 hover:bg-slate-800/80 px-2 py-1 rounded-lg transition-all duration-300 ease-in-out hover:-translate-x-1.5 active:scale-90 group" title="Back to options">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-3.5 h-3.5 transform transition-transform duration-300 ease-in-out group-hover:-translate-x-1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
         <span>Back</span>
     </button>
-
     <div class="flex flex-col items-center justify-center mt-6 mb-2 gap-1.5">
         <div id="qrLogoContainer" class="flex items-center justify-center min-h-[24px]"></div>
-        
         <h3 id="qrTitle" class="text-xl font-bold text-white tracking-wide">Scan to Support</h3>
     </div>
     
     <p id="qrDescription" class="text-xs text-slate-400 mb-5 max-w-[250px] mx-auto leading-relaxed">Thank you!</p>
-    
     <div class="p-3 mx-auto mb-2 bg-white rounded-xl w-48 h-48 flex items-center justify-center shadow-lg shadow-black/20">
         <img id="qrImage" src="" alt="QR Code" class="max-w-full max-h-full rounded-md" />
     </div>
 </div>
-
     </div>
 </div>
-    
-
- 
 </div>
 
-
     <div id="globalMediaZoomModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4" style="opacity: 0; z-index: 999999 !important; transition: opacity 0.25s ease-in-out;">
-    
     <div class="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/60 to-transparent flex justify-end items-center px-6 z-50 pointer-events-none">
         <button onclick="window.closeGlobalMediaZoom()" class="pointer-events-auto text-slate-400 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800/80 px-4 py-2 font-mono text-xs font-bold rounded-lg tracking-wider transition-all cursor-pointer shadow-lg">
             ✕ CLOSE ESC
         </button>
     </div>
-
     <button onclick="window.navigateGallery(-1); event.stopPropagation();" class="absolute left-6 top-1/2 -translate-y-1/2 z-50 text-slate-400 hover:text-white text-4xl font-bold transition-colors p-3 bg-black/20 hover:bg-black/40 rounded-full cursor-pointer select-none">
         ❮
     </button>
     <button onclick="window.navigateGallery(1); event.stopPropagation();" class="absolute right-6 top-1/2 -translate-y-1/2 z-50 text-slate-400 hover:text-white text-4xl font-bold transition-colors p-3 bg-black/20 hover:bg-black/40 rounded-full cursor-pointer select-none">
         ❯
     </button>
-
     <div class="w-full h-full max-w-5xl max-h-[80vh] flex items-center justify-center z-10" onclick="window.closeGlobalMediaZoom()">
         <img id="zoomModalImage" class="hidden max-w-full max-h-full rounded-sm object-contain shadow-2xl transition-transform duration-300 scale-95" src="" alt="Enlarged Visual Document" onclick="event.stopPropagation()">
         <video id="zoomModalVideo" class="hidden max-w-full max-h-full rounded-sm object-contain shadow-2xl" controls src="" onclick="event.stopPropagation()"></video>
     </div>
-
 </div>
-<!-- Global Media Viewer -->
-<div id="globalMediaViewer"
-     class="hidden fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center">
-
-    <button
-        onclick="closeMediaViewer()"
-        class="absolute top-5 right-6 text-white text-4xl hover:text-red-400">
+<div id="globalMediaViewer" class="hidden fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center">
+    <button onclick="closeMediaViewer()" class="absolute top-5 right-6 text-white text-4xl hover:text-red-400">
         &times;
     </button>
 
-    <img
-        id="viewerImage"
-        class="hidden max-w-[95vw] max-h-[95vh] rounded-xl shadow-2xl cursor-zoom-out">
-
-    <video
-        id="viewerVideo"
-        class="hidden max-w-[95vw] max-h-[95vh] rounded-xl shadow-2xl"
-        controls
-        playsinline>
+    <img id="viewerImage" class="hidden max-w-[95vw] max-h-[95vh] rounded-xl shadow-2xl cursor-zoom-out">
+    <video id="viewerVideo" class="hidden max-w-[95vw] max-h-[95vh] rounded-xl shadow-2xl" controls playsinline>
     </video>
 
 </div>
-	<script>
-window.addEventListener('DOMContentLoaded', async () => {
-    // 1. Verify this is a valid Client session
-    // Adjust 'authenticatedClientId' to whatever local storage key you use for clients
-    const savedClientId = localStorage.getItem('authenticatedClientId'); 
-    const savedClientEmail = localStorage.getItem('authenticatedClientEmail');
-
-    if (!savedClientId && !savedClientEmail) {
-        alert("Client session expired. Please log in again.");
-        window.location.replace("index.html");
-        return;
-    }
-
-    // 2. Populate Client Account Info (Optional: Maps to your HTML headers)
-    if (document.getElementById('metaId')) {
-        document.getElementById('metaId').innerText = savedClientId || "N/A";
-    }
+	<div class="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-slate-800 p-3 z-[9999] flex justify-around items-center shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
     
-    // 3. Trigger the Social Feed!
-    // As long as listenToSocialFeed() is available in your linked scripts, this will run.
-    if (typeof listenToSocialFeed === "function") {
-        listenToSocialFeed();
-    } else {
-        console.error("listenToSocialFeed function is missing! Make sure the shared JS file is linked.");
-    }
-});
+    <button onclick="switchMobileDashboardTab('profile')" id="mobileTabBtn-profile" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors flex-1 py-1">
+        <span class="text-lg">🧭</span> <span class="text-[10px] font-mono tracking-wider uppercase font-bold">Profile and Map</span>
+    </button>
 
-</script>
+    <button onclick="switchMobileDashboardTab('feed')" id="mobileTabBtn-feed" class="flex flex-col items-center gap-1 text-amber-400 transition-colors flex-1 py-1">
+        <span class="text-lg">📢</span>
+        <span class="text-[10px] font-mono tracking-wider uppercase font-bold">Feed</span>
+    </button>
+
+    <button onclick="switchMobileDashboardTab('support')" id="mobileTabBtn-support" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors flex-1 py-1">
+        <span class="text-lg">🛠️</span>
+        <span class="text-[10px] font-mono tracking-wider uppercase font-bold">Request Service</span>
+    </button>
+</div>
 
 </body>
 </html>
